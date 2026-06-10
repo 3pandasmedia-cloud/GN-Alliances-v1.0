@@ -1,31 +1,42 @@
-const partners = [
-  {
-    name: "HDFC Bank",
-    type: "Bank",
-    email: "admin@hdfc.com",
-    status: "Active",
-  },
-  {
-    name: "ICICI Bank",
-    type: "Bank",
-    email: "contact@icici.com",
-    status: "Pending",
-  },
-  {
-    name: "Swiggy",
-    type: "Merchant",
-    email: "ops@swiggy.com",
-    status: "Active",
-  },
-  {
-    name: "Amazon",
-    type: "Affiliate",
-    email: "partner@amazon.com",
-    status: "Active",
-  },
-];
+"use client";
+
+import { useEffect, useState } from "react";
+
+type Partner = {
+  id: string;
+  name: string;
+  type: string;
+  email: string;
+  status: string;
+};
 
 export default function PartnerTable() {
+  const [partners, setPartners] = useState<Partner[]>([]);
+
+  useEffect(() => {
+    fetch("http://localhost:5000/api/partners")
+      .then((res) => res.json())
+      .then((data) => setPartners(data))
+      .catch(console.error);
+  }, []);
+
+  const deletePartner = async (id: string) => {
+    try {
+      await fetch(
+        `http://localhost:5000/api/partners/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      setPartners((prev) =>
+        prev.filter((p) => p.id !== id)
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div
       className="
@@ -37,17 +48,12 @@ export default function PartnerTable() {
         overflow-hidden
       "
     >
-
       {/* Desktop */}
 
       <div className="hidden md:block overflow-x-auto">
-
         <table className="w-full">
-
           <thead>
-
             <tr className="border-b bg-gray-50">
-
               <th className="text-left p-4">
                 Partner
               </th>
@@ -67,19 +73,15 @@ export default function PartnerTable() {
               <th className="text-left p-4">
                 Actions
               </th>
-
             </tr>
-
           </thead>
 
           <tbody>
-
             {partners.map((partner) => (
               <tr
-                key={partner.email}
+                key={partner.id}
                 className="border-b"
               >
-
                 <td className="p-4">
                   {partner.name}
                 </td>
@@ -93,7 +95,6 @@ export default function PartnerTable() {
                 </td>
 
                 <td className="p-4">
-
                   <span
                     className="
                       px-3
@@ -106,13 +107,10 @@ export default function PartnerTable() {
                   >
                     {partner.status}
                   </span>
-
                 </td>
 
                 <td className="p-4">
-
                   <div className="flex gap-2">
-
                     <button
                       className="
                         px-3
@@ -126,43 +124,39 @@ export default function PartnerTable() {
                     </button>
 
                     <button
+                      onClick={() =>
+                        deletePartner(partner.id)
+                      }
                       className="
                         px-3
                         py-1
                         rounded-lg
-                        bg-gray-100
+                        bg-red-100
+                        text-red-700
                       "
                     >
-                      Edit
+                      Delete
                     </button>
-
                   </div>
-
                 </td>
-
               </tr>
             ))}
-
           </tbody>
-
         </table>
-
       </div>
 
       {/* Mobile */}
 
       <div className="md:hidden p-4 space-y-4">
-
         {partners.map((partner) => (
           <div
-            key={partner.email}
+            key={partner.id}
             className="
               border
               rounded-2xl
               p-4
             "
           >
-
             <h3 className="font-bold">
               {partner.name}
             </h3>
@@ -176,7 +170,6 @@ export default function PartnerTable() {
             </p>
 
             <div className="mt-3">
-
               <span
                 className="
                   px-3
@@ -189,41 +182,26 @@ export default function PartnerTable() {
               >
                 {partner.status}
               </span>
-
             </div>
 
-            <div className="flex gap-2 mt-4">
-
-              <button
-                className="
-                  flex-1
-                  h-10
-                  rounded-xl
-                  bg-blue-100
-                  text-blue-700
-                "
-              >
-                View
-              </button>
-
-              <button
-                className="
-                  flex-1
-                  h-10
-                  rounded-xl
-                  bg-gray-100
-                "
-              >
-                Edit
-              </button>
-
-            </div>
-
+            <button
+              onClick={() =>
+                deletePartner(partner.id)
+              }
+              className="
+                mt-4
+                w-full
+                h-10
+                rounded-xl
+                bg-red-100
+                text-red-700
+              "
+            >
+              Delete
+            </button>
           </div>
         ))}
-
       </div>
-
     </div>
   );
 }

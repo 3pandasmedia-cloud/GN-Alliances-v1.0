@@ -27,7 +27,7 @@ export default function HowItWorks() {
 
           {/* Heading */}
 
-          <div className="text-center mb-16">
+          <div className="text-center mb-10">
 
             <p
               className="

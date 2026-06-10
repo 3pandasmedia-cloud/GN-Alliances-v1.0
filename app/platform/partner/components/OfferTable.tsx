@@ -1,35 +1,43 @@
-const offers = [
-  {
-    name: "10% Dining Cashback",
-    partner: "HDFC Bank",
-    campaign: "Summer Saver",
-    reward: "10%",
-    status: "Active",
-  },
-  {
-    name: "₹250 Fuel Cashback",
-    partner: "Indian Oil",
-    campaign: "Fuel Rewards",
-    reward: "₹250",
-    status: "Scheduled",
-  },
-  {
-    name: "Movie Ticket Offer",
-    partner: "PVR",
-    campaign: "Entertainment Week",
-    reward: "Buy 1 Get 1",
-    status: "Expired",
-  },
-  {
-    name: "Travel Discount",
-    partner: "MakeMyTrip",
-    campaign: "Travel Delight",
-    reward: "15%",
-    status: "Active",
-  },
-];
+"use client";
+
+import { useEffect, useState } from "react";
+
+type Offer = {
+  id: string;
+  title: string;
+  description: string;
+  points: number;
+  partner: string;
+  status: string;
+};
 
 export default function OfferTable() {
+  const [offers, setOffers] = useState<Offer[]>([]);
+
+  const loadOffers = () => {
+    fetch("http://localhost:5000/api/offers")
+      .then((res) => res.json())
+      .then(setOffers)
+      .catch(console.error);
+  };
+
+  useEffect(() => {
+    loadOffers();
+  }, []);
+
+  const deleteOffer = async (id: string) => {
+    if (!confirm("Delete this offer?")) return;
+
+    await fetch(
+      `http://localhost:5000/api/offers/${id}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    loadOffers();
+  };
+
   return (
     <div
       className="
@@ -44,14 +52,11 @@ export default function OfferTable() {
       {/* Desktop */}
 
       <div className="hidden md:block overflow-x-auto">
-
         <table className="w-full">
-
           <thead>
             <tr className="border-b bg-gray-50">
-
               <th className="text-left p-4">
-                Offer
+                Title
               </th>
 
               <th className="text-left p-4">
@@ -59,11 +64,11 @@ export default function OfferTable() {
               </th>
 
               <th className="text-left p-4">
-                Campaign
+                Description
               </th>
 
               <th className="text-left p-4">
-                Reward
+                Points
               </th>
 
               <th className="text-left p-4">
@@ -73,20 +78,17 @@ export default function OfferTable() {
               <th className="text-left p-4">
                 Actions
               </th>
-
             </tr>
           </thead>
 
           <tbody>
-
             {offers.map((offer) => (
               <tr
-                key={offer.name}
+                key={offer.id}
                 className="border-b"
               >
-
                 <td className="p-4">
-                  {offer.name}
+                  {offer.title}
                 </td>
 
                 <td className="p-4">
@@ -94,81 +96,79 @@ export default function OfferTable() {
                 </td>
 
                 <td className="p-4">
-                  {offer.campaign}
+                  {offer.description}
                 </td>
 
                 <td className="p-4">
-                  {offer.reward}
+                  {offer.points}
                 </td>
 
                 <td className="p-4">
-
                   <span
-                    className={`
-                      px-3 py-1 rounded-full text-xs
-                      ${
-                        offer.status === "Active"
-                          ? "bg-green-100 text-green-700"
-                          : offer.status === "Scheduled"
-                          ? "bg-yellow-100 text-yellow-700"
-                          : "bg-red-100 text-red-700"
-                      }
-                    `}
+                    className="
+                      px-3
+                      py-1
+                      rounded-full
+                      bg-green-100
+                      text-green-700
+                      text-xs
+                    "
                   >
                     {offer.status}
                   </span>
-
                 </td>
 
                 <td className="p-4">
-
-                  <div className="flex gap-2">
-
-                    <button className="px-3 py-1 rounded-lg bg-blue-100 text-blue-700">
-                      View
-                    </button>
-
-                    <button className="px-3 py-1 rounded-lg bg-gray-100">
-                      Edit
-                    </button>
-
-                  </div>
-
+                  <button
+                    onClick={() =>
+                      deleteOffer(offer.id)
+                    }
+                    className="
+                      px-3
+                      py-1
+                      rounded-lg
+                      bg-red-100
+                      text-red-700
+                    "
+                  >
+                    Delete
+                  </button>
                 </td>
-
               </tr>
             ))}
-
           </tbody>
-
         </table>
-
       </div>
 
       {/* Mobile */}
 
       <div className="md:hidden p-4 space-y-4">
-
         {offers.map((offer) => (
           <div
-            key={offer.name}
-            className="border rounded-2xl p-4"
+            key={offer.id}
+            className="
+              border
+              rounded-2xl
+              p-4
+            "
           >
-
             <h3 className="font-bold">
-              {offer.name}
+              {offer.title}
             </h3>
 
             <p className="text-sm text-gray-500">
               {offer.partner}
             </p>
 
-            <p className="text-sm mt-1">
-              {offer.reward}
+            <p className="text-sm mt-2">
+              {offer.description}
+            </p>
+
+            <p className="mt-2 font-medium">
+              {offer.points} Points
             </p>
 
             <div className="mt-3">
-
               <span
                 className="
                   px-3
@@ -181,26 +181,26 @@ export default function OfferTable() {
               >
                 {offer.status}
               </span>
-
             </div>
 
-            <div className="flex gap-2 mt-4">
-
-              <button className="flex-1 h-10 rounded-xl bg-blue-100 text-blue-700">
-                View
-              </button>
-
-              <button className="flex-1 h-10 rounded-xl bg-gray-100">
-                Edit
-              </button>
-
-            </div>
-
+            <button
+              onClick={() =>
+                deleteOffer(offer.id)
+              }
+              className="
+                mt-4
+                w-full
+                h-10
+                rounded-xl
+                bg-red-100
+                text-red-700
+              "
+            >
+              Delete
+            </button>
           </div>
         ))}
-
       </div>
-
     </div>
   );
 }

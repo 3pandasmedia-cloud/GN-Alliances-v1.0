@@ -1,14 +1,36 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
 import PartnerStatsCard from "../../partner/components/PartnerStatsCard";
 import PartnerTable from "../../partner/components/PartnerTable";
+import AddPartnerModal from "../../partner/components/AddPartnerModal";
 
 export default function PartnersPage() {
+  const [stats, setStats] = useState({
+    total: 0,
+    active: 0,
+    inactive: 0,
+  });
+
+  const [open, setOpen] = useState(false);
+
+  const loadStats = () => {
+    fetch("http://localhost:5000/api/partners/stats")
+      .then((res) => res.json())
+      .then(setStats)
+      .catch(console.error);
+  };
+
+  useEffect(() => {
+    loadStats();
+  }, []);
+
   return (
     <div className="space-y-6 md:space-y-8">
-
       {/* Header */}
 
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-
         <div>
           <h1 className="text-3xl md:text-4xl font-bold">
             Partners
@@ -20,6 +42,7 @@ export default function PartnersPage() {
         </div>
 
         <button
+          onClick={() => setOpen(true)}
           className="
             h-12
             px-6
@@ -27,13 +50,10 @@ export default function PartnersPage() {
             bg-[#0B2E83]
             text-white
             font-medium
-            hover:bg-[#08256B]
-            transition
           "
         >
           + Add Partner
         </button>
-
       </div>
 
       {/* Stats */}
@@ -49,22 +69,22 @@ export default function PartnersPage() {
       >
         <PartnerStatsCard
           title="Total Partners"
-          value="128"
+          value={String(stats.total)}
         />
 
         <PartnerStatsCard
           title="Active Partners"
-          value="115"
+          value={String(stats.active)}
         />
 
         <PartnerStatsCard
           title="Pending Approval"
-          value="9"
+          value="0"
         />
 
         <PartnerStatsCard
           title="Inactive"
-          value="4"
+          value={String(stats.inactive)}
         />
       </div>
 
@@ -72,6 +92,16 @@ export default function PartnersPage() {
 
       <PartnerTable />
 
+      {/* Modal */}
+
+      <AddPartnerModal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        onCreated={() => {
+          loadStats();
+          window.location.reload();
+        }}
+      />
     </div>
   );
 }

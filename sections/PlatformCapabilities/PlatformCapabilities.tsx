@@ -12,8 +12,8 @@ export default function PlatformCapabilities() {
   return (
     <Section>
       <Container>
-        <div className="-mt-20"></div>
-        <div className="text-center mb-20">
+        <div className="-mt-10"></div>
+        <div className="text-center mb-15">
           <p className="text-[#F2A900] font-semibold uppercase tracking-[3px]">
             OUR PLATFORM
           </p>

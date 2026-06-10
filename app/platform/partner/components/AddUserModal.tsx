@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 type Props = {
   isOpen: boolean;
   onClose: () => void;
@@ -9,11 +11,52 @@ export default function AddUserModal({
   isOpen,
   onClose,
 }: Props) {
+  const [name, setName] = useState("");
+  const [email, setEmail] =
+    useState("");
+  const [password, setPassword] =
+    useState("");
+  const [role, setRole] =
+    useState("employee");
+
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/users",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type":
+              "application/json",
+          },
+          body: JSON.stringify({
+            name,
+            email,
+            password,
+            role,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        alert("Failed to create user");
+        return;
+      }
+
+      alert("User created");
+
+      onClose();
+    } catch (error) {
+      alert(
+        "Unable to connect to server"
+      );
+    }
+  };
+
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-[999]">
-
       <div
         className="absolute inset-0 bg-black/50"
         onClick={onClose}
@@ -33,7 +76,6 @@ export default function AddUserModal({
           max-w-xl
         "
       >
-
         <h2 className="text-2xl font-bold mb-6">
           Add User
         </h2>
@@ -41,28 +83,55 @@ export default function AddUserModal({
         <div className="space-y-4">
 
           <input
+            value={name}
+            onChange={(e) =>
+              setName(e.target.value)
+            }
             placeholder="Full Name"
             className="w-full h-12 border rounded-xl px-4"
           />
 
           <input
+            value={email}
+            onChange={(e) =>
+              setEmail(e.target.value)
+            }
             placeholder="Email"
             className="w-full h-12 border rounded-xl px-4"
           />
 
           <input
             type="password"
+            value={password}
+            onChange={(e) =>
+              setPassword(e.target.value)
+            }
             placeholder="Password"
             className="w-full h-12 border rounded-xl px-4"
           />
 
           <select
+            value={role}
+            onChange={(e) =>
+              setRole(e.target.value)
+            }
             className="w-full h-12 border rounded-xl px-4"
           >
-            <option>Admin</option>
-            <option>Employee</option>
-            <option>Partner</option>
-            <option>Client</option>
+            <option value="admin">
+              Admin
+            </option>
+
+            <option value="employee">
+              Employee
+            </option>
+
+            <option value="partner">
+              Partner
+            </option>
+
+            <option value="client">
+              Client
+            </option>
           </select>
 
         </div>
@@ -82,6 +151,7 @@ export default function AddUserModal({
           </button>
 
           <button
+            onClick={handleSubmit}
             className="
               flex-1
               h-12

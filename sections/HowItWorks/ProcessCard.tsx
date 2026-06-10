@@ -37,7 +37,7 @@ export default function ProcessCard({
           text-white
           font-bold
           text-[20px]
-          mb-4
+          mb-5
 
           ${number % 2 === 0
             ? "bg-[#F2A900]"

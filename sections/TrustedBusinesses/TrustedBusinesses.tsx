@@ -41,7 +41,7 @@ const items = [
 
 export default function TrustedBusinesses() {
   return (
-    <section className="-mt-10 lg:-mt-15 px-4 lg:px-0 relative z-20">
+    <section className="-mt-1 lg:-mt-15 px-4 lg:px-0 relative z-20">
       <div
         className="
           max-w-[1600px]

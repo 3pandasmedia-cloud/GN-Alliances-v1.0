@@ -33,6 +33,11 @@ const menuItems = [
         href: "/platform/partner/analytics",
     },
     {
+        title: "Redemptions",
+        icon: Wallet,
+        href: "/platform/partner/redemptions",
+    },
+    {
         title: "Payouts",
         icon: Wallet,
         href: "/platform/partner/payouts",

@@ -1,48 +1,39 @@
-const users = [
-  {
-    name: "Admin User",
-    email: "admin@gn.com",
-    role: "Admin",
-    status: "Active",
-    login: "Today",
-  },
-  {
-    name: "Employee User",
-    email: "employee@gn.com",
-    role: "Employee",
-    status: "Active",
-    login: "Today",
-  },
-  {
-    name: "Partner User",
-    email: "partner@gn.com",
-    role: "Partner",
-    status: "Active",
-    login: "Yesterday",
-  },
-  {
-    name: "Client User",
-    email: "client@gn.com",
-    role: "Client",
-    status: "Inactive",
-    login: "3 days ago",
-  },
-];
+"use client";
+
+import { useEffect, useState } from "react";
+
+type User = {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  status: string;
+};
 
 export default function UsersTable() {
-  return (
-    <div
-      className="
-        bg-white
-        rounded-3xl
-        border
-        border-gray-100
-        shadow-sm
-        overflow-hidden
-      "
-    >
-      {/* Desktop */}
+  const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] =
+    useState(true);
 
+  useEffect(() => {
+    fetch("http://localhost:5000/api/users")
+      .then((res) => res.json())
+      .then((data) => {
+        setUsers(data);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="bg-white rounded-3xl p-8">
+        Loading users...
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
       <div className="hidden md:block overflow-x-auto">
 
         <table className="w-full">
@@ -50,14 +41,21 @@ export default function UsersTable() {
           <thead>
 
             <tr className="border-b bg-gray-50">
+              <th className="text-left p-4">
+                Name
+              </th>
 
-              <th className="text-left p-4">Name</th>
-              <th className="text-left p-4">Email</th>
-              <th className="text-left p-4">Role</th>
-              <th className="text-left p-4">Status</th>
-              <th className="text-left p-4">Last Login</th>
-              <th className="text-left p-4">Actions</th>
+              <th className="text-left p-4">
+                Email
+              </th>
 
+              <th className="text-left p-4">
+                Role
+              </th>
+
+              <th className="text-left p-4">
+                Status
+              </th>
             </tr>
 
           </thead>
@@ -66,10 +64,9 @@ export default function UsersTable() {
 
             {users.map((user) => (
               <tr
-                key={user.email}
+                key={user.id}
                 className="border-b"
               >
-
                 <td className="p-4">
                   {user.name}
                 </td>
@@ -78,114 +75,91 @@ export default function UsersTable() {
                   {user.email}
                 </td>
 
-                <td className="p-4">
+                <td className="p-4 capitalize">
                   {user.role}
                 </td>
 
                 <td className="p-4">
+                  <div className="flex gap-2">
 
-                  <span
-                    className={`
-                      px-3 py-1 rounded-full text-xs
-                      ${
-                        user.status === "Active"
-                          ? "bg-green-100 text-green-700"
-                          : "bg-red-100 text-red-700"
-                      }
-                    `}
-                  >
-                    {user.status}
-                  </span>
+                    <button
+                      onClick={async () => {
+                        const name = prompt(
+                          "Enter new name",
+                          user.name
+                        );
 
+                        if (!name) return;
+
+                        const response = await fetch(
+                          `http://localhost:5000/api/users/${user.id}`,
+                          {
+                            method: "PUT",
+                            headers: {
+                              "Content-Type":
+                                "application/json",
+                            },
+                            body: JSON.stringify({
+                              name,
+                              email: user.email,
+                              role: user.role,
+                              status: user.status,
+                            }),
+                          }
+                        );
+
+                        if (response.ok) {
+                          window.location.reload();
+                        }
+                      }}
+                      className="
+    px-3
+    py-2
+    rounded-lg
+    bg-blue-100
+    text-blue-700
+  "
+                    >
+                      Edit
+                    </button>
+
+                    <button
+                      onClick={async () => {
+                        if (
+                          !confirm(
+                            "Delete this user?"
+                          )
+                        )
+                          return;
+
+                        await fetch(
+                          `http://localhost:5000/api/users/${user.id}`,
+                          {
+                            method: "DELETE",
+                          }
+                        );
+
+                        window.location.reload();
+                      }}
+                      className="
+        px-3
+        py-2
+        rounded-lg
+        bg-red-100
+        text-red-700
+      "
+                    >
+                      Delete
+                    </button>
+
+                  </div>
                 </td>
-
-                <td className="p-4">
-                  {user.login}
-                </td>
-
-                <td className="p-4">
-
-                  <button
-                    className="
-                      px-4
-                      py-2
-                      rounded-xl
-                      bg-blue-100
-                      text-blue-700
-                    "
-                  >
-                    Edit
-                  </button>
-
-                </td>
-
               </tr>
             ))}
 
           </tbody>
 
         </table>
-
-      </div>
-
-      {/* Mobile */}
-
-      <div className="md:hidden p-4 space-y-4">
-
-        {users.map((user) => (
-          <div
-            key={user.email}
-            className="border rounded-2xl p-4"
-          >
-
-            <h3 className="font-bold">
-              {user.name}
-            </h3>
-
-            <p className="text-sm text-gray-500">
-              {user.email}
-            </p>
-
-            <p className="mt-2">
-              {user.role}
-            </p>
-
-            <div className="mt-2">
-
-              <span
-                className={`
-                  px-3 py-1 rounded-full text-xs
-                  ${
-                    user.status === "Active"
-                      ? "bg-green-100 text-green-700"
-                      : "bg-red-100 text-red-700"
-                  }
-                `}
-              >
-                {user.status}
-              </span>
-
-            </div>
-
-            <p className="text-xs text-gray-500 mt-3">
-              {user.login}
-            </p>
-
-            <button
-              className="
-                mt-4
-                w-full
-                h-10
-                rounded-xl
-                bg-blue-100
-                text-blue-700
-              "
-            >
-              Edit
-            </button>
-
-          </div>
-        ))}
 
       </div>
 

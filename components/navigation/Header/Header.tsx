@@ -72,15 +72,27 @@ export default function Header() {
                                 width={220}
                                 height={120}
                                 className={`
-                                    w-auto
-                                    transition-all
-                                    duration-300
-                                    ml-[-10px]
-                                    ${scrolled
-                                        ? "h-[55px] lg:h-[68px]"
-                                        : "h-[40px] lg:h-[125px]"
+    w-auto
+    transition-all
+    duration-300
+
+    ml-[-4px]
+    md:ml-5
+
+    ${scrolled
+                                        ? `
+            h-[60px]
+            md:h-[75px]
+            xl:h-[68px]
+          `
+                                        : `
+            h-[75px]
+            md:h-[95px]
+            lg:h-[105px]
+            xl:h-[150px]
+          `
                                     }
-                                `}
+`}
                             />
                         </Link>
 
@@ -88,8 +100,7 @@ export default function Header() {
 
                         <nav
                             className="
-                                hidden
-                                lg:flex
+                                hidden xl:flex
                                 items-center
                                 gap-12
                                 text-[17px]
@@ -154,7 +165,7 @@ export default function Header() {
 
                         {/* Desktop CTA Buttons */}
 
-                        <div className="hidden lg:flex items-center gap-4">
+                        <div className="hidden xl:flex items-center gap-4">
 
                             <Link
                                 href="/login"
@@ -206,7 +217,7 @@ export default function Header() {
                         {/* Mobile Menu */}
 
                         <button
-                            className="lg:hidden"
+                            className="xl:hidden"
                             onClick={() => setMobileOpen(true)}
                         >
                             <Menu size={32} />

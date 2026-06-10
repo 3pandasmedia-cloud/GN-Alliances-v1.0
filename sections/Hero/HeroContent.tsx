@@ -32,10 +32,18 @@ export default function HeroContent({
 
   return (
     <div
-      className={`space-y-8 mt-0 lg:mt-30 text-center lg:text-left ${heroOffset}`}
+      className={`
+    space-y-5
+    mt-0
+    lg:-mt-10
+    xl:mt-30
+    text-center
+    lg:text-left
+    ${heroOffset}
+  `}
     >
 
-      <div className="block lg:hidden -mt-30 mb-0">
+      <div className="block lg:hidden -mt-10 md:mt-6 mb-8">
         <img
           src="/images/hero-ecosystem.png"
           alt="GN Ecosystem"
@@ -51,9 +59,10 @@ export default function HeroContent({
         <span
           className="
             block
-            text-[30px]
-            sm:text-[48px]
-            lg:text-[82px]
+            text-[50px]
+sm:text-[48px]
+md:text-[52px]
+xl:text-[82px]
             font-bold
             text-[#0B2E83]
           "
@@ -64,9 +73,10 @@ export default function HeroContent({
         <span
           className="
             block
-            text-[24px]
-            sm:text-[40px]
-            lg:text-[72px]
+            text-[40px]
+sm:text-[40px]
+md:text-[50px]
+xl:text-[72px]
             font-bold
             text-black
           "
@@ -105,8 +115,11 @@ export default function HeroContent({
       <p
         className="
           max-w-[650px]
+mx-auto
+xl:mx-0
           text-[16px]
-          lg:text-[22px]
+md:text-[18px]
+xl:text-[22px]
           leading-[1.7]
           px-2
           text-[#374151]
@@ -126,8 +139,10 @@ export default function HeroContent({
     flex-col
     sm:flex-row
     gap-4
+    justify-center
     items-center
-    lg:items-start
+    xl:justify-start
+    xl:items-start
     w-full
   "
       >
@@ -203,8 +218,8 @@ export default function HeroContent({
     lg:flex
     items-center
     justify-start
-    mt-12
-    -ml-10
+    mt-10
+    xl:mt-12
   "
       >
         {features.map((item, index) => (
@@ -218,7 +233,9 @@ export default function HeroContent({
           >
             <div
               className="
-          w-[220px]
+          w-[140px]
+md:w-[120px]
+xl:w-[160px]
           flex
           justify-center
           items-center

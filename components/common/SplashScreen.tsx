@@ -138,8 +138,11 @@ export default function SplashScreen() {
                 flex
                 items-center
                 justify-center
-                -translate-y-40
-                md:translate-y-0
+                -translate-y-32
+
+md:-translate-y-8
+
+lg:translate-y-0
               "
             >
               <Image
@@ -149,13 +152,19 @@ export default function SplashScreen() {
                 height={900}
                 priority
                 className="
-                  w-[320px]
-                  sm:w-[450px]
-                  lg:w-[900px]
-                  h-auto
-                  opacity-30
-                  select-none
-                "
+  w-[320px]
+  sm:w-[420px]
+
+  md:w-[600px]
+
+  lg:w-[700px]
+
+  xl:w-[900px]
+
+  h-auto
+  opacity-30
+  select-none
+"
               />
             </motion.div>
 
@@ -190,8 +199,11 @@ export default function SplashScreen() {
                 flex
                 items-center
                 justify-center
-                -translate-y-40
-                md:translate-y-0
+                -translate-y-32
+
+md:-translate-y-8
+
+lg:translate-y-0
               "
             >
               <Image
@@ -202,9 +214,15 @@ export default function SplashScreen() {
                 priority
                 className="
   w-[300px]
-  sm:w-[350px]
-  md:w-[420px]
-  lg:w-[850px]
+
+  sm:w-[360px]
+
+  md:w-[520px]
+
+  lg:w-[620px]
+
+  xl:w-[600px]
+
   h-auto
   object-contain
   select-none

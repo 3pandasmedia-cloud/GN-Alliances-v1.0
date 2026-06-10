@@ -36,26 +36,28 @@ export default function Hero() {
           {/* Content */}
           <div className="relative z-10">
             <Container>
-              <div className="pt-[160px] lg:pt-[220px]" />
+              <div className="pt-[90px] md:pt-[100px] lg:pt-[160px] xl:pt-[160px]" />
 
               <div
                 className="
-                  grid
-                  grid-cols-1
-                  lg:grid-cols-2
-                  gap-10
-                  lg:gap-12
-                  items-center
-                "
+    grid
+    grid-cols-1
+    lg:grid-cols-2
+    gap-6
+    lg:gap-8
+    xl:gap-5
+    items-center
+  "
               >
                 {/* Content */}
                 <div
                   className="
-                    mt-0
-                    ml-0
-                    lg:-mt-50
-                    lg:-ml-30
-                  "
+    mt-0
+ml-0
+md:-mt-6
+lg:-mt-10
+xl:-mt-50
+  "
                 >
                   <HeroContent
                     onRequestDemo={() => setIsModalOpen(true)}
@@ -66,10 +68,10 @@ export default function Hero() {
                 <div
                   className="
                     hidden
-                    lg:block
-                    lg:-mt-20
-                    relative
-                    lg:left-[80px]
+lg:block
+relative
+lg:-mt-10
+xl:left-[5px]
                   "
                 >
                   <HeroVisual />

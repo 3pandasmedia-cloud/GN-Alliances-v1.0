@@ -70,7 +70,10 @@ export default function UsersPage() {
 
       <AddUserModal
         isOpen={open}
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          setOpen(false);
+          window.location.reload();
+        }}
       />
 
     </div>

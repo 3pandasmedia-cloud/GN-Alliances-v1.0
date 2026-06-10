@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { users } from "@/lib/auth";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -24,37 +23,57 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (
+    e: React.FormEvent
+  ) => {
     e.preventDefault();
 
-    const user = users.find(
-      (u) =>
-        u.email === email &&
-        u.password === password
-    );
+    setError("");
 
-    if (!user) {
-      setError("Invalid email or password");
-      return;
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/auth/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type":
+              "application/json",
+          },
+          body: JSON.stringify({
+            email,
+            password,
+          }),
+        }
+      );
+
+      const data =
+        await response.json();
+
+      if (!response.ok) {
+        setError(
+          data.message ||
+          "Login failed"
+        );
+        return;
+      }
+
+      sessionStorage.setItem(
+        "gn-user",
+        JSON.stringify({
+          email: data.email,
+          role: data.role,
+          token: data.token,
+        })
+      );
+
+      router.push(
+        `/platform/${data.role}`
+      );
+    } catch (error) {
+      setError(
+        "Unable to connect to server"
+      );
     }
-
-    sessionStorage.setItem(
-      "gn-user",
-      JSON.stringify({
-        email: user.email,
-        role: user.role,
-      })
-    );
-
-    sessionStorage.setItem(
-      "gn-user",
-      JSON.stringify({
-        email: user.email,
-        role: user.role,
-      })
-    );
-
-    router.push(`/platform/${user.role}`);
   };
 
   return (

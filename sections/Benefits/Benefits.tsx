@@ -8,7 +8,7 @@ export default function Benefits() {
   return (
     <Section>
       {/* Adjust these values as needed */}
-      <div className="lg:-mt-[90px] -mt-[20px]">
+      <div className="lg:-mt-[90px] -mt-[40px]">
         <Container>
           <div
             className="

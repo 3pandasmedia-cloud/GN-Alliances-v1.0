@@ -3,6 +3,7 @@
 import { Bell, Menu, LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 type TopbarProps = {
     onMenuClick: () => void;
@@ -88,7 +89,11 @@ export default function Topbar({
 
                 <div className="relative">
 
-                    <Bell size={22} />
+                    <Link href="/platform/notifications">
+
+                        <Bell size={22} />
+
+                    </Link>
 
                     <span
                         className="
