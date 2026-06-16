@@ -74,8 +74,8 @@ export default function DashboardCard({
 
       </div>
 
-      <p className="text-green-600 text-sm mt-4">
-        ↑ 18% vs last month
+      <p className="text-gray-400 text-sm mt-4">
+        Live platform data
       </p>
 
     </div>

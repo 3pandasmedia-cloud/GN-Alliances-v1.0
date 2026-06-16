@@ -5,11 +5,13 @@ import { useState } from "react";
 type Props = {
   isOpen: boolean;
   onClose: () => void;
+  allowAdmin?: boolean;
 };
 
 export default function AddUserModal({
   isOpen,
   onClose,
+  allowAdmin = false,
 }: Props) {
   const [name, setName] = useState("");
   const [email, setEmail] =
@@ -45,7 +47,14 @@ export default function AddUserModal({
 
       alert("User created");
 
+      setName("");
+      setEmail("");
+      setPassword("");
+      setRole("employee");
+
       onClose();
+
+      window.location.reload();
     } catch (error) {
       alert(
         "Unable to connect to server"
@@ -57,6 +66,7 @@ export default function AddUserModal({
 
   return (
     <div className="fixed inset-0 z-[999]">
+
       <div
         className="absolute inset-0 bg-black/50"
         onClick={onClose}
@@ -76,6 +86,7 @@ export default function AddUserModal({
           max-w-xl
         "
       >
+
         <h2 className="text-2xl font-bold mb-6">
           Add User
         </h2>
@@ -117,21 +128,25 @@ export default function AddUserModal({
             }
             className="w-full h-12 border rounded-xl px-4"
           >
-            <option value="admin">
-              Admin
+
+            {allowAdmin && (
+              <option value="admin">
+                Admin
+              </option>
+            )}
+
+            <option value="partner">
+              Partner
             </option>
 
             <option value="employee">
               Employee
             </option>
 
-            <option value="partner">
-              Partner
-            </option>
-
             <option value="client">
               Client
             </option>
+
           </select>
 
         </div>

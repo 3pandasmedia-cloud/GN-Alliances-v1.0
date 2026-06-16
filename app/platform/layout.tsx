@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import Topbar from "./Topbar";
 import AuthGuard from "@/lib/AuthGuard";
 
+import SuperAdminSidebar from "./SuperAdminSidebar";
 import AdminSidebar from "./AdminSidebar";
 import PartnerSidebar from "./PartnerSidebar";
 import ClientSidebar from "./ClientSidebar";
@@ -30,12 +31,15 @@ export default function PlatformLayout({
     }, []);
 
 
-       const renderSidebar = () => {
+    const renderSidebar = () => {
         const props = {
             onLinkClick: () => setSidebarOpen(false),
         };
 
         switch (role) {
+            case "super-admin":
+                return <SuperAdminSidebar {...props} />;
+
             case "admin":
                 return <AdminSidebar {...props} />;
 

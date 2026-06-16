@@ -10,19 +10,34 @@ type User = {
   status: string;
 };
 
-export default function UsersTable() {
+type Props = {
+  endpoint?: string;
+};
+
+export default function UsersTable({
+  endpoint = "http://localhost:5000/api/users",
+}: Props) {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] =
     useState(true);
 
+  const loadUsers = async () => {
+    try {
+      const res = await fetch(endpoint);
+
+      const data = await res.json();
+
+      setUsers(data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    fetch("http://localhost:5000/api/users")
-      .then((res) => res.json())
-      .then((data) => {
-        setUsers(data);
-        setLoading(false);
-      });
-  }, []);
+    loadUsers();
+  }, [endpoint]);
 
   if (loading) {
     return (
@@ -34,6 +49,9 @@ export default function UsersTable() {
 
   return (
     <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
+
+      {/* Desktop */}
+
       <div className="hidden md:block overflow-x-auto">
 
         <table className="w-full">
@@ -41,6 +59,7 @@ export default function UsersTable() {
           <thead>
 
             <tr className="border-b bg-gray-50">
+
               <th className="text-left p-4">
                 Name
               </th>
@@ -56,6 +75,11 @@ export default function UsersTable() {
               <th className="text-left p-4">
                 Status
               </th>
+
+              <th className="text-left p-4">
+                Actions
+              </th>
+
             </tr>
 
           </thead>
@@ -67,6 +91,7 @@ export default function UsersTable() {
                 key={user.id}
                 className="border-b"
               >
+
                 <td className="p-4">
                   {user.name}
                 </td>
@@ -80,6 +105,24 @@ export default function UsersTable() {
                 </td>
 
                 <td className="p-4">
+
+                  <span
+                    className="
+                      px-3
+                      py-1
+                      rounded-full
+                      bg-green-100
+                      text-green-700
+                      text-xs
+                    "
+                  >
+                    {user.status}
+                  </span>
+
+                </td>
+
+                <td className="p-4">
+
                   <div className="flex gap-2">
 
                     <button
@@ -91,34 +134,35 @@ export default function UsersTable() {
 
                         if (!name) return;
 
-                        const response = await fetch(
-                          `http://localhost:5000/api/users/${user.id}`,
-                          {
-                            method: "PUT",
-                            headers: {
-                              "Content-Type":
-                                "application/json",
-                            },
-                            body: JSON.stringify({
-                              name,
-                              email: user.email,
-                              role: user.role,
-                              status: user.status,
-                            }),
-                          }
-                        );
+                        const response =
+                          await fetch(
+                            `http://localhost:5000/api/users/${user.id}`,
+                            {
+                              method: "PUT",
+                              headers: {
+                                "Content-Type":
+                                  "application/json",
+                              },
+                              body: JSON.stringify({
+                                name,
+                                email: user.email,
+                                role: user.role,
+                                status: user.status,
+                              }),
+                            }
+                          );
 
                         if (response.ok) {
-                          window.location.reload();
+                          loadUsers();
                         }
                       }}
                       className="
-    px-3
-    py-2
-    rounded-lg
-    bg-blue-100
-    text-blue-700
-  "
+                        px-3
+                        py-2
+                        rounded-lg
+                        bg-blue-100
+                        text-blue-700
+                      "
                     >
                       Edit
                     </button>
@@ -132,28 +176,33 @@ export default function UsersTable() {
                         )
                           return;
 
-                        await fetch(
-                          `http://localhost:5000/api/users/${user.id}`,
-                          {
-                            method: "DELETE",
-                          }
-                        );
+                        const response =
+                          await fetch(
+                            `http://localhost:5000/api/users/${user.id}`,
+                            {
+                              method: "DELETE",
+                            }
+                          );
 
-                        window.location.reload();
+                        if (response.ok) {
+                          loadUsers();
+                        }
                       }}
                       className="
-        px-3
-        py-2
-        rounded-lg
-        bg-red-100
-        text-red-700
-      "
+                        px-3
+                        py-2
+                        rounded-lg
+                        bg-red-100
+                        text-red-700
+                      "
                     >
                       Delete
                     </button>
 
                   </div>
+
                 </td>
+
               </tr>
             ))}
 

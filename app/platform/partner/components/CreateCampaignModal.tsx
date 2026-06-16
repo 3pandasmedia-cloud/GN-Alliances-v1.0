@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 type Props = {
   isOpen: boolean;
   onClose: () => void;
@@ -9,7 +11,45 @@ export default function CreateCampaignModal({
   isOpen,
   onClose,
 }: Props) {
+  const [name, setName] =
+    useState("");
+
+  const [partnerName, setPartnerName] =
+    useState("");
+
+  const [startDate, setStartDate] =
+    useState("");
+
+  const [endDate, setEndDate] =
+    useState("");
+
   if (!isOpen) return null;
+
+  const createCampaign =
+    async () => {
+      await fetch(
+        "http://localhost:5000/api/campaigns",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type":
+              "application/json",
+          },
+          body: JSON.stringify({
+            name,
+            partnerId:
+              crypto.randomUUID(),
+            partnerName,
+            startDate,
+            endDate,
+          }),
+        }
+      );
+
+      onClose();
+
+      window.location.reload();
+    };
 
   return (
     <div className="fixed inset-0 z-[999]">
@@ -19,20 +59,7 @@ export default function CreateCampaignModal({
         onClick={onClose}
       />
 
-      <div
-        className="
-          absolute
-          left-1/2
-          top-1/2
-          -translate-x-1/2
-          -translate-y-1/2
-          bg-white
-          rounded-3xl
-          p-8
-          w-[95%]
-          max-w-xl
-        "
-      >
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-3xl p-8 w-[95%] max-w-xl">
 
         <h2 className="text-2xl font-bold mb-6">
           Create Campaign
@@ -42,31 +69,45 @@ export default function CreateCampaignModal({
 
           <input
             placeholder="Campaign Name"
+            value={name}
+            onChange={(e) =>
+              setName(
+                e.target.value
+              )
+            }
             className="w-full h-12 border rounded-xl px-4"
           />
 
           <input
             placeholder="Partner Name"
-            className="w-full h-12 border rounded-xl px-4"
-          />
-
-          <input
-            placeholder="Campaign Type"
+            value={partnerName}
+            onChange={(e) =>
+              setPartnerName(
+                e.target.value
+              )
+            }
             className="w-full h-12 border rounded-xl px-4"
           />
 
           <input
             type="date"
+            value={startDate}
+            onChange={(e) =>
+              setStartDate(
+                e.target.value
+              )
+            }
             className="w-full h-12 border rounded-xl px-4"
           />
 
           <input
             type="date"
-            className="w-full h-12 border rounded-xl px-4"
-          />
-
-          <input
-            placeholder="Budget"
+            value={endDate}
+            onChange={(e) =>
+              setEndDate(
+                e.target.value
+              )
+            }
             className="w-full h-12 border rounded-xl px-4"
           />
 
@@ -76,26 +117,18 @@ export default function CreateCampaignModal({
 
           <button
             onClick={onClose}
-            className="
-              flex-1
-              h-12
-              rounded-xl
-              border
-            "
+            className="flex-1 h-12 rounded-xl border"
           >
             Cancel
           </button>
 
           <button
-            className="
-              flex-1
-              h-12
-              rounded-xl
-              bg-[#0B2E83]
-              text-white
-            "
+            onClick={
+              createCampaign
+            }
+            className="flex-1 h-12 rounded-xl bg-[#0B2E83] text-white"
           >
-            Create Campaign
+            Create
           </button>
 
         </div>

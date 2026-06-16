@@ -19,7 +19,7 @@ import {
   IndianRupee,
 } from "lucide-react";
 
-export default function AdminDashboard() {
+export default function SuperAdminDashboard() {
   const [stats, setStats] = useState({
     partners: 0,
     campaigns: 0,
@@ -37,12 +37,13 @@ export default function AdminDashboard() {
   }, []);
 
   return (
-    <RoleGuard allowedRole="admin">
+    <RoleGuard allowedRole="super-admin">
 
       <div className="space-y-6 lg:space-y-8">
 
-        <div>
+        {/* Welcome */}
 
+        <div>
           <h2
             className="
               text-2xl
@@ -51,14 +52,15 @@ export default function AdminDashboard() {
               font-bold
             "
           >
-            Welcome back, Admin 👋
+            Welcome back, Super Admin 👋
           </h2>
 
           <p className="text-gray-500 mt-2 text-sm md:text-base">
             Here's what's happening with GN today.
           </p>
-
         </div>
+
+        {/* KPI Cards */}
 
         <div
           className="
@@ -113,6 +115,8 @@ export default function AdminDashboard() {
 
         </div>
 
+        {/* Analytics */}
+
         <div
           className="
             grid
@@ -121,12 +125,12 @@ export default function AdminDashboard() {
             gap-6
           "
         >
-
           <PerformanceChart />
 
           <TopCampaigns />
-
         </div>
+
+        {/* Bottom */}
 
         <div
           className="
@@ -137,13 +141,11 @@ export default function AdminDashboard() {
             gap-6
           "
         >
-
           <RecentCampaigns />
 
           <CategoryChart />
 
           <PendingApprovals />
-
         </div>
 
       </div>

@@ -2,134 +2,91 @@
 
 import Link from "next/link";
 import Image from "next/image";
+
 import {
-    LayoutDashboard,
-    Users,
-    Megaphone,
-    Gift,
-    BarChart3,
-    Wallet,
-    UserCog,
-    Settings,
+  LayoutDashboard,
+  Users,
+  Gift,
+  BarChart3,
+  Settings,
+  Megaphone,
 } from "lucide-react";
 
 const menuItems = [
-    {
-        title: "Dashboard",
-        icon: LayoutDashboard,
-        href: "/platform/admin",
-    },
-    {
-        title: "Partners",
-        icon: Users,
-        href: "/platform/admin/partners",
-    },
-    {
-        title: "Campaigns",
-        icon: Megaphone,
-        href: "/platform/admin/campaigns",
-    },
-    {
-        title: "Offers",
-        icon: Gift,
-        href: "/platform/admin/offers",
-    },
-    {
-        title: "Analytics",
-        icon: BarChart3,
-        href: "/platform/admin/analytics",
-    },
-    {
-        title: "Reconciliation",
-        icon: Wallet,
-        href: "/platform/admin/reconciliation",
-    },
-    {
-        title: "Users",
-        icon: UserCog,
-        href: "/platform/admin/users",
-    },
-    {
-        title: "Settings",
-        icon: Settings,
-        href: "/platform/admin/settings",
-    },
+  {
+    title: "Dashboard",
+    href: "/platform/admin",
+    icon: LayoutDashboard,
+  },
+  {
+    title: "Campaigns",
+    href: "/platform/admin/campaigns",
+    icon: Megaphone,
+  },
+  {
+    title: "Accounts",
+    href: "/platform/admin/users",
+    icon: Users,
+  },
+  {
+    title: "Offers",
+    href: "/platform/admin/offers",
+    icon: Gift,
+  },
+  {
+    title: "Analytics",
+    href: "/platform/admin/analytics",
+    icon: BarChart3,
+  },
+  {
+    title: "Settings",
+    href: "/platform/admin/settings",
+    icon: Settings,
+  },
 ];
 
-type SidebarProps = {
-    onLinkClick?: () => void;
-};
+export default function AdminSidebar() {
+  return (
+    <aside className="w-[280px] h-screen bg-[#041B57] text-white flex flex-col">
 
-export default function AdminSidebar({
-    onLinkClick,
-}: SidebarProps) {
-    return (
-        <aside
-            className="
-        w-[280px]
-        h-screen
-        bg-[#041B57]
-        text-white
-        flex
-        flex-col
-      "
-        >
-            {/* Logo */}
+      <div className="px-8 py-8 border-b border-white/10">
 
-            <div className="px-8 py-8 border-b border-white/10">
-                <Image
-                    src="/logos/gn-logo-white.png"
-                    alt="GN"
-                    width={180}
-                    height={80}
-                />
-            </div>
+        <Image
+          src="/logos/gn-logo-white.png"
+          alt="GN"
+          width={180}
+          height={80}
+        />
 
-            {/* Menu */}
+      </div>
 
-            <div className="flex-1 py-6">
+      <div className="flex-1 py-6">
 
-                {menuItems.map((item) => {
-                    const Icon = item.icon;
+        {menuItems.map((item) => {
+          const Icon = item.icon;
 
-                    return (
-                        <Link
-                            key={item.title}
-                            href={item.href}
-                            onClick={onLinkClick}
-                            className="
-    flex
-    items-center
-    gap-4
-    px-8
-    py-4
-    text-[16px]
-    hover:bg-[#1847B8]
-    transition
-  "
-                        >
-                            <Icon size={20} />
-                            {item.title}
-                        </Link>
-                    );
-                })}
+          return (
+            <Link
+              key={item.title}
+              href={item.href}
+              className="
+                flex
+                items-center
+                gap-4
+                px-8
+                py-4
+                hover:bg-[#1847B8]
+                transition
+              "
+            >
+              <Icon size={20} />
+              {item.title}
+            </Link>
+          );
+        })}
 
-            </div>
+      </div>
 
-            {/* Footer */}
-
-            <div className="p-8 border-t border-white/10">
-
-                <p className="text-sm text-white/60">
-                    GN Alliances Platform
-                </p>
-
-                <p className="text-xs text-white/40 mt-1">
-                    Version 1.0.0
-                </p>
-
-            </div>
-
-        </aside>
-    );
+    </aside>
+  );
 }
