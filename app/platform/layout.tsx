@@ -41,16 +41,16 @@ export default function PlatformLayout({
                 return <SuperAdminSidebar {...props} />;
 
             case "admin":
-                return <AdminSidebar {...props} />;
+                return <AdminSidebar />;
 
             case "partner":
-                return <PartnerSidebar {...props} />;
+                return <PartnerSidebar />;
 
             case "client":
-                return <ClientSidebar {...props} />;
+                return <ClientSidebar />;
 
             case "employee":
-                return <EmployeeSidebar {...props} />;
+                return <EmployeeSidebar />;
 
             default:
                 return null;
