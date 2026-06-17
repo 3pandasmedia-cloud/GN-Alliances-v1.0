@@ -16,13 +16,20 @@ export default function ProcessCard({
   return (
     <div
       className="
-        relative
-        flex
-        flex-col
-        items-center
-        text-center
-        w-full
-      "
+    relative
+    flex
+    flex-col
+    items-center
+    text-center
+    w-full
+
+    lg:bg-transparent
+    bg-slate-50
+
+    rounded-2xl
+    p-3
+    lg:p-0
+  "
     >
       {/* Step Number */}
 

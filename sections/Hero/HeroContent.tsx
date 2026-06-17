@@ -178,36 +178,6 @@ xl:text-[22px]
           Request Demo
         </button>
 
-        <button
-          className="
-      w-full
-      sm:w-auto
-      lg:w-auto
-
-      max-w-[380px]
-
-      bg-[#F2A900]
-      text-white
-
-      py-4
-      px-10
-      lg:px-12
-      lg:py-5
-
-      rounded-xl
-
-      text-lg
-      lg:text-xl
-
-      font-semibold
-
-      hover:bg-[#D99800]
-      transition
-    "
-        >
-          Partner With Us
-        </button>
-
       </div>
 
       {/* Desktop */}

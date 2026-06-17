@@ -11,8 +11,6 @@ export default function HowItWorks() {
     <Section>
       <Container>
 
-        {/* White Card */}
-
         <div
           className="
             bg-white
@@ -20,13 +18,14 @@ export default function HowItWorks() {
             border
             border-gray-200
             shadow-sm
-            px-10
-            py-16
+            px-4
+            lg:px-10
+            py-12
+            lg:py-16
           "
         >
 
           {/* Heading */}
-
           <div className="text-center mb-10">
 
             <p
@@ -42,7 +41,7 @@ export default function HowItWorks() {
 
             <h2
               className="
-                text-[36px]
+                text-[32px]
                 lg:text-[56px]
                 font-bold
                 text-[#0B2E83]
@@ -50,13 +49,14 @@ export default function HowItWorks() {
                 mt-4
               "
             >
-              One Partner. Complete Loyalty Ecosystem.
+              One Partner.
+              <br />
+              Complete Loyalty Ecosystem.
             </h2>
 
           </div>
 
           {/* Desktop */}
-
           <div className="hidden lg:flex items-start justify-center">
 
             {processSteps.map((step, index) => (
@@ -74,10 +74,10 @@ export default function HowItWorks() {
                 {index !== processSteps.length - 1 && (
                   <div
                     className="
-            mt-24
-            mx-3
-            text-gray-300
-          "
+                      mt-24
+                      mx-3
+                      text-gray-300
+                    "
                   >
                     <ChevronRight
                       size={44}
@@ -91,26 +91,33 @@ export default function HowItWorks() {
           </div>
 
           {/* Mobile */}
+          <div className="lg:hidden mt-8">
 
-          <div
-            className="
-    lg:hidden
-    grid
-    grid-cols-3
-    gap-6
-    mt-8
-  "
-          >
+            {/* Row 1 : 1 2 3 4 */}
+            <div className="grid grid-cols-4 gap-2">
+              {processSteps.slice(0, 4).map((step) => (
+                <ProcessCard
+                  key={step.id}
+                  number={step.id}
+                  icon={step.icon}
+                  title={step.title}
+                  description={step.description}
+                />
+              ))}
+            </div>
 
-            {processSteps.map((step) => (
-              <ProcessCard
-                key={step.id}
-                number={step.id}
-                icon={step.icon}
-                title={step.title}
-                description={step.description}
-              />
-            ))}
+            {/* Row 2 : 5 6 7 */}
+            <div className="grid grid-cols-3 gap-2 mt-6">
+              {processSteps.slice(4).map((step) => (
+                <ProcessCard
+                  key={step.id}
+                  number={step.id}
+                  icon={step.icon}
+                  title={step.title}
+                  description={step.description}
+                />
+              ))}
+            </div>
 
           </div>
 

@@ -6,7 +6,7 @@ import { benefitsData } from "./benefitsData";
 
 export default function Benefits() {
   return (
-    <Section>
+    <Section id="solutions">
       {/* Adjust these values as needed */}
       <div className="lg:-mt-[90px] -mt-[40px]">
         <Container>
@@ -26,18 +26,46 @@ export default function Benefits() {
               </p>
             </div>
 
-            <div className="grid grid-cols-3 lg:flex lg:grid-cols-5 gap-4 lg:gap-6">
+            <div className="lg:hidden">
+
+              {/* First Row */}
+              <div className="grid grid-cols-3 gap-4">
+                {benefitsData.slice(0, 3).map((benefit) => (
+                  <BenefitCard
+                    key={benefit.title}
+                    title={benefit.title}
+                    description={benefit.description}
+                    icon={benefit.icon}
+                  />
+                ))}
+              </div>
+
+              {/* Second Row Centered */}
+              <div className="grid grid-cols-2 gap-4 mt-6 max-w-[280px] mx-auto">
+                {benefitsData.slice(3).map((benefit) => (
+                  <BenefitCard
+                    key={benefit.title}
+                    title={benefit.title}
+                    description={benefit.description}
+                    icon={benefit.icon}
+                  />
+                ))}
+              </div>
+
+            </div>
+
+            {/* Desktop */}
+            <div className="hidden lg:flex gap-6">
               {benefitsData.map((benefit, index) => (
                 <div
                   key={benefit.title}
                   className={`
-    flex justify-center items-center
-    relative
-    ${index !== benefitsData.length - 1
-                      ? "lg:after:absolute lg:after:right-0 lg:after:top-1/2 lg:after:-translate-y-1/2 lg:after:h-[70px] lg:after:w-px lg:after:bg-white/20"
+        flex justify-center items-center relative
+        ${index !== benefitsData.length - 1
+                      ? "after:absolute after:right-0 after:top-1/2 after:-translate-y-1/2 after:h-[70px] after:w-px after:bg-white/20"
                       : ""
                     }
-  `}
+      `}
                 >
                   <BenefitCard
                     title={benefit.title}

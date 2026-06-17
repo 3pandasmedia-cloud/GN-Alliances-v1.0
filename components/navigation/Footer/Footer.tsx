@@ -1,5 +1,6 @@
 import Container from "@/components/common/Container/Container";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -8,16 +9,16 @@ export default function Footer() {
         <div className="py-10">
 
           {/* ================= Desktop Footer ================= */}
-          <div className="hidden lg:grid lg:grid-cols-5 gap-10">
+          <div className="hidden lg:grid lg:grid-cols-5 gap-12 items-start">
 
             {/* Logo */}
-            <div className="flex justify-center lg:justify-start">
+            <div className="flex justify-center lg:justify-start lg:-mt-4">
               <Image
                 src="/logos/gn-logoa.png"
                 alt="GN Alliances"
                 width={300}
                 height={300}
-                className="h-52 w-auto object-contain -mt-10"
+                className="h-36 w-auto object-contain"
               />
             </div>
 
@@ -28,9 +29,23 @@ export default function Footer() {
               </h3>
 
               <ul className="space-y-3 text-gray-600">
-                <li>About Us</li>
-                <li>Careers</li>
-                <li>Contact Us</li>
+                <li>
+                  <Link
+                    href="/about"
+                    className="hover:text-[#0A2E8A] transition"
+                  >
+                    About Us
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    href="/contact"
+                    className="hover:text-[#0A2E8A] transition"
+                  >
+                    Contact Us
+                  </Link>
+                </li>
               </ul>
             </div>
 
@@ -41,10 +56,29 @@ export default function Footer() {
               </h3>
 
               <ul className="space-y-3 text-gray-600">
-                <li>Merchant Management</li>
-                <li>Offer Management</li>
-                <li>Campaign Management</li>
-                <li>Reconciliation</li>
+                <li>
+                  <Link href="/solutions/merchant-funded-offers">
+                    Merchant Funded Offers
+                  </Link>
+                </li>
+
+                <li>
+                  <Link href="/solutions/rewards-programs">
+                    Rewards Programs
+                  </Link>
+                </li>
+
+                <li>
+                  <Link href="/solutions/campaign-management">
+                    Campaign Management
+                  </Link>
+                </li>
+
+                <li>
+                  <Link href="/solutions/reconciliation">
+                    Reconciliation & Settlements
+                  </Link>
+                </li>
               </ul>
             </div>
 
@@ -57,8 +91,6 @@ export default function Footer() {
               <ul className="space-y-3 text-gray-600">
                 <li>Features</li>
                 <li>Security</li>
-                <li>Integrations</li>
-                <li>API</li>
               </ul>
             </div>
 
@@ -81,18 +113,18 @@ export default function Footer() {
           <div className="lg:hidden">
 
             {/* Logo */}
-            <div className="flex justify-center mb-8">
+            <Link href="/">
               <Image
                 src="/logos/gn-logoa.png"
                 alt="GN Alliances"
-                width={220}
-                height={220}
-                className="h-28 w-auto object-contain"
+                width={300}
+                height={300}
+                className="h-28 w-auto object-contain mx-auto"
               />
-            </div>
+            </Link>
 
-            {/* Two Column Layout */}
-            <div className="grid grid-cols-2 gap-x-6 gap-y-8 text-center">
+            {/* Grid */}
+            <div className="space-y-8 text-center">
 
               {/* Company */}
               <div>
@@ -100,10 +132,24 @@ export default function Footer() {
                   Company
                 </h3>
 
-                <ul className="space-y-2 text-sm text-gray-600">
-                  <li>About Us</li>
-                  <li>Careers</li>
-                  <li>Contact Us</li>
+                <ul className="space-y-3 text-gray-600">
+                  <li>
+                    <Link
+                      href="/about"
+                      className="hover:text-[#0A2E8A] transition"
+                    >
+                      About Us
+                    </Link>
+                  </li>
+
+                  <li>
+                    <Link
+                      href="/contact"
+                      className="hover:text-[#0A2E8A] transition"
+                    >
+                      Contact Us
+                    </Link>
+                  </li>
                 </ul>
               </div>
 
@@ -127,24 +173,40 @@ export default function Footer() {
                   Platform
                 </h3>
 
-                <ul className="space-y-2 text-sm text-gray-600">
-                  <li>Features</li>
-                  <li>Security</li>
-                  <li>Integrations</li>
-                  <li>API</li>
+                <ul className="space-y-3 text-gray-600">
+                  <li><Link href="/platform">Features</Link></li>
+                  <li><Link href="/platform">Security</Link></li>
                 </ul>
               </div>
 
               {/* Contact */}
-              <div>
+              <div className="col-span-2 text-center">
                 <h3 className="font-semibold mb-3">
                   Get In Touch
                 </h3>
 
-                <ul className="space-y-2 text-sm text-gray-600">
-                  <li>hello@gnalliances.com</li>
-                  <li>+91 97197 27347</li>
-                  <li>Bangalore, India</li>
+                <ul className="space-y-3 text-gray-600">
+                  <li>
+                    <a href="mailto:hello@gnalliances.com">
+                      hello@gnalliances.com
+                    </a>
+                  </li>
+
+                  <li>
+                    <a href="tel:+919719727347">
+                      +91 97197 27347
+                    </a>
+                  </li>
+
+                  <li>
+                    <a
+                      href="https://maps.google.com/?q=Bangalore,India"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Bangalore, India
+                    </a>
+                  </li>
                 </ul>
               </div>
 
@@ -160,19 +222,13 @@ export default function Footer() {
 
               {/* Left */}
               <div className="flex gap-6 text-sm text-gray-500">
-                <a
-                  href="#"
-                  className="hover:text-[#0B2E83] transition"
-                >
+                <Link href="/privacy-policy">
                   Privacy Policy
-                </a>
+                </Link>
 
-                <a
-                  href="#"
-                  className="hover:text-[#0B2E83] transition"
-                >
+                <Link href="/terms-of-use">
                   Terms Of Use
-                </a>
+                </Link>
               </div>
 
               {/* Center */}
@@ -181,17 +237,24 @@ export default function Footer() {
                   Marketed By
                 </span>
 
-                <Image
-                  src="/logos/3pandas-logos.png"
-                  alt="3Pandas Media"
-                  width={150}
-                  height={150}
-                  className="w-14 h-auto object-contain"
-                />
+                <Link
+                  href="https://www.3pandasmedia.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 hover:opacity-80 transition"
+                >
+                  <Image
+                    src="/logos/3pandas-logos.png"
+                    alt="3Pandas Media"
+                    width={150}
+                    height={150}
+                    className="w-14 h-auto object-contain"
+                  />
 
-                <span className="text-sm text-gray-600 font-medium">
-                  3Pandas Media
-                </span>
+                  <span className="text-sm text-gray-600 font-medium">
+                    3Pandas Media
+                  </span>
+                </Link>
               </div>
 
               {/* Right */}
@@ -204,7 +267,7 @@ export default function Footer() {
             </div>
 
             {/* Mobile */}
-            <div className="md:hidden flex flex-col items-center gap-4">
+            <div className="md:hidden flex flex-col items-center gap-5 text-center">
 
               <div className="flex gap-5 text-sm text-gray-500">
                 <a href="#">
@@ -216,22 +279,29 @@ export default function Footer() {
                 </a>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center justify-center gap-2">
                 <span className="text-sm text-gray-500">
                   Marketed By
                 </span>
 
-                <Image
-                  src="/logos/3pandas-logos.png"
-                  alt="3Pandas Media"
-                  width={120}
-                  height={120}
-                  className="w-12 h-auto object-contain"
-                />
+                <Link
+                  href="https://www.3pandasmedia.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 hover:opacity-80 transition"
+                >
+                  <Image
+                    src="/logos/3pandas-logos.png"
+                    alt="3Pandas Media"
+                    width={120}
+                    height={120}
+                    className="w-12 h-auto object-contain"
+                  />
 
-                <span className="text-sm text-gray-600 font-medium">
-                  3Pandas Media
-                </span>
+                  <span className="text-sm text-gray-600 font-medium">
+                    3Pandas Media
+                  </span>
+                </Link>
               </div>
 
               <p className="text-center text-sm text-gray-500">

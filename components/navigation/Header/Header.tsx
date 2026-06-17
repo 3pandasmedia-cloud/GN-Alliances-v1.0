@@ -11,6 +11,20 @@ export default function Header() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
+    const [solutionsOpen, setSolutionsOpen] = useState(false);
+
+    const scrollToSection = (id: string) => {
+        const element = document.getElementById(id);
+
+        if (element) {
+            element.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+            });
+        }
+
+        setMobileOpen(false);
+    };
 
     useEffect(() => {
         const handleScroll = () => {
@@ -19,8 +33,9 @@ export default function Header() {
 
         window.addEventListener("scroll", handleScroll);
 
-        return () =>
+        return () => {
             window.removeEventListener("scroll", handleScroll);
+        };
     }, []);
 
     return (
@@ -108,59 +123,99 @@ export default function Header() {
                                 text-[#111827]
                             "
                         >
-                            <a
-                                href="#"
-                                className="
-                                    flex
-                                    items-center
-                                    gap-1
-                                    hover:text-[#0B2E83]
-                                "
-                            >
-                                Solutions
-                                <ChevronDown size={16} />
-                            </a>
+                            <div className="relative group">
+                                <button className="flex items-center gap-1 hover:text-[#0A2E8A] transition">
+                                    Solutions
+                                    <span className="text-xs">▼</span>
+                                </button>
 
-                            <a
-                                href="#"
-                                className="hover:text-[#0B2E83]"
-                            >
+                                <div
+                                    className="
+      absolute
+      top-full
+      left-0
+      mt-3
+      w-72
+      bg-white
+      rounded-2xl
+      shadow-xl
+      border
+      border-slate-200
+      opacity-0
+      invisible
+      group-hover:opacity-100
+      group-hover:visible
+      transition-all
+      duration-200
+      z-50
+    "
+                                >
+                                    <div className="p-3">
+
+                                        <Link
+                                            href="/solutions/merchant-funded-offers"
+                                            className="block px-4 py-3 rounded-xl hover:bg-slate-50"
+                                        >
+                                            Merchant Funded Offers
+                                        </Link>
+
+                                        <Link
+                                            href="/solutions/rewards-programs"
+                                            className="block px-4 py-3 rounded-xl hover:bg-slate-50"
+                                        >
+                                            Rewards Programs
+                                        </Link>
+
+                                        <Link
+                                            href="/solutions/campaign-management"
+                                            className="block px-4 py-3 rounded-xl hover:bg-slate-50"
+                                        >
+                                            Campaign Management
+                                        </Link>
+
+                                        <Link
+                                            href="/solutions/loyalty-operations"
+                                            className="block px-4 py-3 rounded-xl hover:bg-slate-50"
+                                        >
+                                            Loyalty Operations
+                                        </Link>
+
+                                        <Link
+                                            href="/solutions/reconciliation"
+                                            className="block px-4 py-3 rounded-xl hover:bg-slate-50"
+                                        >
+                                            Reconciliation & Settlements
+                                        </Link>
+
+                                        <Link
+                                            href="/solutions/analytics"
+                                            className="block px-4 py-3 rounded-xl hover:bg-slate-50"
+                                        >
+                                            Analytics & Reporting
+                                        </Link>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <Link href="/platform-overview">
                                 Platform
-                            </a>
+                            </Link>
 
-                            <a
-                                href="#"
-                                className="hover:text-[#0B2E83]"
+                            <Link
+                                href="/who-we-work-with"
+                                onClick={() => setMobileOpen(false)}
                             >
                                 Who We Work With
-                            </a>
+                            </Link>
 
-                            <a
-                                href="#"
-                                className="
-                                    flex
-                                    items-center
-                                    gap-1
-                                    hover:text-[#0B2E83]
-                                "
-                            >
-                                Resources
-                                <ChevronDown size={16} />
-                            </a>
-
-                            <a
-                                href="#"
-                                className="hover:text-[#0B2E83]"
-                            >
+                            <Link href="/about">
                                 About Us
-                            </a>
+                            </Link>
 
-                            <a
-                                href="#"
-                                className="hover:text-[#0B2E83]"
-                            >
+                            <Link href="/contact">
                                 Contact
-                            </a>
+                            </Link>
                         </nav>
 
                         {/* Desktop CTA Buttons */}
@@ -272,34 +327,112 @@ export default function Header() {
 
                         </div>
 
-                        <nav className="flex flex-col gap-6 text-[16px] font-medium">
+                        <nav className="flex flex-col gap-5 text-[16px] font-medium">
 
-                            <a href="#">Solutions</a>
+                            {/* SOLUTIONS */}
+                            <div>
+                                <button
+                                    onClick={() => setSolutionsOpen(!solutionsOpen)}
+                                    className="flex items-center justify-between w-full"
+                                >
+                                    <span>Solutions</span>
+                                    <span>{solutionsOpen ? "−" : "+"}</span>
+                                </button>
 
-                            <a href="#">Platform</a>
+                                {solutionsOpen && (
+                                    <div className="pl-4 mt-4 flex flex-col gap-4 text-slate-600 text-[15px]">
 
-                            <a href="#">Who We Work With</a>
+                                        <Link
+                                            href="/solutions/merchant-funded-offers"
+                                            onClick={() => setMobileOpen(false)}
+                                        >
+                                            Merchant Funded Offers
+                                        </Link>
 
-                            <a href="#">Resources</a>
+                                        <Link
+                                            href="/solutions/rewards-programs"
+                                            onClick={() => setMobileOpen(false)}
+                                        >
+                                            Rewards Programs
+                                        </Link>
 
-                            <a href="#">About Us</a>
+                                        <Link
+                                            href="/solutions/campaign-management"
+                                            onClick={() => setMobileOpen(false)}
+                                        >
+                                            Campaign Management
+                                        </Link>
 
-                            <a href="#">Contact</a>
+                                        <Link
+                                            href="/solutions/loyalty-operations"
+                                            onClick={() => setMobileOpen(false)}
+                                        >
+                                            Loyalty Operations
+                                        </Link>
+
+                                        <Link
+                                            href="/solutions/reconciliation"
+                                            onClick={() => setMobileOpen(false)}
+                                        >
+                                            Reconciliation
+                                        </Link>
+
+                                        <Link
+                                            href="/solutions/analytics"
+                                            onClick={() => setMobileOpen(false)}
+                                        >
+                                            Analytics & Reporting
+                                        </Link>
+
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* PLATFORM */}
+                            
+                            <Link href="/platform-overview">
+                                Platform
+                            </Link>
+
+                            <Link
+                                href="/who-we-work-with"
+                                onClick={() => setMobileOpen(false)}
+                            >
+                                Who We Work With
+                            </Link>
+
+                            {/* NORMAL LINKS */}
+
+                            <Link
+                                href="/about"
+                                onClick={() => setMobileOpen(false)}
+                            >
+                                About Us
+                            </Link>
+
+                            <Link
+                                href="/contact"
+                                onClick={() => setMobileOpen(false)}
+                            >
+                                Contact
+                            </Link>
+
+                            {/* BUTTONS */}
 
                             <Link
                                 href="/login"
                                 onClick={() => setMobileOpen(false)}
                                 className="
-                                    mt-2
-                                    border
-                                    border-[#E3A008]
-                                    text-[#E3A008]
-                                    px-6
-                                    py-3
-                                    rounded-xl
-                                    font-semibold
-                                    text-center
-                                "
+      mt-4
+      border
+      border-[#E3A008]
+      text-[#E3A008]
+      px-6
+      py-3
+      rounded-xl
+      font-semibold
+      text-center
+    "
                             >
                                 Login
                             </Link>
@@ -310,13 +443,13 @@ export default function Header() {
                                     setIsModalOpen(true);
                                 }}
                                 className="
-                                    bg-[#E3A008]
-                                    text-white
-                                    px-6
-                                    py-3
-                                    rounded-xl
-                                    font-semibold
-                                "
+      bg-[#E3A008]
+      text-white
+      px-6
+      py-3
+      rounded-xl
+      font-semibold
+    "
                             >
                                 Request Demo
                             </button>
