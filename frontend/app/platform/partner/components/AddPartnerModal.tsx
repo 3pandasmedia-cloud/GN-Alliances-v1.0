@@ -94,7 +94,7 @@ export default function AddPartnerModal({
 
         const response =
           await fetch(
-            "http://localhost:5000/api/partners",
+            "https://api.gnalliances.com/api/partners",
             {
               method: "POST",
               headers: {

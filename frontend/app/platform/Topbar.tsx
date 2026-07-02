@@ -48,7 +48,7 @@ export default function Topbar({
         }
 
         const response = await fetch(
-          "http://localhost:5000/api/profile",
+          "https://api.gnalliances.com/api/profile",
           {
             headers: {
               Authorization: `Bearer ${parsed.token}`,
@@ -231,7 +231,7 @@ export default function Topbar({
         >
           {user?.avatar ? (
             <img
-              src={`http://localhost:5000${user.avatar}`}
+              src={`https://api.gnalliances.com${user.avatar}`}
               alt="Profile"
               className="
         w-full

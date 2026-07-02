@@ -28,7 +28,7 @@ export default function CreateCampaignModal({
   const createCampaign =
     async () => {
       await fetch(
-        "http://localhost:5000/api/campaigns",
+        "https://api.gnalliances.com/api/campaigns",
         {
           method: "POST",
           headers: {

@@ -49,7 +49,7 @@ export default function LoginPage() {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/auth/login",
+        "https://api.gnalliances.com/api/auth/login",
         {
           method: "POST",
           headers: {
@@ -109,7 +109,7 @@ export default function LoginPage() {
       setResending(true);
 
       const response = await fetch(
-        "http://localhost:5000/api/auth/resend-login-otp",
+        "https://api.gnalliances.com/api/auth/resend-login-otp",
         {
           method: "POST",
           headers: {
@@ -142,7 +142,7 @@ export default function LoginPage() {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/auth/verify-login-otp",
+        "https://api.gnalliances.com/api/auth/verify-login-otp",
         {
           method: "POST",
           headers: {

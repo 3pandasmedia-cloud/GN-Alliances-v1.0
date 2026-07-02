@@ -171,7 +171,7 @@ export default function BanksPage() {
                                             <img
                                                 src={
                                                     bank.logo
-                                                        ? `http://localhost:5000${bank.logo}`
+                                                        ? `https://api.gnalliances.com${bank.logo}`
                                                         : "/images/default-logo.png"
                                                 }
                                                 alt={bank.name}

@@ -16,7 +16,7 @@ export default function RecentCampaigns() {
 
   useEffect(() => {
     fetch(
-      "http://localhost:5000/api/campaigns"
+      "https://api.gnalliances.com/api/campaigns"
     )
       .then((res) => res.json())
       .then(setCampaigns);

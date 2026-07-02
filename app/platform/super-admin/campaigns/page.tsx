@@ -17,7 +17,7 @@ export default function CampaignsPage() {
 
   const loadStats = () => {
     fetch(
-      "http://localhost:5000/api/campaigns/stats"
+      "https://api.gnalliances.com/api/campaigns/stats"
     )
       .then((res) => res.json())
       .then(setStats)

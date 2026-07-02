@@ -16,7 +16,7 @@ export default function OffersPage() {
 
   const loadStats = () => {
     fetch(
-      "http://localhost:5000/api/offers/stats"
+      "https://api.gnalliances.com/api/offers/stats"
     )
       .then((res) => res.json())
       .then(setStats)

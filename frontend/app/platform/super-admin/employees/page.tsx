@@ -46,7 +46,7 @@ export default function EmployeesPage() {
             </div>
 
             <UsersTable
-                endpoint="http://localhost:5000/api/employees"
+                endpoint="https://api.gnalliances.com/api/employees"
             />
 
             <AddUserModal

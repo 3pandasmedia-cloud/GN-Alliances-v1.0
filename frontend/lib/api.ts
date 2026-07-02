@@ -1,4 +1,4 @@
-const API_URL = "/api";
+import { API_URL } from "@/lib/config";
 
 export const authFetch = async (
   endpoint: string,

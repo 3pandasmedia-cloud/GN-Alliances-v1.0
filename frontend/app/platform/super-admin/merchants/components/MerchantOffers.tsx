@@ -61,7 +61,7 @@ export default function MerchantOffers({
         : "";
 
       await fetch(
-        `http://localhost:5000/api/offers/${id}/status`,
+        `https://api.gnalliances.com/api/offers/${id}/status`,
         {
           method: "PUT",
           headers: {
@@ -134,7 +134,7 @@ export default function MerchantOffers({
 
       const response =
         await fetch(
-          `http://localhost:5000/api/offers/${id}`,
+          `https://api.gnalliances.com/api/offers/${id}`,
           {
             method: "DELETE",
             headers: {

@@ -16,7 +16,7 @@ export default function PartnersPage() {
   const [open, setOpen] = useState(false);
 
   const loadStats = () => {
-    fetch("http://localhost:5000/api/partners/stats")
+    fetch("https://api.gnalliances.com/api/partners/stats")
       .then((res) => res.json())
       .then(setStats)
       .catch(console.error);

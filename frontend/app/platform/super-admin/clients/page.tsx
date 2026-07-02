@@ -42,7 +42,7 @@ export default function ClientsPage() {
       </div>
 
       <UsersTable
-        endpoint="http://localhost:5000/api/clients"
+        endpoint="https://api.gnalliances.com/api/clients"
       />
 
       <AddUserModal

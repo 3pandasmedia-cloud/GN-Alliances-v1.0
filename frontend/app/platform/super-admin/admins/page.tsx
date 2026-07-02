@@ -38,7 +38,7 @@ export default function AdminsPage() {
 
             </div>
 
-            <UsersTable endpoint="http://localhost:5000/api/admins" />
+            <UsersTable endpoint="https://api.gnalliances.com/api/admins" />
 
             <AddUserModal
                 isOpen={open}

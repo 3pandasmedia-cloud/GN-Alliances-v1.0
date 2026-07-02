@@ -73,7 +73,7 @@ export default function MerchantDashboard() {
                 <img
                     src={
                         merchant.logo
-                            ? `http://localhost:5000${merchant.logo}`
+                            ? `https://api.gnalliances.com${merchant.logo}`
                             : "/images/default-logo.png"
                     }
                     alt={merchant.name}

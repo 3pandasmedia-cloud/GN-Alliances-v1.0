@@ -15,7 +15,7 @@ export default function OfferTable() {
   const [offers, setOffers] = useState<Offer[]>([]);
 
   const loadOffers = () => {
-    fetch("http://localhost:5000/api/offers")
+    fetch("https://api.gnalliances.com/api/offers")
       .then((res) => res.json())
       .then(setOffers)
       .catch(console.error);
@@ -29,7 +29,7 @@ export default function OfferTable() {
     if (!confirm("Delete this offer?")) return;
 
     await fetch(
-      `http://localhost:5000/api/offers/${id}`,
+      `https://api.gnalliances.com/api/offers/${id}`,
       {
         method: "DELETE",
       }
