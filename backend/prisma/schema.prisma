@@ -1,0 +1,164 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String @id @default(uuid())
+  name     String
+  email    String @unique
+  password String
+  role     String
+  status   String @default("ACTIVE")
+
+  avatar         String?
+  twoFactor      Boolean   @default(false)
+  twoFactorEmail String?
+  otpCode        String?
+  otpExpiresAt   DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Partner {
+  id String @id @default(uuid())
+
+  slug String @unique
+
+  name     String
+  email    String @unique
+  username String @unique
+  password String
+
+  logo String?
+
+  status String @default("ACTIVE")
+
+  type String @default("MERCHANT")
+
+  bankId   String?
+  bankName String?
+
+  apiEnabled     Boolean @default(false)
+  apiKey         String?
+  webhookUrl     String?
+  merchantApiUrl String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  bankCampaigns Campaign[] @relation("BankCampaigns")
+
+  merchantCampaigns Campaign[] @relation("MerchantCampaigns")
+
+  offers Offer[]
+}
+
+model Campaign {
+  id String @id @default(uuid())
+
+  name        String
+  description String?
+
+  // Bank
+  bankId   String
+  bankName String
+
+  // Merchant
+  merchantId   String
+  merchantName String
+
+  bank Partner @relation("BankCampaigns", fields: [bankId], references: [id])
+
+  merchant Partner @relation("MerchantCampaigns", fields: [merchantId], references: [id])
+
+  campaignType String @default("BANK")
+
+  budget Float?
+
+  priority Int @default(1)
+
+  startDate DateTime
+
+  endDate DateTime
+
+  status String @default("DRAFT")
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  offers Offer[]
+}
+
+model CampaignReport {
+  id String @id @default(uuid())
+
+  campaignId   String
+  campaignName String
+
+  partnerId   String
+  partnerName String
+
+  users        Int @default(0)
+  transactions Int @default(0)
+
+  gmv   Float @default(0)
+  spend Float @default(0)
+
+  reportDate DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Offer {
+  id String @id @default(uuid())
+
+  title String
+
+  description String
+
+  campaignId String
+
+  campaign Campaign @relation(fields: [campaignId], references: [id])
+
+  partnerId String
+
+  partner Partner @relation(fields: [partnerId], references: [id])
+
+  partnerName String
+
+  points Int
+
+  status String @default("ACTIVE")
+
+  views Int @default(0)
+
+  redemptions Int @default(0)
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+}
+
+model Redemption {
+  id String @id @default(uuid())
+
+  userId   String
+  userName String
+
+  offerId    String
+  offerTitle String
+
+  points Int
+
+  status String @default("PENDING")
+
+  createdAt DateTime @default(now())
+}

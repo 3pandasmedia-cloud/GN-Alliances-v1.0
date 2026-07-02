@@ -1,0 +1,33 @@
+# Node
+node_modules/
+**/node_modules/
+
+# Next.js
+.next/
+**/.next/
+
+# Build
+dist/
+build/
+**/dist/
+
+# Environment
+.env
+**/.env
+
+# Uploads
+backend/uploads/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/
+
+# Prisma
+backend/prisma/dev.db
