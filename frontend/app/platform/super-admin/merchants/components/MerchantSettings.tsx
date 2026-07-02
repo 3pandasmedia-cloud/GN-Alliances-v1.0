@@ -99,7 +99,7 @@ export default function MerchantSettings({
 
       const response =
         await fetch(
-          "https://api.gnalliances.com/api/partners/upload-logo",
+          "/api/partners/upload-logo",
           {
             method: "POST",
             headers: {
@@ -176,7 +176,7 @@ export default function MerchantSettings({
   const [logoPreview, setLogoPreview] =
     useState(
       merchant.logo
-        ? `https://api.gnalliances.com${merchant.logo}`
+        ? `${merchant.logo}`
         : "/images/default-logo.png"
     );
 

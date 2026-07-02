@@ -70,7 +70,7 @@ export default function BankDashboard() {
           <img
             src={
               bank.logo
-                ? `https://api.gnalliances.com${bank.logo}`
+                ? `${bank.logo}`
                 : "/images/default-logo.png"
             }
             alt={bank.name}

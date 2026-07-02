@@ -234,7 +234,7 @@ export default function SettingsPage() {
     );
 
     const response = await fetch(
-      "https://api.gnalliances.com/api/profile/avatar",
+      "/api/profile/avatar",
       {
         method: "POST",
         headers: {
@@ -305,7 +305,7 @@ export default function SettingsPage() {
               >
                 {profile.avatar ? (
                   <img
-                    src={`https://api.gnalliances.com${profile.avatar}?t=${Date.now()}`}
+                    src={`${profile.avatar}?t=${Date.now()}`}
                     alt="Profile"
                     className="
         w-full
@@ -419,7 +419,7 @@ export default function SettingsPage() {
 
                     const response =
                       await fetch(
-                        "https://api.gnalliances.com/api/profile/avatar",
+                        "/api/profile/avatar",
                         {
                           method: "POST",
                           headers: {

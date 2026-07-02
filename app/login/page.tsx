@@ -32,7 +32,7 @@ export default function LoginPage() {
 
     try {
       const response = await fetch(
-        "https://api.gnalliances.com/api/auth/login",
+        "/api/auth/login",
         {
           method: "POST",
           headers: {

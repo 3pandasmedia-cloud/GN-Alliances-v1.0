@@ -14,7 +14,7 @@ export default function TopCampaigns() {
 
   useEffect(() => {
     fetch(
-      "https://api.gnalliances.com/api/campaigns"
+      "/api/campaigns"
     )
       .then((res) => res.json())
       .then((data) => {

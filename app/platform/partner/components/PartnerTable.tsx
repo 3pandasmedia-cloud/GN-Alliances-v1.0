@@ -14,7 +14,7 @@ export default function PartnerTable() {
   const [partners, setPartners] = useState<Partner[]>([]);
 
   useEffect(() => {
-    fetch("https://api.gnalliances.com/api/partners")
+    fetch("/api/partners")
       .then((res) => res.json())
       .then((data) => setPartners(data))
       .catch(console.error);
@@ -23,7 +23,7 @@ export default function PartnerTable() {
   const deletePartner = async (id: string) => {
     try {
       await fetch(
-        `https://api.gnalliances.com/api/partners/${id}`,
+        `/api/partners/${id}`,
         {
           method: "DELETE",
         }

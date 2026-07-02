@@ -68,7 +68,7 @@ export default function EditOfferModal({
 
         const response =
           await fetch(
-            `https://api.gnalliances.com/api/offers/${offer.id}`,
+            `/api/offers/${offer.id}`,
             {
               method: "PUT",
               headers: {

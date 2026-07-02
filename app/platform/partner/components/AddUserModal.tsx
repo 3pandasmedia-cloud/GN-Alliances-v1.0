@@ -24,7 +24,7 @@ export default function AddUserModal({
   const handleSubmit = async () => {
     try {
       const response = await fetch(
-        "https://api.gnalliances.com/api/users",
+        "/api/users",
         {
           method: "POST",
           headers: {

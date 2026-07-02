@@ -23,7 +23,7 @@ export default function CampaignTable({
 
   const loadCampaigns = () => {
     fetch(
-      "https://api.gnalliances.com/api/campaigns"
+      "/api/campaigns"
     )
       .then((res) => res.json())
       .then(setCampaigns)
@@ -45,7 +45,7 @@ export default function CampaignTable({
       return;
 
     await fetch(
-      `https://api.gnalliances.com/api/campaigns/${id}`,
+      `/api/campaigns/${id}`,
       {
         method: "DELETE",
       }

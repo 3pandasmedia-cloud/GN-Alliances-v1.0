@@ -16,7 +16,7 @@ type Props = {
 };
 
 export default function UsersTable({
-  endpoint = "https://api.gnalliances.com/api/users",
+  endpoint = "/api/users",
 }: Props) {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] =
@@ -149,7 +149,7 @@ export default function UsersTable({
 
                         const response =
                           await fetch(
-                            `https://api.gnalliances.com/api/users/${user.id}`,
+                            `/api/users/${user.id}`,
                             {
                               method: "PUT",
                               headers: {
@@ -187,7 +187,7 @@ export default function UsersTable({
                         );
 
                         await fetch(
-                          `https://api.gnalliances.com/api/users/${user.id}`,
+                          `/api/users/${user.id}`,
                           {
                             method: "PUT",
                             headers: {

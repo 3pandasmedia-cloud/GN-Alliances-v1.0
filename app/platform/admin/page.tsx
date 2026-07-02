@@ -29,7 +29,7 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     fetch(
-      "https://api.gnalliances.com/api/dashboard/stats"
+      "/api/dashboard/stats"
     )
       .then((res) => res.json())
       .then(setStats)

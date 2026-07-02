@@ -22,7 +22,7 @@ export default function AdminUsersPage() {
         </div>
 
         <UsersTable
-          endpoint="https://api.gnalliances.com/api/users/admin-view"
+          endpoint="/api/users/admin-view"
         />
 
       </div>

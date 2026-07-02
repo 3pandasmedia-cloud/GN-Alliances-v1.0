@@ -23,7 +23,7 @@ export default function CreateOfferModal({
   const createOffer = async () => {
     try {
       const res = await fetch(
-        "https://api.gnalliances.com/api/offers",
+        "/api/offers",
         {
           method: "POST",
           headers: {

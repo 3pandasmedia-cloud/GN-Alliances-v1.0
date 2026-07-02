@@ -37,7 +37,7 @@ export default function BankSettings({
 
     setLogoPreview(
       bank.logo
-        ? `https://api.gnalliances.com${bank.logo}`
+        ? `${bank.logo}`
         : "/images/default-logo.png"
     );
 
@@ -140,7 +140,7 @@ export default function BankSettings({
 
       const response =
         await fetch(
-          "https://api.gnalliances.com/api/partners/upload-logo",
+          "/api/partners/upload-logo",
           {
             method: "POST",
             headers: {

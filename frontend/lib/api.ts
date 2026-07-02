@@ -1,4 +1,4 @@
-import { API_URL } from "@/lib/config";
+import { API_URL } from "./config";
 
 export const authFetch = async (
   endpoint: string,
@@ -14,7 +14,9 @@ export const authFetch = async (
     ...options,
     headers: {
       "Content-Type": "application/json",
-      Authorization: token ? `Bearer ${token}` : "",
+      Authorization: token
+        ? `Bearer ${token}`
+        : "",
       ...(options.headers || {}),
     },
   });
