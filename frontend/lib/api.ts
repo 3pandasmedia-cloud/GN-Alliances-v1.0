@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5000/api";
+const API_URL = "/api";
 
 export const authFetch = async (
   endpoint: string,
@@ -10,15 +10,12 @@ export const authFetch = async (
 
   const token = user.token;
 
-  return fetch(
-    `${API_URL}${endpoint}`,
-    {
-      ...options,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-        ...(options.headers || {}),
-      },
-    }
-  );
+  return fetch(`${API_URL}${endpoint}`, {
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token ? `Bearer ${token}` : "",
+      ...(options.headers || {}),
+    },
+  });
 };
