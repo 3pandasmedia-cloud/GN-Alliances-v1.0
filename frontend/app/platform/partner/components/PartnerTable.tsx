@@ -77,11 +77,11 @@ export default function PartnerTable() {
                   >
 
                     <img
-                      src={
-                        merchant.logo
-                          ? `${merchant.logo}`
-                          : "/images/default-logo.png"
-                      }
+                       src={
+  merchant.logo
+    ? merchant.logo
+    : "/images/default-logo.png"
+}
                       alt={merchant.name}
                       className="
                         w-14
@@ -168,10 +168,10 @@ export default function PartnerTable() {
 
               <img
                 src={
-                  merchant.logo
-                    ? `${merchant.logo}`
-                    : "/images/default-logo.png"
-                }
+  merchant.logo
+    ? merchant.logo
+    : "/images/default-logo.png"
+}
                 alt={merchant.name}
                 className="
                   w-16

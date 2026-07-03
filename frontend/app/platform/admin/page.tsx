@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -28,13 +29,11 @@ export default function AdminDashboard() {
   });
 
   useEffect(() => {
-    fetch(
-      "/api/dashboard/stats"
-    )
-      .then((res) => res.json())
-      .then(setStats)
-      .catch(console.error);
-  }, []);
+  fetch("/api/dashboard/stats")
+    .then((res) => res.json())
+    .then(setStats)
+    .catch(console.error);
+}, []);
 
   return (
     <RoleGuard allowedRole="admin">

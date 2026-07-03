@@ -287,7 +287,7 @@ export default function BankCampaigns({
 
                         <button
                           onClick={() =>
-                            deleteCampaign(
+                            deleteCampaign(						
                               campaign.id
                             )
                           }
@@ -309,12 +309,12 @@ export default function BankCampaigns({
 
       </div>
 
-      <CreateCampaignModal
-        isOpen={open}
-        onClose={() => setOpen(false)}
-        onCreated={loadCampaigns}
-        bankId={bankId}
-      />
+     <CreateCampaignModal
+  isOpen={open}
+  onClose={() => setOpen(false)}
+  onCreated={loadCampaigns}
+  bankId={bankId}
+/>
     </>
   );
 }

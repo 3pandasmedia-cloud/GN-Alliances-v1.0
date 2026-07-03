@@ -174,11 +174,11 @@ export default function MerchantSettings({
     useState<File | null>(null);
 
   const [logoPreview, setLogoPreview] =
-    useState(
-      merchant.logo
-        ? `${merchant.logo}`
-        : "/images/default-logo.png"
-    );
+  useState(
+    merchant.logo
+      ? merchant.logo
+      : "/images/default-logo.png"
+  );
 
   return (
     <div className="space-y-8">

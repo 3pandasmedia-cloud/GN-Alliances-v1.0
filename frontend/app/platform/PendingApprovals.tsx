@@ -12,12 +12,10 @@ export default function PendingApprovals() {
   });
 
   useEffect(() => {
-    fetch(
-      "/api/dashboard/stats"
-    )
-      .then((res) => res.json())
-      .then(setStats);
-  }, []);
+  fetch("/api/dashboard/stats")
+    .then((res) => res.json())
+    .then(setStats);
+}, []);
 
   return (
     <div

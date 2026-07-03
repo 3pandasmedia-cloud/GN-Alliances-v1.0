@@ -65,6 +65,8 @@ export default function LoginPage() {
 
       const data =
         await response.json();
+      
+      console.log("LOGIN RESPONSE:", data);
 
       if (!response.ok) {
         setError(
@@ -91,6 +93,11 @@ export default function LoginPage() {
           avatar: data.avatar,
         })
       );
+      
+      console.log(
+  "SESSION AFTER SAVE:",
+  sessionStorage.getItem("gn-user")
+);
 
       router.push(
         `/platform/${data.role}`
@@ -156,6 +163,8 @@ export default function LoginPage() {
       );
 
       const data = await response.json();
+      
+      console.log("LOGIN RESPONSE:", data);
 
       if (!response.ok) {
         alert(data.message);

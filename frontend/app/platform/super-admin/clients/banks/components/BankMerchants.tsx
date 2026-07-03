@@ -195,10 +195,10 @@ export default function BankMerchants({
 
                     <img
                       src={
-                        merchant.logo
-                          ? `${merchant.logo}`
-                          : "/images/default-logo.png"
-                      }
+  merchant.logo
+    ? merchant.logo
+    : "/images/default-logo.png"
+}
                       className="
                         w-14
                         h-14

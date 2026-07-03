@@ -72,10 +72,10 @@ export default function MerchantDashboard() {
             >
                 <img
                     src={
-                        merchant.logo
-                            ? `${merchant.logo}`
-                            : "/images/default-logo.png"
-                    }
+  merchant.logo
+    ? merchant.logo
+    : "/images/default-logo.png"
+}
                     alt={merchant.name}
                     className="w-[90px] h-[90px] rounded-2xl border object-cover"
                 />

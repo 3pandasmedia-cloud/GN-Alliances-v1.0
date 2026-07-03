@@ -36,10 +36,10 @@ export default function BankSettings({
     if (!bank) return;
 
     setLogoPreview(
-      bank.logo
-        ? `${bank.logo}`
-        : "/images/default-logo.png"
-    );
+  bank.logo
+    ? bank.logo
+    : "/images/default-logo.png"
+);
 
     setForm({
       name: bank.name || "",

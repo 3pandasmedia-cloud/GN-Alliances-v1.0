@@ -170,10 +170,10 @@ export default function BanksPage() {
                                         <div className="w-14 h-14 rounded-2xl border bg-white flex items-center justify-center p-1">
                                             <img
                                                 src={
-                                                    bank.logo
-                                                        ? `${bank.logo}`
-                                                        : "/images/default-logo.png"
-                                                }
+  bank.logo
+    ? bank.logo
+    : "/images/default-logo.png"
+}
                                                 alt={bank.name}
                                                 className="w-full h-full object-contain"
                                             />

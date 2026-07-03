@@ -69,10 +69,10 @@ export default function BankDashboard() {
         <div className="w-24 h-24 rounded-2xl border bg-white flex items-center justify-center p-2">
           <img
             src={
-              bank.logo
-                ? `${bank.logo}`
-                : "/images/default-logo.png"
-            }
+  bank.logo
+    ? bank.logo
+    : "/images/default-logo.png"
+}
             alt={bank.name}
             className="w-full h-full object-contain"
           />
@@ -113,13 +113,14 @@ export default function BankDashboard() {
       {activeTab === "campaigns" && (
         <BankCampaigns
           bankId={bank.id}
+          bankName={bank.name}
         />
-      )}
+      )} 
 
       {activeTab === "merchants" && (
         <BankMerchants
           bankId={bank.id}
-        />
+         />
       )}
 
       {activeTab === "analytics" && (

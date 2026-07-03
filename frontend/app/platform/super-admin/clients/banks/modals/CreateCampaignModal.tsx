@@ -13,6 +13,7 @@ type Props = {
   isOpen: boolean;
   onClose: () => void;
   onCreated: () => void;
+  bankId: string;
 };
 
 export default function CreateCampaignModal({

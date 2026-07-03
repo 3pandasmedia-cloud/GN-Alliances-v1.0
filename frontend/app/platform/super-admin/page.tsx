@@ -28,13 +28,11 @@ export default function SuperAdminDashboard() {
   });
 
   useEffect(() => {
-    fetch(
-      "/api/dashboard/stats"
-    )
-      .then((res) => res.json())
-      .then(setStats)
-      .catch(console.error);
-  }, []);
+  fetch("/api/dashboard/stats")
+    .then((res) => res.json())
+    .then(setStats)
+    .catch(console.error);
+}, []);
 
   return (
     <RoleGuard allowedRole="super-admin">

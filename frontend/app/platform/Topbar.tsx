@@ -48,7 +48,7 @@ export default function Topbar({
         }
 
         const response = await fetch(
-          "/api/profile",
+  "/api/profile",
           {
             headers: {
               Authorization: `Bearer ${parsed.token}`,

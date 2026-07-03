@@ -305,15 +305,15 @@ export default function SettingsPage() {
               >
                 {profile.avatar ? (
                   <img
-                    src={`${profile.avatar}?t=${Date.now()}`}
-                    alt="Profile"
-                    className="
-        w-full
-        h-full
-        object-contain
-        p-3
-      "
-                  />
+  src={`${profile.avatar}?t=${Date.now()}`}
+  alt="Profile"
+  className="
+    w-full
+    h-full
+    object-contain
+    p-3
+  "
+/>
                 ) : (
                   <div
                     className="
