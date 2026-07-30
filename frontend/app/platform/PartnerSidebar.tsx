@@ -18,12 +18,12 @@ const menuItems = [
         href: "/platform/partner",
     },
     {
-        title: "My Campaigns",
+        title: "Campaigns",
         icon: Megaphone,
         href: "/platform/partner/campaigns",
     },
     {
-        title: "My Offers",
+        title: "Offers",
         icon: Gift,
         href: "/platform/partner/offers",
     },
@@ -114,7 +114,7 @@ export default function PartnerSidebar({
             <div className="p-8 border-t border-white/10">
 
                 <p className="text-sm text-white/60">
-                    Partner Portal
+                    Merchant Portal
                 </p>
 
                 <p className="text-xs text-white/40 mt-1">
