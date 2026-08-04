@@ -293,6 +293,18 @@ export const createPartner = async (
       });
     }
 
+    const existingUser =
+      await prisma.user.findUnique({
+        where: { email },
+      });
+
+    if (existingUser) {
+      return res.status(400).json({
+        message:
+          "A login already exists with this email address",
+      });
+    }
+
     const hashedPassword =
       await bcrypt.hash(password, 10);
 
@@ -304,19 +316,39 @@ export const createPartner = async (
       ? `/uploads/merchants/${req.file.filename}`
       : null;
 
-    const partner =
-      await prisma.partner.create({
-        data: {
-          name,
-          slug,
-          email,
-          username,
-          password: hashedPassword,
-          logo,
-          status: "ACTIVE",
-          type: type || "MERCHANT",
-        },
-      });
+    const partnerType = type || "MERCHANT";
+
+    const partner = await prisma.$transaction(
+      async (tx) => {
+        const createdPartner =
+          await tx.partner.create({
+            data: {
+              name,
+              slug,
+              email,
+              username,
+              password: hashedPassword,
+              logo,
+              status: "ACTIVE",
+              type: partnerType,
+            },
+          });
+
+        if (partnerType === "MERCHANT") {
+          await tx.user.create({
+            data: {
+              name,
+              email,
+              password: hashedPassword,
+              role: "partner",
+              status: "ACTIVE",
+            },
+          });
+        }
+
+        return createdPartner;
+      }
+    );
 
     return res.json(partner);
 
@@ -507,10 +539,30 @@ export const deletePartner = async (
       });
     }
 
-    await prisma.partner.delete({
-      where: {
-        id,
-      },
+    const partner =
+      await prisma.partner.findUnique({
+        where: { id },
+      });
+
+    if (!partner) {
+      return res.status(404).json({
+        message: "Merchant not found",
+      });
+    }
+
+    await prisma.$transaction(async (tx) => {
+      await tx.partner.delete({
+        where: { id },
+      });
+
+      if (partner.type === "MERCHANT") {
+        await tx.user.deleteMany({
+          where: {
+            email: partner.email,
+            role: "partner",
+          },
+        });
+      }
     });
 
     return res.json({

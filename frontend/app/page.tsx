@@ -14,6 +14,7 @@ import WhyGN from "@/sections/WhyGN/WhyGN";
 import Metrics from "@/sections/Metrics/Metrics";
 import CTA from "@/sections/CTA/CTA";
 import TrustedBusinesses from "@/sections/TrustedBusinesses/TrustedBusinesses";
+import TopOffers from "@/sections/TopOffers";
 
 export default function Home() {
   const [showSplash, setShowSplash] = useState(true);
@@ -37,6 +38,8 @@ export default function Home() {
       <Hero />
 
       <TrustedBusinesses />
+
+      <TopOffers />
 
       <HowItWorks />
 

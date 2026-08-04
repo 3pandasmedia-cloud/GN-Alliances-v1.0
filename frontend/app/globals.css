@@ -33,3 +33,32 @@ body {
   padding: 0;
   overflow-x: hidden;
 }
+
+/* ===========================
+   Swiper 3D Carousel
+=========================== */
+.swiper {
+    overflow: visible !important;
+}
+
+.swiper-wrapper {
+    align-items: center;
+}
+
+.swiper-pagination {
+    margin-top: 28px;
+    position: relative;
+}
+
+.swiper-pagination-bullet {
+    width: 12px;
+    height: 12px;
+    background: #d1d5db;
+    opacity: 1;
+}
+
+.swiper-pagination-bullet-active {
+    width: 34px;
+    border-radius: 9999px;
+    background: #f2a900;
+}
