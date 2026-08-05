@@ -5,13 +5,43 @@ import { useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
+
 import OfferCard from "./OfferCard";
-import { offers } from "./offers";
+import { Offer } from "./offers";
 
 export default function TopOffers() {
     const [activeIndex, setActiveIndex] = useState(0);
 
+    const [offers, setOffers] = useState<Offer[]>([]);
+
     const touchStartX = useRef(0);
+
+    useEffect(() => {
+        loadOffers();
+    }, []);
+
+    const loadOffers = async () => {
+        try {
+            const res = await fetch("/api/landing-offers/public");
+
+            const data = await res.json();
+
+            const formatted: Offer[] = data.map((item: any) => ({
+                id: item.id,
+                title: item.title,
+                subtitle: item.description || "",
+                merchant: item.merchantName,
+                image: `http://localhost:5000${item.banner}`,
+                destinationUrl: item.destinationUrl,
+                cta: "Unlock Offer",
+            }));
+
+            setOffers(formatted);
+
+        } catch (err) {
+            console.error(err);
+        }
+    };
 
     const prev = () => {
         setActiveIndex((prev) => (prev - 1 + offers.length) % offers.length);
@@ -22,18 +52,32 @@ export default function TopOffers() {
     };
 
     useEffect(() => {
+        if (offers.length <= 1) return;
+
         const timer = setInterval(() => {
-            next();
+            setActiveIndex((current) => (current + 1) % offers.length);
         }, 4000);
 
         return () => clearInterval(timer);
-    }, []);
+    }, [offers.length]);
+
+    const safeIndex =
+        activeIndex >= offers.length ? 0 : activeIndex;
 
     const prevOffer =
-        offers[(activeIndex - 1 + offers.length) % offers.length];
+        offers.length > 0
+            ? offers[(activeIndex - 1 + offers.length) % offers.length]
+            : null;
+
+    const currentOffer =
+        offers.length > 0
+            ? offers[safeIndex]
+            : null;
 
     const nextOffer =
-        offers[(activeIndex + 1) % offers.length];
+        offers.length > 0
+            ? offers[(activeIndex + 1) % offers.length]
+            : null;
 
     return (
         <section className="relative bg-white py-16 overflow-hidden">
@@ -107,14 +151,14 @@ export default function TopOffers() {
                                 filter: "blur(.4px)",
                             }}
                         >
-                            <OfferCard offer={prevOffer} />
+                            {prevOffer && <OfferCard offer={prevOffer} />}
                         </div>
                     </div>
 
                     {/* Center */}
 
                     <div className="relative z-30 w-[980px] transition-all duration-500">
-                        <OfferCard offer={offers[activeIndex]} />
+                        {currentOffer && <OfferCard offer={currentOffer} />}
                     </div>
 
                     {/* Right Card */}
@@ -132,7 +176,7 @@ export default function TopOffers() {
                                 filter: "blur(.4px)",
                             }}
                         >
-                            <OfferCard offer={nextOffer} />
+                            {nextOffer && <OfferCard offer={nextOffer} />}
                         </div>
                     </div>
 

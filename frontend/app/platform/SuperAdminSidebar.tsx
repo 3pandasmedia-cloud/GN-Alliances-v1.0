@@ -15,6 +15,7 @@ import {
   ChevronDown,
   ChevronRight,
   Building2,
+  TicketPercent,
 } from "lucide-react";
 
 const menuItems = [
@@ -42,6 +43,11 @@ const menuItems = [
     title: "Admins",
     icon: ShieldCheck,
     href: "/platform/super-admin/admins",
+  },
+  {
+    title: "Landing Offers",
+    href: "/platform/super-admin/landing-offers",
+    icon: TicketPercent,
   },
   {
     title: "Employees",

@@ -15,6 +15,8 @@ import profileRoutes from "./routes/profileRoutes";
 import twoFactorRoutes from "./routes/twoFactorRoutes";
 import dashboardRoutes from "./routes/dashboardRoutes";
 import analyticsRoutes from "./routes/analyticsRoutes";
+import landingOfferRoutes from "./routes/landingOfferRoutes";
+import merchantSearchRoutes from "./routes/merchantSearchRoutes";
 
 const app = express();
 
@@ -38,6 +40,14 @@ app.use("/api/profile", profileRoutes);
 app.use("/api/partners", partnerRoutes);
 app.use("/api/offers", offerRoutes);
 app.use("/api/campaigns", campaignRoutes);
+app.use(
+  "/api/landing-offers",
+  landingOfferRoutes
+);
+app.use(
+  "/api/search-merchants",
+  merchantSearchRoutes
+);
 app.use("/api/reports", reportRoutes);
 app.use("/api/admins", adminRoutes);
 app.use("/api/employees", employeeRoutes);
@@ -45,6 +55,13 @@ app.use("/api/clients", clientRoutes);
 app.use(
   "/api/two-factor",
   twoFactorRoutes
+);
+
+app.use(
+  "/uploads",
+  express.static(
+    path.resolve(process.cwd(), "uploads")
+  )
 );
 
 app.use(
