@@ -29,7 +29,7 @@ export default function NewLandingOfferPage() {
   const saveOffer = async () => {
     try {
       const res = await fetch(
-        "http://localhost:5000/api/landing-offers",
+        "/api/landing-offers",
         {
           method: "POST",
           headers: {
@@ -332,7 +332,7 @@ export default function NewLandingOfferPage() {
 
                   try {
                     const res = await fetch(
-                      "http://localhost:5000/api/landing-offers/upload",
+                      "/api/landing-offers/upload",
                       {
                         method: "POST",
                         body: formData,
@@ -350,7 +350,7 @@ export default function NewLandingOfferPage() {
                     setBannerPath(data.banner);
 
                     setPreview(
-                      `http://localhost:5000${data.banner}`
+                      data.banner
                     );
 
                     console.log(data.banner);

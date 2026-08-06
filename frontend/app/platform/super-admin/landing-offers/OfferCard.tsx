@@ -29,7 +29,7 @@ export default function OfferCard({
 
     try {
       const res = await fetch(
-        `http://localhost:5000/api/landing-offers/${offer.id}`,
+        `/api/landing-offers/${offer.id}`,
         {
           method: "DELETE",
         }

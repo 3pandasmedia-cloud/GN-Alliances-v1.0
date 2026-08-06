@@ -31,7 +31,7 @@ export default function TopOffers() {
                 title: item.title,
                 subtitle: item.description || "",
                 merchant: item.merchantName,
-                image: `http://localhost:5000${item.banner}`,
+                image: `${item.banner}`,
                 destinationUrl: item.destinationUrl,
                 cta: "Unlock Offer",
             }));

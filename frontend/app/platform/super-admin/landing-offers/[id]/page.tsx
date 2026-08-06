@@ -31,7 +31,7 @@ export default function NewLandingOfferPage() {
     const saveOffer = async () => {
         try {
             const res = await fetch(
-                `http://localhost:5000/api/landing-offers/${id}`,
+                `/api/landing-offers/${id}`,
                 {
                     method: "PUT",
                     headers: {
@@ -82,7 +82,7 @@ export default function NewLandingOfferPage() {
     const loadOffer = async () => {
         try {
             const res = await fetch(
-                `http://localhost:5000/api/landing-offers/${id}`
+                `/api/landing-offers/${id}`
             );
 
             const data = await res.json();
@@ -99,7 +99,7 @@ export default function NewLandingOfferPage() {
             setBannerPath(data.banner);
 
             setPreview(
-                `http://localhost:5000${data.banner}`
+                data.banner
             );
 
         } catch (err) {
@@ -373,7 +373,7 @@ export default function NewLandingOfferPage() {
 
                                     try {
                                         const res = await fetch(
-                                            "http://localhost:5000/api/landing-offers/upload",
+                                            "/api/landing-offers/upload",
                                             {
                                                 method: "POST",
                                                 body: formData,
@@ -390,7 +390,7 @@ export default function NewLandingOfferPage() {
                                         setBannerPath(data.banner);
 
                                         setPreview(
-                                            `http://localhost:5000${data.banner}`
+                                            data.banner
                                         );
 
                                         console.log(data.banner);

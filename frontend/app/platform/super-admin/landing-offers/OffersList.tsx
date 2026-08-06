@@ -5,7 +5,7 @@ import OfferCard from "./OfferCard";
 
 const API =
   process.env.NEXT_PUBLIC_API_URL ||
-  "http://localhost:5000/api";
+  "/api";
 
 export default function OffersList() {
   const [offers, setOffers] = useState<any[]>([]);
