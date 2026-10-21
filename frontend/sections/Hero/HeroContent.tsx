@@ -1,3 +1,5 @@
+"use client";
+import { useWebsiteContent } from "@/components/WebsiteContent";
 type HeroContentProps = {
   onRequestDemo: () => void;
 };
@@ -5,28 +7,8 @@ type HeroContentProps = {
 export default function HeroContent({
   onRequestDemo,
 }: HeroContentProps) {
-  const features = [
-    {
-      icon: "/images/merchant-partners.png",
-      title: "Merchant Network",
-      width: "w-[100px]",
-    },
-    {
-      icon: "/images/campaign-management.png",
-      title: "Campaign Management",
-      width: "w-[100px]",
-    },
-    {
-      icon: "/images/analytics.png",
-      title: "Analytics",
-      width: "w-[90px]",
-    },
-    {
-      icon: "/images/payouts.png",
-      title: "Payouts",
-      width: "w-[120px]",
-    },
-  ];
+  const { hero } = useWebsiteContent();
+  const features = hero.features.map((item, index) => ({ ...item, width: index === 3 ? "w-[120px]" : "w-[100px]" }));
 
   const heroOffset = "lg:ml-0"; // change here
 
@@ -67,7 +49,7 @@ xl:text-[82px]
             text-[#0B2E83]
           "
         >
-          Partnerships
+          {hero.title}
         </span>
 
         <span
@@ -81,7 +63,7 @@ xl:text-[72px]
             text-black
           "
         >
-          That{" "}
+          {hero.prefix}{" "}
 
           <span
             className="
@@ -90,7 +72,7 @@ xl:text-[72px]
               text-transparent
             "
           >
-            Drive Loyalty
+            {hero.highlight}
           </span>
 
         </span>
@@ -126,9 +108,7 @@ xl:text-[22px]
           font-medium
         "
       >
-        GN Alliances helps Banks, FinTechs, MSMEs and Enterprises
-        launch merchant-funded offers, rewards programs and
-        engagement campaigns.
+        {hero.description}
       </p>
 
       {/* Buttons */}
@@ -147,7 +127,7 @@ xl:text-[22px]
   "
       >
 
-        <button
+        {hero.demoLabel && <button
           onClick={onRequestDemo}
           className="
       w-full
@@ -175,8 +155,8 @@ xl:text-[22px]
       transition
     "
         >
-          Request Demo
-        </button>
+          {hero.demoLabel}
+        </button>}
 
       </div>
 
@@ -211,11 +191,11 @@ xl:w-[160px]
           items-center
         "
             >
-              <img
+              {item.icon && <img
                 src={item.icon}
                 alt={item.title}
                 className={`${item.width} h-auto object-contain`}
-              />
+              />}
             </div>
 
             {index < features.length - 1 && (

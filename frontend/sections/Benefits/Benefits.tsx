@@ -1,10 +1,13 @@
+"use client";
+import { useWebsiteContent } from "@/components/WebsiteContent";
 import Container from "@/components/common/Container/Container";
 import Section from "@/components/common/Section/Section";
 
 import BenefitCard from "./BenefitCard";
-import { benefitsData } from "./benefitsData";
+
 
 export default function Benefits() {
+  const { benefits } = useWebsiteContent(); const benefitsData = benefits.items;
   return (
     <Section id="solutions">
       {/* Adjust these values as needed */}
@@ -22,7 +25,7 @@ export default function Benefits() {
           >
             <div className="text-center mb-6">
               <p className="text-[#F2A900] text-xs lg:text-sm font-bold tracking-[3px] uppercase">
-                WHAT YOU GET
+                {benefits.title}
               </p>
             </div>
 

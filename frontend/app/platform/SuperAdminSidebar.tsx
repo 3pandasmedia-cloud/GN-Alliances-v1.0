@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 
 const menuItems = [
+  { title: "Website Settings", icon: Settings, href: "/platform/super-admin/website-settings" },
   {
     title: "Campaigns",
     icon: Megaphone,

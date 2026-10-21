@@ -1,5 +1,6 @@
 "use client";
 
+import { useWebsiteContent } from "@/components/WebsiteContent";
 import { motion } from "framer-motion";
 import { useState } from "react";
 
@@ -36,6 +37,7 @@ const slideRight = {
 };
 
 export default function PlatformCapabilities() {
+ const {platform}=useWebsiteContent();
 
   const [activeModal, setActiveModal] = useState<
     "client" | "merchant" | null
@@ -48,18 +50,15 @@ export default function PlatformCapabilities() {
 
         <div className="text-center mb-16">
           <p className="text-[#F2A900] font-semibold uppercase tracking-[3px]">
-            PLATFORM EXPERIENCE
+            {platform.eyebrow}
           </p>
 
           <h2 className="text-4xl lg:text-6xl font-bold mt-4">
-            Built For Clients & Merchants
+            {platform.title}
           </h2>
 
           <p className="text-slate-600 text-lg mt-6 max-w-4xl mx-auto leading-relaxed">
-            One platform. Two powerful perspectives. Clients gain campaign
-            visibility and merchant performance insights while merchants track
-            offer performance, customer engagement and ROI through a unified
-            loyalty operations ecosystem.
+            {platform.description}
           </p>
         </div>
 
@@ -85,33 +84,22 @@ export default function PlatformCapabilities() {
               hover:-translate-y-2
             "
           >
-            <h3 className="text-2xl font-bold mb-2">
-              Client Dashboard
-            </h3>
+            <h3 className="text-2xl font-bold mb-2">{platform.client.title}</h3>
 
             <p className="text-slate-500 mb-6">
-              Built for MSMEs, Corporates, Banks, Fintechs and Enterprise
-              Clients.
+              {platform.client.description}
             </p>
 
             <div className="overflow-hidden rounded-2xl border border-slate-200">
-              <Image
-                src="/images/client-dashboard.png"
+              {platform.client.image && <Image unoptimized src={platform.client.image}
                 alt="Client Dashboard"
                 width={1200}
                 height={700}
                 className="w-full h-auto transition-transform duration-500 hover:scale-105"
-              />
+              />}
             </div>
 
-            <ul className="mt-6 space-y-3 text-slate-700">
-              <li>✓ Campaign Performance Analytics</li>
-              <li>✓ Merchant Network Visibility</li>
-              <li>✓ Real-Time Reporting</li>
-              <li>✓ Spend & Redemption Insights</li>
-              <li>✓ Reconciliation Tracking</li>
-              <li>✓ Cross-Border Campaign Reporting</li>
-            </ul>
+            <ul className="mt-6 space-y-3 text-slate-700">{platform.client.features.map((text,index)=><li key={index}>✓ {text}</li>)}</ul>
 
             <button className="mt-6 px-5 py-2 rounded-xl bg-[#0A2E8A] text-white hover:bg-[#08246d] transition">
               Watch Client Workflow
@@ -139,32 +127,22 @@ export default function PlatformCapabilities() {
               hover:-translate-y-2
             "
           >
-            <h3 className="text-2xl font-bold mb-2">
-              Merchant Dashboard
-            </h3>
+            <h3 className="text-2xl font-bold mb-2">{platform.merchant.title}</h3>
 
             <p className="text-slate-500 mb-6">
-              Built for leading retail, dining, fashion, lifestyle and service brands across India.
+              {platform.merchant.description}
             </p>
 
             <div className="overflow-hidden rounded-2xl border border-slate-200">
-              <Image
-                src="/images/merchant-dashboard.png"
+              {platform.merchant.image && <Image unoptimized src={platform.merchant.image}
                 alt="Merchant Dashboard"
                 width={1200}
                 height={700}
                 className="w-full h-auto transition-transform duration-500 hover:scale-105"
-              />
+              />}
             </div>
 
-            <ul className="mt-6 space-y-3 text-slate-700">
-              <li>✓ Offer Performance Tracking</li>
-              <li>✓ Customer Growth Analytics</li>
-              <li>✓ Revenue Attribution</li>
-              <li>✓ Settlement Monitoring</li>
-              <li>✓ Campaign ROI Visibility</li>
-              <li>✓ Real-Time Redemption Insights</li>
-            </ul>
+            <ul className="mt-6 space-y-3 text-slate-700">{platform.merchant.features.map((text,index)=><li key={index}>✓ {text}</li>)}</ul>
 
             <button className="mt-6 px-5 py-2 rounded-xl bg-[#0A2E8A] text-white hover:bg-[#08246d] transition">
               Watch Merchant Workflow
@@ -225,26 +203,16 @@ export default function PlatformCapabilities() {
 
               {activeModal === "client" ? (
                 <>
-                  <h3 className="text-2xl font-bold mb-4">
-                    Client Dashboard
-                  </h3>
+                  <h3 className="text-2xl font-bold mb-4">{platform.client.title}</h3>
 
-                  <Image
-                    src="/images/client-dashboard.png"
+                  {platform.client.image && <Image unoptimized src={platform.client.image}
                     alt="Client Dashboard"
                     width={1200}
                     height={700}
                     className="rounded-2xl border border-slate-200"
-                  />
+                  />}
 
-                  <ul className="mt-6 space-y-3 text-slate-700">
-                    <li>✓ Campaign Performance Analytics</li>
-                    <li>✓ Merchant Network Visibility</li>
-                    <li>✓ Real-Time Reporting</li>
-                    <li>✓ Spend & Redemption Insights</li>
-                    <li>✓ Reconciliation Tracking</li>
-                    <li>✓ Cross-Border Campaign Reporting</li>
-                  </ul>
+                  <ul className="mt-6 space-y-3 text-slate-700">{platform.client.features.map((text,index)=><li key={index}>✓ {text}</li>)}</ul>
 
                   <button className="mt-4 w-full px-6 py-4 rounded-xl bg-[#0A2E8A] text-white font-semibold shadow-lg hover:bg-[#08246d] transition-all">
                     Watch Client Workflow
@@ -252,26 +220,16 @@ export default function PlatformCapabilities() {
                 </>
               ) : (
                 <>
-                  <h3 className="text-2xl font-bold mb-4">
-                    Merchant Dashboard
-                  </h3>
+                  <h3 className="text-2xl font-bold mb-4">{platform.merchant.title}</h3>
 
-                  <Image
-                    src="/images/merchant-dashboard.png"
+                  {platform.merchant.image && <Image unoptimized src={platform.merchant.image}
                     alt="Merchant Dashboard"
                     width={1200}
                     height={700}
                     className="rounded-2xl border border-slate-200"
-                  />
+                  />}
 
-                  <ul className="mt-6 space-y-3 text-slate-700">
-                    <li>✓ Offer Performance Tracking</li>
-                    <li>✓ Customer Growth Analytics</li>
-                    <li>✓ Revenue Attribution</li>
-                    <li>✓ Settlement Monitoring</li>
-                    <li>✓ Campaign ROI Visibility</li>
-                    <li>✓ Real-Time Redemption Insights</li>
-                  </ul>
+                  <ul className="mt-6 space-y-3 text-slate-700">{platform.merchant.features.map((text,index)=><li key={index}>✓ {text}</li>)}</ul>
 
                   <button className="mt-8 w-full px-6 py-4 rounded-xl bg-[#0A2E8A] text-white font-semibold shadow-lg hover:bg-[#08246d] transition-all">
                     Watch Merchant Workflow

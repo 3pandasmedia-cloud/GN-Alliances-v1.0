@@ -20,6 +20,7 @@ import merchantSearchRoutes from "./routes/merchantSearchRoutes";
 import lakeeshopRoutes from "./routes/lakeeshopRoutes";
 import { requireEntityOwner } from "./middleware/entityPermissions";
 import { adminModuleAccess } from "./middleware/adminModuleAccess";
+import websiteRoutes from "./routes/websiteRoutes";
 
 const app = express();
 
@@ -44,6 +45,7 @@ app.use([
 ], requireEntityOwner);
 
 app.use("/api/auth", authRoutes);
+app.use("/api/website-settings", websiteRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/partners", partnerRoutes);

@@ -1,10 +1,12 @@
 "use client";
 
+import { useWebsiteContent } from "@/components/WebsiteContent";
 import Container from "@/components/common/Container/Container";
 import Section from "@/components/common/Section/Section";
 import HeroVisual from "@/sections/Hero/HeroVisual";
 
 export default function ContactHero() {
+  const { contact } = useWebsiteContent();
   return (
     <div className="relative overflow-hidden">
       <Section>
@@ -58,9 +60,9 @@ export default function ContactHero() {
                 </p>
 
                 <div className="mt-8 space-y-3 text-slate-700">
-                  <p>📧 info@gnalliances.com</p>
-                  <p>📞 +91 XXXXX XXXXX</p>
-                  <p>📍 Bengaluru, India</p>
+                  {contact.email && <p><a href={`mailto:${contact.email}`}>{contact.email}</a></p>}
+                  {contact.phone && <p><a href={`tel:${contact.phone.replace(/[^+0-9]/g, "")}`}>{contact.phone}</a></p>}
+                  {contact.address && <p className="whitespace-pre-line">{contact.address}</p>}
                 </div>
 
               </div>

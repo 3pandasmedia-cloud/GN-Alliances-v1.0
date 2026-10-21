@@ -57,13 +57,12 @@ export default function ProcessCard({
 
       {/* Icon */}
 
-      <Image
-        src={icon}
+      {icon && <Image unoptimized src={icon}
         alt={title}
         width={85}
         height={85}
         className="mb-5 object-contain"
-      />
+      />}
 
       {/* Title */}
 

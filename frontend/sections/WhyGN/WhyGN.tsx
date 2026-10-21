@@ -1,10 +1,13 @@
+"use client";
+import { useWebsiteContent } from "@/components/WebsiteContent";
 import Container from "@/components/common/Container/Container";
 import Section from "@/components/common/Section/Section";
 
 import WhyGNCard from "./WhyGNCard";
-import { whyGNData } from "./whyGNData";
+
 
 export default function WhyGN() {
+  const { why } = useWebsiteContent(); const whyGNData = why.items;
   return (
     <Section>
       <Container>
@@ -14,7 +17,7 @@ export default function WhyGN() {
             {/* Heading */}
             <div className="text-center pt-3 pb-1">
               <p className="text-[#F2A900] text-sm font-semibold tracking-wide uppercase">
-                Why Choose GN Alliances
+                {why.title}
               </p>
             </div>
 

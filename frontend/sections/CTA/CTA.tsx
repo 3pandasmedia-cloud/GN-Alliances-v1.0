@@ -1,5 +1,6 @@
 "use client";
 
+import { useWebsiteContent } from "@/components/WebsiteContent";
 import { useState } from "react";
 
 import Container from "@/components/common/Container/Container";
@@ -7,6 +8,7 @@ import Section from "@/components/common/Section/Section";
 import RequestDemoModal from "@/components/modals/RequestDemoModal";
 
 export default function CTA() {
+  const { cta, whatsapp } = useWebsiteContent();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
@@ -80,18 +82,17 @@ export default function CTA() {
                 {/* Content */}
                 <div>
                   <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4">
-                    Ready To Build Customer Loyalty?
+                    {cta.title}
                   </h2>
 
                   <p className="text-blue-100 text-lg max-w-xl">
-                    Launch merchant-funded offers, rewards and engagement
-                    campaigns with GN Alliances.
+                    {cta.description}
                   </p>
                 </div>
 
                 {/* Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <button
+                  {cta.demoLabel && <button
                     onClick={() => setIsModalOpen(true)}
                     className="
                       bg-[#F2A900]
@@ -105,10 +106,13 @@ export default function CTA() {
                       duration-300
                     "
                   >
-                    Request Demo →
-                  </button>
+                    {cta.demoLabel} →
+                  </button>}
 
-                  <button
+                  {whatsapp.number && <a
+                    href={`https://wa.me/${whatsapp.number}?text=${encodeURIComponent(whatsapp.message)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="
                       border
                       border-white/60
@@ -123,8 +127,8 @@ export default function CTA() {
                       duration-300
                     "
                   >
-                    Lets Chat →
-                  </button>
+                    {cta.chatLabel} →
+                  </a>}
                 </div>
               </div>
             </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useWebsiteContent } from "@/components/WebsiteContent";
 import { useState, useEffect } from "react";
 import Container from "@/components/common/Container/Container";
 import { Menu, ChevronDown } from "lucide-react";
@@ -8,6 +9,7 @@ import Link from "next/link";
 import RequestDemoModal from "@/components/modals/RequestDemoModal";
 
 export default function Header() {
+    const {hero}=useWebsiteContent();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
@@ -245,7 +247,7 @@ export default function Header() {
                                 Login
                             </Link>
 
-                            <button
+                            {hero.demoLabel && <button
                                 onClick={() => setIsModalOpen(true)}
                                 className="
                                     flex
@@ -262,10 +264,8 @@ export default function Header() {
                                     transition-all
                                     duration-300
                                 "
-                            >
-                                Request Demo
-                                <span className="text-xl">›</span>
-                            </button>
+                            >{hero.demoLabel}<span className="text-xl">›</span>
+                            </button>}
 
                         </div>
 
@@ -437,7 +437,7 @@ export default function Header() {
                                 Login
                             </Link>
 
-                            <button
+                            {hero.demoLabel && <button
                                 onClick={() => {
                                     setMobileOpen(false);
                                     setIsModalOpen(true);
@@ -450,9 +450,7 @@ export default function Header() {
       rounded-xl
       font-semibold
     "
-                            >
-                                Request Demo
-                            </button>
+                            >{hero.demoLabel}</button>}
 
                         </nav>
 

@@ -29,13 +29,12 @@ export default function MetricCard({
       ref={ref}
       className="flex flex-col items-center justify-center py-8 px-6 text-center"
     >
-      <Image
-        src={icon}
+      {icon && <Image unoptimized src={icon}
         alt={label}
         width={44}
         height={44}
         className="mb-4 object-contain"
-      />
+      />}
 
       <h3 className="text-[#0B2E83] text-5xl font-bold leading-none mb-3">
         {custom ? (

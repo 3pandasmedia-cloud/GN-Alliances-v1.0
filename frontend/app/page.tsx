@@ -1,5 +1,6 @@
 "use client";
 
+import { useWebsiteContent } from "@/components/WebsiteContent";
 import { useEffect, useState } from "react";
 
 import SplashScreen from "@/components/common/SplashScreen";
@@ -17,6 +18,7 @@ import TrustedBusinesses from "@/sections/TrustedBusinesses/TrustedBusinesses";
 import TopOffers from "@/sections/TopOffers";
 
 export default function Home() {
+  const {sections}=useWebsiteContent();
   const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
@@ -35,23 +37,23 @@ export default function Home() {
     <>
       <Header />
 
-      <Hero />
+      {sections.hero && <Hero />}
 
-      <TrustedBusinesses />
+      {sections.trusted && <TrustedBusinesses />}
 
-      <TopOffers />
+      {sections.offers && <TopOffers />}
 
-      <HowItWorks />
+      {sections.how && <HowItWorks />}
 
-      <Benefits />
+      {sections.benefits && <Benefits />}
 
-      <PlatformCapabilities />
+      {sections.platform && <PlatformCapabilities />}
 
-      <WhyGN />
+      {sections.why && <WhyGN />}
 
-      <Metrics />
+      {sections.metrics && <Metrics />}
 
-      <CTA />
+      {sections.cta && <CTA />}
 
       <Footer />
 

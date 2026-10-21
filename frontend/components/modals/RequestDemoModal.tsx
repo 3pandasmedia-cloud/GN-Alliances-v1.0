@@ -77,13 +77,13 @@ export default function RequestDemoModal({
   ) => {
     e.preventDefault();
 
-    if (!validateForm()) return;
+    if (loading || !validateForm()) return;
 
     setLoading(true);
 
     try {
       const response = await fetch(
-        "/api/demo-request",
+        "/api/website-settings/demo-request",
         {
           method: "POST",
           headers: {
@@ -93,9 +93,10 @@ export default function RequestDemoModal({
         }
       );
 
+      const result = await response.json();
       if (!response.ok) {
         throw new Error(
-          "Failed to submit request"
+          result.message || "Failed to submit request"
         );
       }
 
@@ -117,7 +118,7 @@ export default function RequestDemoModal({
       );
 
       await popup.alert(
-        "Something went wrong. Please try again."
+        error instanceof Error ? error.message : "Something went wrong. Please try again."
       );
     } finally {
       setLoading(false);

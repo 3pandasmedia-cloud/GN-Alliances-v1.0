@@ -1,0 +1,296 @@
+{
+  "contact": {
+    "email": "hello@gnalliances.com",
+    "phone": "+91 97197 27347",
+    "address": "Bangalore, India"
+  },
+  "whatsapp": {
+    "number": "",
+    "message": "Hello GN Alliances, I would like to discuss a partnership."
+  },
+  "hero": {
+    "title": "Partnerships",
+    "prefix": "That",
+    "highlight": "Drive Loyalty",
+    "description": "GN Alliances helps Banks, FinTechs, MSMEs and Enterprises launch merchant-funded offers, rewards programs and engagement campaigns.",
+    "demoLabel": "Request Demo",
+    "features": [
+      {
+        "title": "Merchant Network",
+        "icon": "/images/merchant-partners.png"
+      },
+      {
+        "title": "Campaign Management",
+        "icon": "/images/campaign-management.png"
+      },
+      {
+        "title": "Analytics",
+        "icon": "/images/analytics.png"
+      },
+      {
+        "title": "Payouts",
+        "icon": "/images/payouts.png"
+      }
+    ]
+  },
+  "cta": {
+    "title": "Ready To Build Customer Loyalty?",
+    "description": "Launch merchant-funded offers, rewards and engagement campaigns with GN Alliances.",
+    "chatLabel": "Let’s Chat",
+    "demoLabel": "Request Demo"
+  },
+  "sections": {
+    "hero": true,
+    "trusted": true,
+    "offers": true,
+    "how": true,
+    "benefits": true,
+    "platform": true,
+    "why": true,
+    "metrics": true,
+    "cta": true,
+    "footer": true
+  },
+  "how": {
+    "eyebrow": "HOW GN WORKS",
+    "title": "One Partner.\nComplete Loyalty Ecosystem.",
+    "items": [
+      {
+        "icon": "/process/merchant.png",
+        "title": "Find Merchants",
+        "description": "Retail, Dining, Travel, Lifestyle and more."
+      },
+      {
+        "icon": "/process/offers.png",
+        "title": "Negotiate Offers",
+        "description": "Cashbacks, Vouchers and exclusive deals."
+      },
+      {
+        "icon": "/process/approval.png",
+        "title": "Client Approval",
+        "description": "Proposal approval before launch."
+      },
+      {
+        "icon": "/process/campaign.png",
+        "title": "Campaign Launch",
+        "description": "Campaign goes live for customers."
+      },
+      {
+        "icon": "/process/redemption.png",
+        "title": "Customer Redeems",
+        "description": "Customers redeem offers online or offline."
+      },
+      {
+        "icon": "/process/analytics.png",
+        "title": "Track & Analyze",
+        "description": "Real-time reporting and performance tracking."
+      },
+      {
+        "icon": "/process/settlement.png",
+        "title": "Settlement",
+        "description": "Reconciliation and merchant payouts."
+      }
+    ]
+  },
+  "benefits": {
+    "title": "WHAT YOU GET",
+    "items": [
+      {
+        "title": "One Point Of Contact",
+        "description": "Single partnership manager",
+        "icon": "/benefits/one-point.png"
+      },
+      {
+        "title": "500+ Brand Partners",
+        "description": "Extensive merchant network",
+        "icon": "/benefits/brand-partner.png"
+      },
+      {
+        "title": "End-To-End Campaign Management",
+        "description": "From concept to redemption",
+        "icon": "/benefits/end-to.png"
+      },
+      {
+        "title": "Real-Time Reporting & Analytics",
+        "description": "Data-driven insights at every step",
+        "icon": "/benefits/realtime.png"
+      },
+      {
+        "title": "Reconciliation & Payouts",
+        "description": "Automated settlement and reporting",
+        "icon": "/benefits/reconciliation.png"
+      }
+    ]
+  },
+  "why": {
+    "title": "Why Choose GN Alliances",
+    "items": [
+      {
+        "icon": "/images/wgn/fast-launch.png",
+        "title": "Faster Launch",
+        "description": "Reduce campaign setup time with our streamlined process and ready merchant network."
+      },
+      {
+        "icon": "/images/wgn/merchant-network.png",
+        "title": "Larger Merchant Network",
+        "description": "Access 500+ merchant partners across multiple categories and locations."
+      },
+      {
+        "icon": "/images/wgn/operations.png",
+        "title": "End-To-End Operations",
+        "description": "We manage everything from merchant sourcing to settlement so you can focus on growth."
+      }
+    ]
+  },
+  "metrics": {
+    "items": [
+      {
+        "icon": "/images/numbers/merchant.png",
+        "label": "Merchant Partners",
+        "value": "500+"
+      },
+      {
+        "icon": "/images/numbers/campaign.png",
+        "label": "Campaign Opportunities",
+        "value": "100+"
+      },
+      {
+        "icon": "/images/numbers/platform.png",
+        "label": "Platform Monitoring",
+        "value": "24/7"
+      },
+      {
+        "icon": "/images/numbers/visibility.png",
+        "label": "Campaign Visibility",
+        "value": "100%"
+      }
+    ]
+  },
+  "platform": {
+    "eyebrow": "PLATFORM EXPERIENCE",
+    "title": "Built For Clients & Merchants",
+    "description": "One platform. Two powerful perspectives. Clients gain campaign visibility and merchant performance insights while merchants track offer performance, customer engagement and ROI through a unified loyalty operations ecosystem.",
+    "client": {
+      "title": "Client Dashboard",
+      "description": "Built for MSMEs, Corporates, Banks, Fintechs and Enterprise Clients.",
+      "image": "/images/client-dashboard.png",
+      "features": [
+        "Campaign Performance Analytics",
+        "Merchant Network Visibility",
+        "Real-Time Reporting",
+        "Spend & Redemption Insights",
+        "Reconciliation Tracking"
+      ]
+    },
+    "merchant": {
+      "title": "Merchant Dashboard",
+      "description": "Built for leading retail, dining, fashion, lifestyle and service brands across India.",
+      "image": "/images/merchant-dashboard.png",
+      "features": [
+        "Offer Performance Tracking",
+        "Customer Growth Analytics",
+        "Revenue Attribution",
+        "Settlement Monitoring",
+        "Campaign ROI Visibility",
+        "Real-Time Redemption Insights"
+      ]
+    }
+  },
+  "footer": {
+    "columns": [
+      {
+        "title": "Company",
+        "links": [
+          {
+            "label": "About Us",
+            "href": "/about"
+          },
+          {
+            "label": "Contact Us",
+            "href": "/contact"
+          }
+        ]
+      },
+      {
+        "title": "Solutions",
+        "links": [
+          {
+            "label": "Merchant Funded Offers",
+            "href": "/solutions/merchant-funded-offers"
+          },
+          {
+            "label": "Rewards Programs",
+            "href": "/solutions/rewards-programs"
+          },
+          {
+            "label": "Campaign Management",
+            "href": "/solutions/campaign-management"
+          },
+          {
+            "label": "Reconciliation & Settlements",
+            "href": "/solutions/reconciliation"
+          }
+        ]
+      },
+      {
+        "title": "Platform",
+        "links": [
+          {
+            "label": "Features",
+            "href": "/platform-overview"
+          },
+          {
+            "label": "Security",
+            "href": "/platform-overview"
+          }
+        ]
+      }
+    ],
+    "legalLinks": [
+      {
+        "label": "Privacy Policy",
+        "href": "/privacy-policy"
+      },
+      {
+        "label": "Terms Of Use",
+        "href": "/terms-of-use"
+      }
+    ],
+    "copyright": "© 2026 GN Alliances. All rights reserved.",
+    "creditLabel": "Marketed By",
+    "creditName": "3Pandas Media",
+    "creditUrl": "https://www.3pandasmedia.com",
+    "contactTitle": "Get In Touch",
+    "logo": "/logos/gn-logoa.png",
+    "creditLogo": "/logos/3pandas-logos.png"
+  },
+  "trusted": {
+    "title": "TRUSTED BY LEADING BUSINESSES",
+    "items": [
+      {
+        "title": "Banks",
+        "icon": "/images/banks.png"
+      },
+      {
+        "title": "FinTechs",
+        "icon": "/images/fintechs.png"
+      },
+      {
+        "title": "MSMEs",
+        "icon": "/images/msme.png"
+      },
+      {
+        "title": "Corporates",
+        "icon": "/images/corporates.png"
+      },
+      {
+        "title": "Enterprises",
+        "icon": "/images/enterprises.png"
+      },
+      {
+        "title": "Merchant Partners",
+        "icon": "/images/merchant-partners.png"
+      }
+    ]
+  }
+}

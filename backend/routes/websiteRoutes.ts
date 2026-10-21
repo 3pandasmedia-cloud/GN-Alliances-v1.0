@@ -1,0 +1,13 @@
+import { Router } from "express";
+import { verifyToken } from "../middleware/authMiddleware";
+import { allowRoles } from "../middleware/roleMiddleware";
+import { getPublicWebsite, getWebsiteSettings, saveWebsiteSettings, submitDemoRequest, listDemoRequests, deleteDemoRequest } from "../controllers/websiteController";
+const router = Router();
+router.get("/public", getPublicWebsite);
+router.post("/demo-request", submitDemoRequest);
+router.use(verifyToken, allowRoles("super-admin"));
+router.get("/", getWebsiteSettings);
+router.put("/", saveWebsiteSettings);
+router.get("/requests", listDemoRequests);
+router.delete("/requests/:id", deleteDemoRequest);
+export default router;

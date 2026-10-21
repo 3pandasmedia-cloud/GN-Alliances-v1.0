@@ -12,6 +12,6 @@ export const moduleForPath = (path: string): AdminModule | "admins" | null => {
   if (/^clients\/banks(?:\/|$)/.test(part)) return "banks";
   if (/^clients(?:\/|$)/.test(part)) return "fintechs";
   const key = part.split("/")[0];
-  const map: Record<string, AdminModule | "admins"> = { merchants: "merchants", lakeeshop: "merchants", campaigns: "campaigns", offers: "offers", analytics: "analytics", reconciliation: "reconciliation", "landing-offers": "landingOffers", employees: "employees", settings: "settings", admins: "admins", users: "employees" };
+  const map: Record<string, AdminModule | "admins"> = { merchants: "merchants", lakeeshop: "merchants", campaigns: "campaigns", offers: "offers", analytics: "analytics", reconciliation: "reconciliation", "landing-offers": "landingOffers", employees: "employees", settings: "settings", admins: "admins", "website-settings": "admins", users: "employees" };
   return map[key] ?? null;
 };

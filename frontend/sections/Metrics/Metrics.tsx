@@ -1,10 +1,13 @@
+"use client";
+import { useWebsiteContent } from "@/components/WebsiteContent";
 import Container from "@/components/common/Container/Container";
 import Section from "@/components/common/Section/Section";
 
 import MetricCard from "./MetricCard";
-import { metricsData } from "./metricsData";
+
 
 export default function Metrics() {
+  const { metrics } = useWebsiteContent(); const metricsData = metrics.items.map(item => ({icon:item.icon,label:item.label,custom:item.value}));
   return (
     <Section>
       <Container>

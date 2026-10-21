@@ -16,13 +16,12 @@ export default function WhyGNCard({
       
       <div className="flex-shrink-0">
         <div className="w-28 h-28 rounded-full bg-[#F8F8F8] flex items-center justify-center">
-          <Image
-            src={icon}
+          {icon && <Image unoptimized src={icon}
             alt={title}
             width={160}
             height={160}
             className="object-contain"
-          />
+          />}
         </div>
       </div>
 

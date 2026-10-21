@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import CookieConsent from "@/components/CookieConsent";
 import PopupHost from "@/components/ui/Popup";
+import { WebsiteContentProvider } from "@/components/WebsiteContent";
 import "@/components/ui/modal-theme.css";
 
 const geistSans = Geist({
@@ -37,9 +38,10 @@ export default function RootLayout({
       `}
     >
       <body className="min-h-full flex flex-col overflow-x-hidden">
-        {children}
+        <WebsiteContentProvider>{children}
 
         <CookieConsent />
+        </WebsiteContentProvider>
         <PopupHost />
       </body>
     </html>

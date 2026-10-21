@@ -1,45 +1,11 @@
+"use client";
+import { useWebsiteContent } from "@/components/WebsiteContent";
 import Image from "next/image";
 
-const items = [
-  {
-    icon: "/images/banks.png",
-    title: "Banks",
-    mobileSize: "w-[40px]",
-    desktopSize: "w-[60px]",
-  },
-  {
-    icon: "/images/fintechs.png",
-    title: "FinTechs",
-    mobileSize: "w-[70px]",
-    desktopSize: "w-[90px]",
-  },
-  {
-    icon: "/images/msme.png",
-    title: "MSMEs",
-    mobileSize: "w-[60px]",
-    desktopSize: "w-[90px]",
-  },
-  {
-    icon: "/images/corporates.png",
-    title: "Corporates",
-    mobileSize: "w-[60px]",
-    desktopSize: "w-[90px]",
-  },
-  {
-    icon: "/images/enterprises.png",
-    title: "Enterprises",
-    mobileSize: "w-[60px]",
-    desktopSize: "w-[90px]",
-  },
-  {
-    icon: "/images/merchant-partners.png",
-    title: "Merchant Partners",
-    mobileSize: "w-[60px]",
-    desktopSize: "w-[90px]",
-  },
-];
+
 
 export default function TrustedBusinesses() {
+ const {trusted}=useWebsiteContent(); const items=trusted.items.map((item,index)=>({...item,mobileSize:index===0?"w-[40px]":"w-[60px]",desktopSize:index===0?"w-[60px]":"w-[90px]"}));
   return (
     <section className="-mt-1 lg:-mt-15 px-4 lg:px-0 relative z-20" id="industries">
       <div
@@ -70,9 +36,7 @@ export default function TrustedBusinesses() {
               mb-6
             "
           >
-            TRUSTED BY LEADING
-            <br />
-            BUSINESSES
+            {trusted.title}
           </h3>
 
           <div
@@ -92,13 +56,12 @@ export default function TrustedBusinesses() {
                   justify-center
                 "
               >
-                <Image
-                  src={item.icon}
+                {item.icon && <Image unoptimized src={item.icon}
                   alt={item.title}
                   width={200}
                   height={200}
                   className={`${item.mobileSize} h-auto object-contain`}
-                />
+                />}
               </div>
             ))}
           </div>
@@ -115,9 +78,7 @@ export default function TrustedBusinesses() {
                 leading-[1.15]
               "
             >
-              TRUSTED BY LEADING
-              <br />
-              BUSINESSES
+              {trusted.title}
             </h3>
           </div>
 
@@ -134,13 +95,12 @@ export default function TrustedBusinesses() {
                 min-h-[90px]
               "
             >
-              <Image
-                src={item.icon}
+              {item.icon && <Image unoptimized src={item.icon}
                 alt={item.title}
                 width={200}
                 height={200}
                 className={`${item.desktopSize} h-auto object-contain`}
-              />
+              />}
             </div>
           ))}
         </div>

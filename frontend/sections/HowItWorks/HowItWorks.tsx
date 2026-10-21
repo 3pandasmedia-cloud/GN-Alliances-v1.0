@@ -1,12 +1,15 @@
+"use client";
+import { useWebsiteContent } from "@/components/WebsiteContent";
 import Container from "@/components/common/Container/Container";
 import Section from "@/components/common/Section/Section";
 
 import ProcessCard from "./ProcessCard";
-import { processSteps } from "./processData";
+
 
 import { ChevronRight } from "lucide-react";
 
 export default function HowItWorks() {
+  const { how } = useWebsiteContent(); const processSteps = how.items.map((item, index) => ({ ...item, id: index + 1 }));
   return (
     <Section>
       <Container>
@@ -36,7 +39,7 @@ export default function HowItWorks() {
                 tracking-wider
               "
             >
-              HOW GN WORKS
+              {how.eyebrow}
             </p>
 
             <h2
@@ -49,9 +52,7 @@ export default function HowItWorks() {
                 mt-4
               "
             >
-              One Partner.
-              <br />
-              Complete Loyalty Ecosystem.
+              <span className="whitespace-pre-line">{how.title}</span>
             </h2>
 
           </div>

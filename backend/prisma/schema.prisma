@@ -226,6 +226,24 @@ model LakeeshopApiTestLog {
   @@index([apiName, status])
 }
 
+model WebsiteSettings {
+  id             String @id @default("website")
+  content        Json
+  demoRecipients Json
+  updatedAt      DateTime @updatedAt
+}
+
+model DemoRequest {
+  id        String @id @default(uuid())
+  name      String
+  company   String
+  email     String
+  phone     String
+  message   String
+  status    String @default("PENDING")
+  createdAt DateTime @default(now())
+}
+
 model LakeeshopOrder {
   id              String   @id @default(uuid())
   clientOrderId   String   @unique
