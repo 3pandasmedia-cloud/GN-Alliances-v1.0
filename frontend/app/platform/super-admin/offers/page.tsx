@@ -1,4 +1,5 @@
 "use client";
+import { authFetch } from "@/lib/api";
 
 import EntityActions from "@/components/auth/EntityActions";
 import { useEffect, useState } from "react";
@@ -16,8 +17,8 @@ export default function OffersPage() {
   });
 
   const loadStats = () => {
-    fetch(
-      "/api/offers/stats"
+    authFetch(
+      "/offers/stats"
     )
       .then((res) => res.json())
       .then(setStats)

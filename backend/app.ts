@@ -19,6 +19,7 @@ import landingOfferRoutes from "./routes/landingOfferRoutes";
 import merchantSearchRoutes from "./routes/merchantSearchRoutes";
 import lakeeshopRoutes from "./routes/lakeeshopRoutes";
 import { requireEntityOwner } from "./middleware/entityPermissions";
+import { adminModuleAccess } from "./middleware/adminModuleAccess";
 
 const app = express();
 
@@ -35,6 +36,7 @@ app.use(
 );
 
 app.use(express.json());
+app.use("/api", adminModuleAccess);
 
 app.use([
   "/api/users", "/api/partners", "/api/offers", "/api/campaigns",

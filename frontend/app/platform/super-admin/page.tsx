@@ -1,4 +1,5 @@
 "use client";
+import { authFetch } from "@/lib/api";
 
 import { useEffect, useState } from "react";
 
@@ -28,7 +29,7 @@ export default function SuperAdminDashboard() {
   });
 
   useEffect(() => {
-  fetch("/api/dashboard/stats")
+  authFetch("/dashboard/stats")
     .then((res) => res.json())
     .then(setStats)
     .catch(console.error);

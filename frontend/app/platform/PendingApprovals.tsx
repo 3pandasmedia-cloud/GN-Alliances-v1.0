@@ -1,4 +1,5 @@
 "use client";
+import { authFetch } from "@/lib/api";
 
 import { useEffect, useState } from "react";
 import { Users } from "lucide-react";
@@ -12,7 +13,7 @@ export default function PendingApprovals() {
   });
 
   useEffect(() => {
-  fetch("/api/dashboard/stats")
+  authFetch("/dashboard/stats")
     .then((res) => res.json())
     .then(setStats);
 }, []);

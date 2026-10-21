@@ -1,4 +1,5 @@
 "use client";
+import { authFetch } from "@/lib/api";
 
 import { useEffect, useRef, useState } from "react";
 
@@ -29,8 +30,8 @@ export default function MerchantSearch({
         return;
       }
 
-      const res = await fetch(
-        `http://localhost:5000/api/search-merchants?q=${value}`
+      const res = await authFetch(
+        `/search-merchants?q=${encodeURIComponent(value)}`
       );
 
       const data = await res.json();

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 
+import { AdminAccessProvider } from "@/components/auth/AdminAccess";
 import Topbar from "./Topbar";
 import AuthGuard from "@/lib/AuthGuard";
 
@@ -57,7 +58,7 @@ export default function PlatformLayout({
     };
 
     return (
-        <AuthGuard>
+        <AuthGuard><AdminAccessProvider>
             <div className="h-screen bg-[#F5F7FB] flex overflow-hidden">
 
                 {/* Desktop Sidebar */}
@@ -110,6 +111,6 @@ export default function PlatformLayout({
                 </div>
 
             </div>
-        </AuthGuard>
+        </AdminAccessProvider></AuthGuard>
     );
 }

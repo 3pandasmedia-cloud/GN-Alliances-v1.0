@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { AuthRequest, verifyToken } from "../middleware/authMiddleware";
 
 
 import {
@@ -8,6 +9,10 @@ import {
 } from "../controllers/authController";
 
 const router = Router();
+router.get("/access", verifyToken, (req: AuthRequest, res) => {
+  res.setHeader("Cache-Control", "no-store");
+  res.json({ role: req.user!.role, adminModules: req.user!.adminModules ?? null });
+});
 
 router.get("/", (_, res) => {
   res.json({

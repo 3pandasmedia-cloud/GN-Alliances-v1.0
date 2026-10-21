@@ -1,5 +1,7 @@
 "use client";
 
+import { useAdminAccess } from "@/components/auth/AdminAccess";
+import { moduleForPath } from "@/lib/adminAccess";
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -70,6 +72,8 @@ export default function AdminSidebar({
   onLinkClick,
   clientAdmin = false,
 }: SidebarProps) {
+  const { can } = useAdminAccess();
+  const visible = (path: string) => !clientAdmin || can(moduleForPath(path) || "dashboard");
   const [clientsOpen, setClientsOpen] =
     useState(true);
 
@@ -101,7 +105,7 @@ export default function AdminSidebar({
 
         {/* Dashboard */}
 
-        <Link
+        {visible("/platform/super-admin") && <Link
           href="/platform/super-admin"
           onClick={onLinkClick}
           className="
@@ -116,11 +120,11 @@ export default function AdminSidebar({
         >
           <LayoutDashboard size={20} />
           Dashboard
-        </Link>
+        </Link>}
 
         {/* Clients */}
 
-        <button
+        {(!clientAdmin || can("merchants") || can("banks") || can("fintechs")) && <button
           onClick={() =>
             setClientsOpen(!clientsOpen)
           }
@@ -145,12 +149,12 @@ export default function AdminSidebar({
           ) : (
             <ChevronRight size={18} />
           )}
-        </button>
+        </button>}
 
         {clientsOpen && (
           <div className="ml-14 mb-3 space-y-1">
 
-            <Link
+            {visible("/platform/super-admin/merchants") && <Link
               href="/platform/super-admin/merchants"
               onClick={onLinkClick}
               className="
@@ -162,9 +166,9 @@ export default function AdminSidebar({
               "
             >
               Merchants
-            </Link>
+            </Link>}
 
-            <Link
+            {visible("/platform/super-admin/clients/banks") && <Link
               href="/platform/super-admin/clients/banks"
               onClick={onLinkClick}
               className="
@@ -176,9 +180,9 @@ export default function AdminSidebar({
               "
             >
               Banks
-            </Link>
+            </Link>}
 
-            <Link
+            {visible("/platform/super-admin/clients/fintechs") && <Link
               href="/platform/super-admin/clients/fintechs"
               onClick={onLinkClick}
               className="
@@ -190,14 +194,14 @@ export default function AdminSidebar({
               "
             >
               FinTechs
-            </Link>
+            </Link>}
 
           </div>
         )}
 
         {/* Remaining Menu */}
 
-        {menuItems.filter(item => !clientAdmin || item.title !== "Admins").map((item) => {
+        {menuItems.filter(item => visible(item.href)).map((item) => {
           const Icon = item.icon;
 
           return (

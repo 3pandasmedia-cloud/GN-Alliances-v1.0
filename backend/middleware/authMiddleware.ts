@@ -6,6 +6,7 @@ export interface AuthRequest extends Request {
   user?: {
     id: string;
     role: string;
+    adminModules?: unknown;
   };
 }
 
@@ -35,9 +36,9 @@ export const verifyToken = async (
       role: string;
     };
 
-    const user = await prisma.user.findUnique({ where: { id: decoded.id }, select: { id: true, role: true, status: true } });
+    const user = await prisma.user.findUnique({ where: { id: decoded.id }, select: { id: true, role: true, status: true, adminModules: true } });
     if (!user || user.status !== "ACTIVE") return res.status(401).json({ message: "Unauthorized" });
-    req.user = { id: user.id, role: user.role };
+    req.user = { id: user.id, role: user.role, adminModules: user.adminModules };
 
     next();
   } catch {

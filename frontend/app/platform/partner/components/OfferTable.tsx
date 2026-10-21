@@ -1,4 +1,5 @@
 "use client";
+import { authFetch } from "@/lib/api";
 import { popup } from "@/components/ui/Popup";
 
 
@@ -18,7 +19,7 @@ export default function OfferTable() {
   const [offers, setOffers] = useState<Offer[]>([]);
 
   const loadOffers = () => {
-    fetch("/api/offers")
+    authFetch("/offers")
       .then((res) => res.json())
       .then(setOffers)
       .catch(console.error);
@@ -31,8 +32,8 @@ export default function OfferTable() {
   const deleteOffer = async (id: string) => {
     if (!await popup.confirm("Delete this offer?")) return;
 
-    await fetch(
-      `/api/offers/${id}`,
+    await authFetch(
+      `/offers/${id}`,
       {
         method: "DELETE",
       }
