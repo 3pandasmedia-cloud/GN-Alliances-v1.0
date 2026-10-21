@@ -63,10 +63,12 @@ const menuItems = [
 
 type SidebarProps = {
   onLinkClick?: () => void;
+  clientAdmin?: boolean;
 };
 
 export default function AdminSidebar({
   onLinkClick,
+  clientAdmin = false,
 }: SidebarProps) {
   const [clientsOpen, setClientsOpen] =
     useState(true);
@@ -195,7 +197,7 @@ export default function AdminSidebar({
 
         {/* Remaining Menu */}
 
-        {menuItems.map((item) => {
+        {menuItems.filter(item => !clientAdmin || item.title !== "Admins").map((item) => {
           const Icon = item.icon;
 
           return (

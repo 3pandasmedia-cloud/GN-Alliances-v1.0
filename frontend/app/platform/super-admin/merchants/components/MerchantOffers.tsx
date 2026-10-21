@@ -1,5 +1,6 @@
 "use client";
 
+import EntityActions from "@/components/auth/EntityActions";
 import { useEffect, useState } from "react";
 import { authFetch } from "@/lib/api";
 import CreateOfferModal from "../modals/CreateOfferModal";
@@ -256,7 +257,7 @@ min-h-[110px]
               Offers
             </h2>
 
-            <button
+            <EntityActions><button
               onClick={() => setOpen(true)}
               className="
         hidden
@@ -269,11 +270,11 @@ min-h-[110px]
       "
             >
               + Create Offer
-            </button>
+            </button></EntityActions>
 
           </div>
 
-          <button
+          <EntityActions><button
             onClick={() => setOpen(true)}
             className="
       md:hidden
@@ -287,7 +288,7 @@ min-h-[110px]
     "
           >
             + Create Offer
-          </button>
+          </button></EntityActions>
 
         </div>
 
@@ -381,7 +382,7 @@ min-h-[110px]
     "
                 >
 
-                  <button
+                  <EntityActions><button
                     onClick={() => {
                       setSelectedOffer(offer);
                       setEditOpen(true);
@@ -395,9 +396,9 @@ min-h-[110px]
       "
                   >
                     Edit
-                  </button>
+                  </button></EntityActions>
 
-                  <button
+                  <EntityActions><button
                     onClick={() =>
                       toggleStatus(
                         offer.id,
@@ -415,9 +416,9 @@ min-h-[110px]
                     {offer.status === "ACTIVE"
                       ? "Deactivate"
                       : "Activate"}
-                  </button>
+                  </button></EntityActions>
 
-                  <button
+                  <EntityActions><button
                     onClick={() =>
                       deleteOffer(offer.id)
                     }
@@ -432,7 +433,7 @@ min-h-[110px]
       "
                   >
                     Delete
-                  </button>
+                  </button></EntityActions>
 
                 </div>
 

@@ -27,9 +27,7 @@ export default function PartnerStatsCard({
         {value}
       </h3>
 
-      <p className="text-green-600 text-sm mt-2">
-        ↑ 12% this month
-      </p>
+
     </div>
   );
 }

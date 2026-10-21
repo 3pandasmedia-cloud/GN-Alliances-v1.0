@@ -16,7 +16,7 @@ export const getEmployees = async (
         },
       });
 
-    return res.json(employees);
+    return res.json(employees.map(({ password, otpCode, otpExpiresAt, ...user }) => user));
   } catch (error) {
     console.log(error);
 

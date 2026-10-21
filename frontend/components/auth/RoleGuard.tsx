@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 type Props = {
-  allowedRole: string;
+  allowedRole: string | string[];
   children: React.ReactNode;
 };
 
@@ -28,7 +28,7 @@ export default function RoleGuard({
 
     const user = JSON.parse(stored);
 
-    if (user.role !== allowedRole) {
+    if (!(Array.isArray(allowedRole) ? allowedRole.includes(user.role) : user.role === allowedRole)) {
       router.replace(
         `/platform/${user.role}`
       );

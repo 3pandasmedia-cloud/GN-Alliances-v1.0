@@ -6,7 +6,6 @@ import Topbar from "./Topbar";
 import AuthGuard from "@/lib/AuthGuard";
 
 import SuperAdminSidebar from "./SuperAdminSidebar";
-import AdminSidebar from "./AdminSidebar";
 import PartnerSidebar from "./PartnerSidebar";
 import ClientSidebar from "./ClientSidebar";
 import EmployeeSidebar from "./EmployeeSidebar";
@@ -41,7 +40,7 @@ export default function PlatformLayout({
                 return <SuperAdminSidebar {...props} />;
 
             case "admin":
-                return <AdminSidebar />;
+                return <SuperAdminSidebar {...props} clientAdmin />;
 
             case "partner":
                 return <PartnerSidebar />;

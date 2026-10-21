@@ -1,14 +1,12 @@
 "use client";
 
 import {
-  Bell,
   Menu,
   LogOut,
 } from "lucide-react";
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import Link from "next/link";
 
 type TopbarProps = {
   onMenuClick: () => void;
@@ -96,7 +94,7 @@ export default function Topbar({
 
   const openSettings = () => {
     router.push(
-      `/platform/${user?.role}/settings`
+      `/platform/${user?.role === "admin" ? "super-admin" : user?.role}/settings`
     );
   };
 
@@ -165,33 +163,6 @@ export default function Topbar({
       {/* Right */}
 
       <div className="flex items-center gap-4 md:gap-6">
-
-        {/* Notifications */}
-
-        <div className="relative">
-          <Link href="#">
-            <Bell size={22} />
-          </Link>
-
-          <span
-            className="
-              absolute
-              -top-2
-              -right-2
-              w-5
-              h-5
-              rounded-full
-              bg-red-500
-              text-white
-              text-[10px]
-              flex
-              items-center
-              justify-center
-            "
-          >
-            8
-          </span>
-        </div>
 
         {/* User */}
 

@@ -1,5 +1,6 @@
 "use client";
 
+import EntityActions from "@/components/auth/EntityActions";
 import { useEffect, useState } from "react";
 
 import OfferStatsCard from "../../partner/components/OfferStatsCard";
@@ -40,7 +41,7 @@ export default function OffersPage() {
           </p>
         </div>
 
-        <button
+        <EntityActions><button
           onClick={() => setOpen(true)}
           className="
             h-12
@@ -52,7 +53,7 @@ export default function OffersPage() {
           "
         >
           + Create Offer
-        </button>
+        </button></EntityActions>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">

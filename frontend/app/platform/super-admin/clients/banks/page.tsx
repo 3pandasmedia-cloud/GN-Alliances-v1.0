@@ -1,5 +1,6 @@
 "use client";
 
+import EntityActions from "@/components/auth/EntityActions";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { authFetch } from "@/lib/api";
@@ -67,7 +68,7 @@ export default function BanksPage() {
 
                 </div>
 
-                <button
+                <EntityActions><button
                     onClick={() => setOpen(true)}
                     className="
             h-12
@@ -79,7 +80,7 @@ export default function BanksPage() {
         "
                 >
                     + Add Bank
-                </button>
+                </button></EntityActions>
 
             </div>
 

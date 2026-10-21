@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import prisma from "../config/prisma";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
+import { AuthRequest } from "../middleware/authMiddleware";
 
 export const getPartnerStats = async (
   req: Request,
@@ -47,7 +48,7 @@ export const getPartnerBySlug = async (
   res: Response
 ) => {
   try {
-    const { slug } = req.params;
+    const slug = String(req.params.slug);
 
     const partner =
       await prisma.partner.findUnique({
@@ -80,7 +81,7 @@ export const getBankOverview = async (
   res: Response
 ) => {
   try {
-    const bankId = req.params.id;
+    const bankId = String(req.params.id);
 
     const activeCampaigns =
       await prisma.campaign.count({
@@ -208,7 +209,7 @@ export const getPartnersByType = async (
 ) => {
   try {
 
-    const { type } = req.params;
+    const type = String(req.params.type);
 
     const partners =
       await prisma.partner.findMany({
@@ -364,11 +365,14 @@ export const createPartner = async (
 };
 
 export const updatePartner = async (
-  req: Request,
+  req: AuthRequest,
   res: Response
 ) => {
   try {
 
+    if (req.user?.role !== "super-admin" && ["apiEnabled", "apiKey", "webhookUrl", "merchantApiUrl", "callbackUrl"].some(key => Object.prototype.hasOwnProperty.call(req.body, key))) {
+      return res.status(403).json({ message: "Please contact 3Pandas Media to edit APIs." });
+    }
     const id = String(req.params.id);
 
     const {

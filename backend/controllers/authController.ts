@@ -2,9 +2,10 @@ import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
+import { randomInt } from "crypto";
 import prisma from "../config/prisma";
 
-const otpStore = new Map<string, string>();
+const otpStore = new Map<string, { code: string; userId: string; expiresAt: number; attempts: number }>();
 
 export const resendLoginOTP = async (
     req: Request,
@@ -13,11 +14,12 @@ export const resendLoginOTP = async (
     try {
         const { email } = req.body;
 
-        const otp = Math.floor(
-            100000 + Math.random() * 900000
-        ).toString();
-
-        otpStore.set(email, otp);
+        const challenge = otpStore.get(email);
+        if (!challenge || challenge.expiresAt < Date.now() || challenge.attempts >= 5) {
+            return res.status(400).json({ message: "Please sign in with your password first." });
+        }
+        const otp = randomInt(100000, 1000000).toString();
+        otpStore.set(email, { ...challenge, code: otp });
 
         const transporter =
             nodemailer.createTransport({
@@ -67,7 +69,7 @@ export const login = async (
             where: { email },
         });
 
-        if (!user) {
+        if (!user || user.status !== "ACTIVE") {
             return res.status(401).json({
                 message: "Invalid credentials",
             });
@@ -88,14 +90,9 @@ export const login = async (
         // TWO FACTOR AUTHENTICATION
         // ========================================
         if (user.twoFactor) {
-            const otp = Math.floor(
-                100000 + Math.random() * 900000
-            ).toString();
-
-            otpStore.set(
-                user.twoFactorEmail!,
-                otp
-            );
+            if (!user.twoFactorEmail) return res.status(400).json({ message: "Two-factor email is not configured." });
+            const otp = randomInt(100000, 1000000).toString();
+            otpStore.set(user.twoFactorEmail, { code: otp, userId: user.id, expiresAt: Date.now() + 10 * 60 * 1000, attempts: 0 });
 
             const transporter =
                 nodemailer.createTransport({
@@ -169,33 +166,18 @@ export const verifyLoginOTP = async (
     try {
         const { email, otp } = req.body;
 
-        console.log("EMAIL:", email);
-        console.log("OTP:", otp);
-
-        const storedOtp = otpStore.get(email);
-
-        console.log("STORED OTP:", storedOtp);
-
-        if (!storedOtp || storedOtp !== otp) {
-            return res.status(400).json({
-                message: "Invalid OTP",
-            });
+        const challenge = otpStore.get(email);
+        if (!challenge || challenge.expiresAt < Date.now() || challenge.attempts >= 5) {
+            otpStore.delete(email);
+            return res.status(400).json({ message: "OTP expired. Please sign in again." });
         }
-
-        const user = await prisma.user.findFirst({
-            where: {
-                OR: [
-                    { email },
-                    { twoFactorEmail: email },
-                ],
-            },
-        });
-
-        if (!user) {
-            return res.status(404).json({
-                message: "User not found",
-            });
+        challenge.attempts += 1;
+        if (challenge.code !== otp) return res.status(400).json({ message: "Invalid OTP" });
+        const user = await prisma.user.findUnique({ where: { id: challenge.userId } });
+        if (!user || user.status !== "ACTIVE" || !user.twoFactor || user.twoFactorEmail !== email) {
+            return res.status(401).json({ message: "Invalid login challenge" });
         }
+        otpStore.delete(email);
 
         const token = jwt.sign(
             {
@@ -208,8 +190,6 @@ export const verifyLoginOTP = async (
             }
         );
 
-        // TEMPORARY
-        // otpStore.delete(email);
 
         return res.json({
             token,

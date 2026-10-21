@@ -1,5 +1,6 @@
 "use client";
 
+import EntityActions from "@/components/auth/EntityActions";
 import { useState } from "react";
 
 import UsersTable from "../../partner/components/UsersTable";
@@ -26,7 +27,7 @@ export default function ClientsPage() {
 
         </div>
 
-        <button
+        <EntityActions><button
           onClick={() => setOpen(true)}
           className="
             px-6
@@ -37,7 +38,7 @@ export default function ClientsPage() {
           "
         >
           + Add Client
-        </button>
+        </button></EntityActions>
 
       </div>
 

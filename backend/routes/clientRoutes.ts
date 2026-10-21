@@ -14,7 +14,7 @@ const router = Router();
 router.get(
   "/",
   verifyToken,
-  allowRoles("super-admin"),
+  allowRoles("super-admin", "admin"),
   getClients
 );
 

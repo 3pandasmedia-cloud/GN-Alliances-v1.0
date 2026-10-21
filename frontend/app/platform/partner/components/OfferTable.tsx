@@ -1,5 +1,6 @@
 "use client";
 
+import EntityActions from "@/components/auth/EntityActions";
 import { useEffect, useState } from "react";
 
 type Offer = {
@@ -119,7 +120,7 @@ export default function OfferTable() {
                 </td>
 
                 <td className="p-4">
-                  <button
+                  <EntityActions><button
                     onClick={() =>
                       deleteOffer(offer.id)
                     }
@@ -132,7 +133,7 @@ export default function OfferTable() {
                     "
                   >
                     Delete
-                  </button>
+                  </button></EntityActions>
                 </td>
               </tr>
             ))}
@@ -183,7 +184,7 @@ export default function OfferTable() {
               </span>
             </div>
 
-            <button
+            <EntityActions><button
               onClick={() =>
                 deleteOffer(offer.id)
               }
@@ -197,7 +198,7 @@ export default function OfferTable() {
               "
             >
               Delete
-            </button>
+            </button></EntityActions>
           </div>
         ))}
       </div>

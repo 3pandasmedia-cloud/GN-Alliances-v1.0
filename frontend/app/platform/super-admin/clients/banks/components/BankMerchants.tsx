@@ -1,5 +1,6 @@
 "use client";
 
+import EntityActions from "@/components/auth/EntityActions";
 import { useEffect, useState } from "react";
 import { authFetch } from "@/lib/api";
 
@@ -66,7 +67,7 @@ export default function BankMerchants({
 
         </div>
 
-        <button
+        <EntityActions><button
           className="
             h-11
             px-6
@@ -76,7 +77,7 @@ export default function BankMerchants({
           "
         >
           + Link Merchant
-        </button>
+        </button></EntityActions>
 
       </div>
 

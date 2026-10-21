@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { requireEntityOwner } from "../middleware/entityPermissions";
 
 import {
   getLandingOffers,
@@ -19,6 +20,11 @@ const router = Router();
 // Public
 router.get("/public", getPublicLandingOffers);
 
+// Public counters do not change the offer configuration.
+router.post("/:id/click", recordOfferClick);
+router.post("/:id/view", recordOfferView);
+router.use(requireEntityOwner);
+
 // Upload
 router.post(
   "/upload",
@@ -34,7 +40,5 @@ router.get("/:id", getLandingOffer);
 router.put("/:id", updateLandingOffer);
 router.delete("/:id", deleteLandingOffer);
 
-router.post("/:id/click", recordOfferClick);
-router.post("/:id/view", recordOfferView);
 
 export default router;

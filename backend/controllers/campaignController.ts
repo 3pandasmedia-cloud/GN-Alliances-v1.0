@@ -7,8 +7,8 @@ export const getCampaigns = async (
 ) => {
   try {
 
-    const merchantId = req.params.partnerId;
-    const bankId = req.params.bankId;
+    const merchantId = typeof req.params.partnerId === "string" ? req.params.partnerId : undefined;
+    const bankId = typeof req.params.bankId === "string" ? req.params.bankId : undefined;
 
     let campaigns;
 

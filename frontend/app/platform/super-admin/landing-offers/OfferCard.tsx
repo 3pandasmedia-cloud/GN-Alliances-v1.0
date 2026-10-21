@@ -1,5 +1,6 @@
 "use client";
 
+import EntityActions from "@/components/auth/EntityActions";
 import {
   ExternalLink,
   Link2Off,
@@ -169,7 +170,7 @@ export default function OfferCard({
 
           <div className="flex gap-3">
 
-            <Link
+            <EntityActions><Link
               href={`/platform/super-admin/landing-offers/${offer.id}`}
               className="
             flex
@@ -184,9 +185,9 @@ export default function OfferCard({
             >
               <Pencil size={16} />
               Edit
-            </Link>
+            </Link></EntityActions>
 
-            <button
+            <EntityActions><button
               onClick={deleteOffer}
               className="
             flex
@@ -203,7 +204,7 @@ export default function OfferCard({
             >
               <Trash2 size={16} />
               Delete
-            </button>
+            </button></EntityActions>
 
           </div>
 

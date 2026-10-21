@@ -1,16 +1,17 @@
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import prisma from "../config/prisma";
+import { AuthRequest } from "../middleware/authMiddleware";
 
 export const getUsers = async (
-  req: Request,
+  req: AuthRequest,
   res: Response
 ) => {
   try {
     const users = await prisma.user.findMany({
       where: {
         role: {
-          not: "super-admin",
+          notIn: req.user?.role === "super-admin" ? ["super-admin"] : ["super-admin", "admin"],
         },
       },
       orderBy: {
@@ -18,7 +19,7 @@ export const getUsers = async (
       },
     });
 
-    return res.json(users);
+    return res.json(users.map(({ password, otpCode, otpExpiresAt, ...user }) => user));
   } catch (error) {
     console.log(error);
 
@@ -29,7 +30,7 @@ export const getUsers = async (
 };
 
 export const getAdminUsers = async (
-  req: Request,
+  req: AuthRequest,
   res: Response
 ) => {
   try {
@@ -47,7 +48,7 @@ export const getAdminUsers = async (
       },
     });
 
-    return res.json(users);
+    return res.json(users.map(({ password, otpCode, otpExpiresAt, ...user }) => user));
   } catch (error) {
     console.log(error);
 
@@ -58,7 +59,7 @@ export const getAdminUsers = async (
 };
 
 export const createUser = async (
-  req: Request,
+  req: AuthRequest,
   res: Response
 ) => {
   try {
@@ -68,6 +69,10 @@ export const createUser = async (
       password,
       role,
     } = req.body;
+
+    if (!["admin", "employee", "client", "partner"].includes(role) || (req.user?.role !== "super-admin" && role === "admin")) {
+      return res.status(403).json({ message: "Only 3Pandas Media can manage admins." });
+    }
 
     const existingUser =
       await prisma.user.findUnique({
@@ -94,7 +99,8 @@ export const createUser = async (
       },
     });
 
-    return res.json(user);
+    const { password: _password, otpCode, otpExpiresAt, ...safeUser } = user;
+    return res.json(safeUser);
   } catch (error) {
     console.log(error);
 
@@ -105,7 +111,7 @@ export const createUser = async (
 };
 
 export const deleteUser = async (
-  req: Request,
+  req: AuthRequest,
   res: Response
 ) => {
   try {
@@ -117,7 +123,7 @@ export const deleteUser = async (
       },
     });
 
-    if (user?.role === "super-admin") {
+    if (user?.role === "super-admin" || (user?.role === "admin" && req.user?.role !== "super-admin")) {
       return res.status(403).json({
         message: "Super Admin cannot be deleted",
       });
@@ -142,7 +148,7 @@ export const deleteUser = async (
 };
 
 export const updateUser = async (
-  req: Request,
+  req: AuthRequest,
   res: Response
 ) => {
   try {
@@ -155,6 +161,10 @@ export const updateUser = async (
       status,
     } = req.body;
 
+    const target = await prisma.user.findUnique({ where: { id } });
+    if (target?.role === "super-admin" || (req.user?.role !== "super-admin" && (target?.role === "admin" || role === "admin")) || (role !== undefined && !["admin", "employee", "client", "partner"].includes(role))) {
+      return res.status(403).json({ message: "Only 3Pandas Media can manage admins." });
+    }
     const user = await prisma.user.update({
       where: {
         id,
@@ -167,7 +177,8 @@ export const updateUser = async (
       },
     });
 
-    return res.json(user);
+    const { password: _password, otpCode, otpExpiresAt, ...safeUser } = user;
+    return res.json(safeUser);
   } catch (error) {
     console.log(error);
 

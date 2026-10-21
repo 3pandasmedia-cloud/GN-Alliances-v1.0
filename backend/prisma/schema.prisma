@@ -193,3 +193,53 @@ model LandingOffer {
 
   updatedAt DateTime @updatedAt
 }
+
+model LakeeshopApiConfig {
+  id                String   @id @default(uuid())
+  integrationName   String   @default("Lakeeshop")
+  enabled           Boolean  @default(false)
+  environment       String   @default("sandbox")
+  baseUrl           String   @default("https://lsorder.lakeetech.com")
+  authEndpoint      String   @default("https://lvalidate.lakeetech.com/token")
+  merchantId        String?
+  secretEncrypted   String?
+  requestTimeoutMs  Int      @default(15000)
+  endpoints         Json
+  updatedById       String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model LakeeshopApiTestLog {
+  id             String   @id @default(uuid())
+  apiName        String
+  environment    String
+  status         String
+  httpStatus     Int?
+  responseTimeMs Int?
+  message        String
+  createdById    String?
+  createdAt      DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([apiName, status])
+}
+
+model LakeeshopOrder {
+  id              String   @id @default(uuid())
+  clientOrderId   String   @unique
+  providerOrderId String?
+  status          String   @default("SUBMITTED")
+  productCode     String
+  productName     String
+  quantity        Int
+  customer        Json
+  providerResponse Json?
+  statusResponse  Json?
+  createdById     String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([status])
+  @@index([createdAt])
+}

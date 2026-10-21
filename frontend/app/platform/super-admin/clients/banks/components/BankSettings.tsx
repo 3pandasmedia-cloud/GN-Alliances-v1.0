@@ -1,7 +1,9 @@
 "use client";
 
+import EntityActions from "@/components/auth/EntityActions";
 import { useEffect, useState } from "react";
 import { authFetch } from "@/lib/api";
+import { useSuperAdmin } from "@/lib/useSuperAdmin";
 
 type Props = {
   bank: any;
@@ -12,6 +14,7 @@ export default function BankSettings({
   bank,
   onUpdated,
 }: Props) {
+  const isSuperAdmin = useSuperAdmin();
   const [saving, setSaving] =
     useState(false);
 
@@ -64,7 +67,7 @@ export default function BankSettings({
           `/partners/${bank.id}`,
           {
             method: "PUT",
-            body: JSON.stringify(form),
+            body: JSON.stringify(isSuperAdmin ? form : Object.fromEntries(Object.entries(form).filter(([key]) => !["apiEnabled", "apiKey", "webhookUrl", "merchantApiUrl", "callbackUrl"].includes(key)))),
           }
         );
 
@@ -167,7 +170,7 @@ export default function BankSettings({
     };
 
   return (
-    <div className="space-y-8">
+    <fieldset disabled={!isSuperAdmin} className="space-y-8 min-w-0">
 
       {/* Logo */}
 
@@ -204,7 +207,7 @@ export default function BankSettings({
             }}
           />
 
-          <button
+          <EntityActions><button
             onClick={uploadLogo}
             className="
               mt-4
@@ -216,7 +219,7 @@ export default function BankSettings({
             "
           >
             Upload Logo
-          </button>
+          </button></EntityActions>
 
         </div>
 
@@ -280,6 +283,7 @@ export default function BankSettings({
           API Settings
         </h2>
 
+        {isSuperAdmin ? (
         <div className="space-y-5">
 
           <div className="flex items-center gap-3">
@@ -313,7 +317,7 @@ export default function BankSettings({
             "
           />
 
-          <button
+          <EntityActions><button
             onClick={generateApiKey}
             className="
               h-11
@@ -324,7 +328,7 @@ export default function BankSettings({
             "
           >
             Generate API Key
-          </button>
+          </button></EntityActions>
 
           <input
             placeholder="Webhook URL"
@@ -363,6 +367,8 @@ export default function BankSettings({
           />
 
         </div>
+
+        ) : <p className="text-gray-600">Please contact 3Pandas Media to edit APIs.</p>}
 
       </div>
 
@@ -408,7 +414,7 @@ export default function BankSettings({
 
       <div className="flex justify-end">
 
-        <button
+        <EntityActions><button
           onClick={saveChanges}
           disabled={saving}
           className="
@@ -422,10 +428,10 @@ export default function BankSettings({
           {saving
             ? "Saving..."
             : "Save Changes"}
-        </button>
+        </button></EntityActions>
 
       </div>
 
-    </div>
+    </fieldset>
   );
 }

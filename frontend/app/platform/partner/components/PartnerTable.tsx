@@ -1,232 +1,26 @@
 "use client";
-
-import { useEffect, useState } from "react";
 import Link from "next/link";
-import { authFetch } from "@/lib/api";
 
-type Merchant = {
-  id: string;
-  name: string;
-  slug: string;
-  email: string;
-  logo?: string;
-  status: string;
+export type Merchant = {
+  id: string; name: string; slug: string; email: string; logo: string | null;
+  status: string; apiConnected: boolean; connectionCheckedAt: string | null; integration: boolean;
 };
-
-export default function PartnerTable() {
-  const [merchants, setMerchants] = useState<Merchant[]>([]);
-
-  useEffect(() => {
-    authFetch("/partners/type/MERCHANT")
-      .then((res) => res.json())
-      .then(setMerchants)
-      .catch(console.error);
-  }, []);
-
-  return (
-    <div
-      className="
-        bg-white
-        rounded-3xl
-        border
-        shadow-sm
-        overflow-hidden
-      "
-    >
-      {/* Desktop */}
-
-      <div className="hidden md:block overflow-x-auto">
-
-        <table className="w-full">
-
-          <thead>
-
-            <tr className="border-b bg-gray-50">
-
-              <th className="text-left px-6 py-4">
-                Merchant
-              </th>
-
-              <th className="text-left px-6 py-4">
-                Status
-              </th>
-
-            </tr>
-
-          </thead>
-
-          <tbody>
-
-            {merchants.map((merchant) => (
-
-              <tr
-                key={merchant.id}
-                className="
-                  border-b
-                  hover:bg-blue-50
-                  transition-all
-                  duration-200
-                "
-              >
-
-                <td className="px-6 py-5">
-
-                  <Link
-                    href={`/platform/super-admin/merchants/${merchant.slug}`}
-                    className="flex items-center gap-4"
-                  >
-
-                    <img
-                       src={
-  merchant.logo
-    ? merchant.logo
-    : "/images/default-logo.png"
+function ConnectionBadge({ merchant }: { merchant: Merchant }) {
+  return <span title={merchant.connectionCheckedAt ? `Connection checked: ${new Date(merchant.connectionCheckedAt).toLocaleString()}` : "No verified API connection is available for this merchant."} className={`inline-block rounded-full px-3 py-1 text-xs font-semibold ${merchant.apiConnected ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>{merchant.apiConnected ? "API Connected" : "API Not Connected"}</span>;
 }
-                      alt={merchant.name}
-                      className="
-                        w-14
-                        h-14
-                        rounded-2xl
-                        border
-                        object-cover
-                        bg-white
-                      "
-                    />
-
-                    <div>
-
-                      <h3
-                        className="
-                          font-semibold
-                          text-[#0B2E83]
-                          text-lg
-                        "
-                      >
-                        {merchant.name}
-                      </h3>
-
-                      <p className="text-gray-500 text-sm">
-                        {merchant.email}
-                      </p>
-
-                    </div>
-
-                  </Link>
-
-                </td>
-
-                <td className="px-6 py-5">
-
-                  <span
-                    className={`
-                      px-3
-                      py-1
-                      rounded-full
-                      text-xs
-                      font-semibold
-                      ${merchant.status === "ACTIVE"
-                        ? "bg-green-100 text-green-700"
-                        : "bg-red-100 text-red-700"
-                      }
-                    `}
-                  >
-                    {merchant.status}
-                  </span>
-
-                </td>
-
-              </tr>
-
-            ))}
-
-          </tbody>
-
-        </table>
-
-      </div>
-
-      {/* Mobile */}
-
-      <div className="md:hidden p-4 space-y-4">
-
-        {merchants.map((merchant) => (
-
-          <Link
-            key={merchant.id}
-            href={`/platform/super-admin/merchants/${merchant.slug}`}
-            className="
-              block
-              border
-              rounded-3xl
-              p-4
-              hover:border-[#0B2E83]
-              transition-all
-            "
-          >
-
-            <div className="flex items-center gap-4">
-
-              <img
-                src={
-  merchant.logo
-    ? merchant.logo
-    : "/images/default-logo.png"
+function MerchantIdentity({ merchant }: { merchant: Merchant }) {
+  return <div className="flex items-center gap-4">
+    {merchant.integration ? <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[#0A2E8A] text-lg font-bold text-[#F2A900]">{merchant.name.charAt(0).toUpperCase()}</div> : <img src={merchant.logo || "/images/default-logo.png"} alt={merchant.name} className="h-14 w-14 rounded-2xl border bg-white object-cover"/>}
+    <div><h3 className="text-lg font-semibold text-[#0B2E83]">{merchant.name}</h3><p className="text-sm text-gray-500">{merchant.integration ? "Catalog and inventory API integration" : merchant.email}</p>{!merchant.integration && <p className="mt-1 text-xs capitalize text-gray-400">Merchant account: {merchant.status.toLowerCase().replaceAll("_", " ")}</p>}</div>
+  </div>;
 }
-                alt={merchant.name}
-                className="
-                  w-16
-                  h-16
-                  rounded-2xl
-                  border
-                  object-cover
-                  bg-white
-                "
-              />
-
-              <div className="flex-1">
-
-                <h3
-                  className="
-                    font-bold
-                    text-lg
-                    text-[#0B2E83]
-                  "
-                >
-                  {merchant.name}
-                </h3>
-
-                <p className="text-sm text-gray-500 mt-1">
-                  {merchant.email}
-                </p>
-
-                <span
-                  className={`
-                    inline-block
-                    mt-3
-                    px-3
-                    py-1
-                    rounded-full
-                    text-xs
-                    font-semibold
-                    ${merchant.status === "ACTIVE"
-                      ? "bg-green-100 text-green-700"
-                      : "bg-red-100 text-red-700"
-                    }
-                  `}
-                >
-                  {merchant.status}
-                </span>
-
-              </div>
-
-            </div>
-
-          </Link>
-
-        ))}
-
-      </div>
-
-    </div>
-  );
+export default function PartnerTable({ merchants, loading }: { merchants: Merchant[]; loading: boolean }) {
+  const href = (merchant: Merchant) => merchant.integration ? "/platform/super-admin/lakeeshop/items" : `/platform/super-admin/merchants/${merchant.slug}`;
+  return <div className="overflow-hidden rounded-3xl border bg-white shadow-sm">
+    <div className="hidden overflow-x-auto md:block"><table className="w-full"><thead><tr className="border-b bg-gray-50"><th className="px-6 py-4 text-left">Merchant</th><th className="px-6 py-4 text-left">Status</th></tr></thead>
+      <tbody>{merchants.map(merchant => <tr key={merchant.id} className="border-b transition hover:bg-blue-50"><td className="px-6 py-5"><Link href={href(merchant)}><MerchantIdentity merchant={merchant}/></Link></td><td className="px-6 py-5"><ConnectionBadge merchant={merchant}/></td></tr>)}
+        {!merchants.length && <tr><td colSpan={2} className="p-8 text-center text-gray-500">{loading ? "Loading merchants and checking API connections..." : "No merchants found."}</td></tr>}
+      </tbody></table></div>
+    <div className="space-y-4 p-4 md:hidden">{merchants.map(merchant => <Link key={merchant.id} href={href(merchant)} className="block space-y-4 rounded-2xl border p-4 transition hover:border-[#0B2E83]"><MerchantIdentity merchant={merchant}/><ConnectionBadge merchant={merchant}/></Link>)}{!merchants.length && <p className="p-4 text-center text-gray-500">{loading ? "Loading merchants and checking API connections..." : "No merchants found."}</p>}</div>
+  </div>;
 }

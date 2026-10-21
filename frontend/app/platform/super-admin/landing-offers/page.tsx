@@ -1,5 +1,6 @@
 "use client";
 
+import EntityActions from "@/components/auth/EntityActions";
 import Link from "next/link";
 import { Plus } from "lucide-react";
 import OffersList from "./OffersList";
@@ -20,7 +21,7 @@ export default function LandingOffersPage() {
           </p>
         </div>
 
-        <Link
+        <EntityActions><Link
           href="/platform/super-admin/landing-offers/new"
           className="
             flex
@@ -37,7 +38,7 @@ export default function LandingOffersPage() {
         >
           <Plus size={18} />
           Add Offer
-        </Link>
+        </Link></EntityActions>
 
       </div>
 

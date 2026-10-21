@@ -35,7 +35,7 @@ export default function SuperAdminDashboard() {
 }, []);
 
   return (
-    <RoleGuard allowedRole="super-admin">
+    <RoleGuard allowedRole={["super-admin", "admin"]}>
 
       <div className="space-y-6 lg:space-y-8">
 
@@ -50,7 +50,7 @@ export default function SuperAdminDashboard() {
               font-bold
             "
           >
-            Welcome back, Super Admin 👋
+            Welcome back 👋
           </h2>
 
           <p className="text-gray-500 mt-2 text-sm md:text-base">

@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
+import prisma from "../config/prisma";
 
 export interface AuthRequest extends Request {
   user?: {
@@ -8,7 +9,7 @@ export interface AuthRequest extends Request {
   };
 }
 
-export const verifyToken = (
+export const verifyToken = async (
   req: AuthRequest,
   res: Response,
   next: NextFunction
@@ -34,7 +35,9 @@ export const verifyToken = (
       role: string;
     };
 
-    req.user = decoded;
+    const user = await prisma.user.findUnique({ where: { id: decoded.id }, select: { id: true, role: true, status: true } });
+    if (!user || user.status !== "ACTIVE") return res.status(401).json({ message: "Unauthorized" });
+    req.user = { id: user.id, role: user.role };
 
     next();
   } catch {

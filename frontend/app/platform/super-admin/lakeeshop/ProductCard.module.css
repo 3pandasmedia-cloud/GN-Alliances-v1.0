@@ -1,0 +1,5 @@
+.actions { padding:4px 14px 14px; margin-top:auto; }
+.checkout { box-sizing:border-box; display:flex; align-items:center; justify-content:center; gap:9px; width:100%; min-height:44px; padding:11px 18px; border:1px solid #143b8b; border-radius:10px; background:#0b2e83; color:#fff; text-decoration:none; font-size:13px; font-weight:600; line-height:20px; box-shadow:0 2px 3px #0b2e8310; transition:background .15s,box-shadow .15s; }
+.checkout:hover { background:#08246b; box-shadow:0 3px 8px #0b2e8325; }
+.checkout:focus-visible { outline:3px solid #a9c4ff; outline-offset:3px; }
+.checkout svg { flex-shrink:0; }

@@ -1,5 +1,6 @@
 "use client";
 
+import EntityActions from "@/components/auth/EntityActions";
 import { authFetch } from "@/lib/api";
 import { useEffect, useState } from "react";
 <td className="p-4"></td>
@@ -138,7 +139,7 @@ export default function UsersTable({
 
                   <div className="flex gap-2">
 
-                    <button
+                    <EntityActions><button
                       onClick={async () => {
                         const name = prompt(
                           "Enter new name",
@@ -178,9 +179,9 @@ export default function UsersTable({
                       "
                     >
                       Edit
-                    </button>
+                    </button></EntityActions>
 
-                    <button
+                    <EntityActions><button
                       onClick={async () => {
                         const loggedUser = JSON.parse(
                           sessionStorage.getItem("gn-user") || "{}"
@@ -219,9 +220,9 @@ export default function UsersTable({
                       {user.status === "ACTIVE"
                         ? "Disable"
                         : "Enable"}
-                    </button>
+                    </button></EntityActions>
 
-                    <button
+                    <EntityActions><button
                       onClick={async () => {
                         if (
                           !confirm(
@@ -251,7 +252,7 @@ export default function UsersTable({
                       "
                     >
                       Delete
-                    </button>
+                    </button></EntityActions>
 
                   </div>
 

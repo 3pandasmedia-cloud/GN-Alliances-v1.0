@@ -1,7 +1,9 @@
 "use client";
 
+import EntityActions from "@/components/auth/EntityActions";
 import { useEffect, useState } from "react";
 import { authFetch } from "@/lib/api";
+import { useSuperAdmin } from "@/lib/useSuperAdmin";
 import ChangePasswordModal from "../modals/ChangePasswordModal";
 import DeleteMerchantModal from "../modals/DeleteMerchantModal";
 
@@ -26,6 +28,7 @@ export default function MerchantSettings({
     merchantApiUrl: "",
   });
 
+  const isSuperAdmin = useSuperAdmin();
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
@@ -52,7 +55,7 @@ export default function MerchantSettings({
         `/partners/${merchant.id}`,
         {
           method: "PUT",
-          body: JSON.stringify(form),
+          body: JSON.stringify(isSuperAdmin ? form : Object.fromEntries(Object.entries(form).filter(([key]) => !["apiEnabled", "apiKey", "webhookUrl", "merchantApiUrl", "callbackUrl"].includes(key)))),
         }
       );
 
@@ -181,7 +184,7 @@ export default function MerchantSettings({
   );
 
   return (
-    <div className="space-y-8">
+    <fieldset disabled={!isSuperAdmin} className="space-y-8 min-w-0">
 
       {/* Merchant Profile */}
 
@@ -221,7 +224,7 @@ export default function MerchantSettings({
             }}
           />
 
-          <button
+          <EntityActions><button
             onClick={uploadLogo}
             className="
         mt-4
@@ -233,7 +236,7 @@ export default function MerchantSettings({
       "
           >
             Upload Logo
-          </button>
+          </button></EntityActions>
 
         </div>
 
@@ -344,7 +347,7 @@ export default function MerchantSettings({
             </label>
 
             <input
-              value="••••••••••••••"
+              value="ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢"
               disabled
               className="
           w-full
@@ -361,7 +364,7 @@ export default function MerchantSettings({
 
         </div>
 
-        <button
+        <EntityActions><button
           onClick={() => setPasswordOpen(true)}
           className="
       mt-6
@@ -373,7 +376,7 @@ export default function MerchantSettings({
     "
         >
           Change Password
-        </button>
+        </button></EntityActions>
 
       </div>
 
@@ -383,6 +386,7 @@ export default function MerchantSettings({
           API Settings
         </h2>
 
+        {isSuperAdmin ? (
         <div className="space-y-5">
 
           <div className="flex items-center gap-3">
@@ -423,7 +427,7 @@ export default function MerchantSettings({
 
           </div>
 
-          <button
+          <EntityActions><button
             onClick={generateApiKey}
             className="
     h-11
@@ -435,7 +439,7 @@ export default function MerchantSettings({
   "
           >
             Generate New API Key
-          </button>
+          </button></EntityActions>
 
           <div>
 
@@ -489,8 +493,11 @@ export default function MerchantSettings({
 
         </div>
 
+        ) : <p className="text-gray-600">Please contact 3Pandas Media to edit APIs.</p>}
+
       </div>
 
+      <EntityActions>
       <div className="bg-white border border-red-300 rounded-3xl p-6">
 
         <h2 className="text-2xl font-bold text-red-600">
@@ -502,7 +509,7 @@ export default function MerchantSettings({
           related platform data.
         </p>
 
-        <button
+        <EntityActions><button
           onClick={() => setDeleteOpen(true)}
           className="
       mt-6
@@ -514,15 +521,17 @@ export default function MerchantSettings({
     "
         >
           Delete Merchant
-        </button>
+        </button></EntityActions>
 
       </div>
+
+      </EntityActions>
 
       {/* Save */}
 
       <div className="flex justify-end">
 
-        <button
+        <EntityActions><button
           onClick={saveChanges}
           disabled={saving}
           className="h-12 px-8 rounded-xl bg-[#0B2E83] text-white"
@@ -530,7 +539,7 @@ export default function MerchantSettings({
           {saving
             ? "Saving..."
             : "Save Changes"}
-        </button>
+        </button></EntityActions>
 
       </div>
 
@@ -549,6 +558,6 @@ export default function MerchantSettings({
         merchantName={merchant.name}
       />
 
-    </div>
+    </fieldset>
   );
 }

@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { getMerchantOverview } from "../controllers/merchantOverviewController";
 
 import {
   getPartnerStats,
@@ -23,10 +24,12 @@ import {
 
 const router = Router();
 
+router.get("/merchant-overview", verifyToken, allowRoles("super-admin", "admin"), getMerchantOverview);
+
 router.get(
   "/stats",
   verifyToken,
-  allowRoles("super-admin"),
+  allowRoles("super-admin", "admin"),
   getPartnerStats
 );
 
@@ -45,21 +48,21 @@ router.get(
 router.get(
   "/type/:type",
   verifyToken,
-  allowRoles("super-admin"),
+  allowRoles("super-admin", "admin"),
   getPartnersByType
 );
 
 router.get(
   "/",
   verifyToken,
-  allowRoles("super-admin"),
+  allowRoles("super-admin", "admin"),
   getPartners
 );
 
 router.post(
   "/",
   verifyToken,
-  allowRoles("super-admin"),
+  allowRoles("super-admin", "admin"),
   merchantUpload.single("logo"),
   createPartner
 );
@@ -67,21 +70,21 @@ router.post(
 router.get(
   "/:id",
   verifyToken,
-  allowRoles("super-admin"),
+  allowRoles("super-admin", "admin"),
   getPartnerById
 );
 
 router.put(
   "/:id",
   verifyToken,
-  allowRoles("super-admin"),
+  allowRoles("super-admin", "admin"),
   updatePartner
 );
 
 router.put(
   "/:id/password",
   verifyToken,
-  allowRoles("super-admin"),
+  allowRoles("super-admin", "admin"),
   updatePartnerPassword
 );
 
@@ -95,7 +98,7 @@ router.post(
 router.delete(
   "/:id",
   verifyToken,
-  allowRoles("super-admin"),
+  allowRoles("super-admin", "admin"),
   deletePartner
 );
 

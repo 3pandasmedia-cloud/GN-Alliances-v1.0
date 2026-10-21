@@ -16,7 +16,7 @@ export const getAdmins = async (
         },
       });
 
-    return res.json(admins);
+    return res.json(admins.map(({ password, otpCode, otpExpiresAt, ...user }) => user));
   } catch (error) {
     return res.status(500).json({
       message: "Server error",

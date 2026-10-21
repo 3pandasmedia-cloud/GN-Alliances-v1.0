@@ -17,6 +17,8 @@ import dashboardRoutes from "./routes/dashboardRoutes";
 import analyticsRoutes from "./routes/analyticsRoutes";
 import landingOfferRoutes from "./routes/landingOfferRoutes";
 import merchantSearchRoutes from "./routes/merchantSearchRoutes";
+import lakeeshopRoutes from "./routes/lakeeshopRoutes";
+import { requireEntityOwner } from "./middleware/entityPermissions";
 
 const app = express();
 
@@ -33,6 +35,11 @@ app.use(
 );
 
 app.use(express.json());
+
+app.use([
+  "/api/users", "/api/partners", "/api/offers", "/api/campaigns",
+  "/api/reports", "/api/admins", "/api/employees", "/api/clients",
+], requireEntityOwner);
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
@@ -73,6 +80,8 @@ app.use(
   "/api/analytics",
   analyticsRoutes
 );
+
+app.use("/api/lakeeshop", lakeeshopRoutes);
 
 app.get("/", (_, res) => {
   res.json({
