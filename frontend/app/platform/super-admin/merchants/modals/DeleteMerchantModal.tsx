@@ -1,4 +1,6 @@
 "use client";
+import { popup } from "@/components/ui/Popup";
+
 
 import { useState } from "react";
 import { authFetch } from "@/lib/api";
@@ -35,25 +37,25 @@ export default function DeleteMerchantModal({
       const data = await response.json();
 
       if (!response.ok) {
-        alert(data.message);
+        await popup.alert(data.message);
         return;
       }
 
-      alert("Merchant deleted successfully.");
+      await popup.alert("Merchant deleted successfully.");
 
       window.location.href =
         "/platform/super-admin/merchants";
 
     } catch (error) {
       console.error(error);
-      alert("Server error.");
+      await popup.alert("Server error.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+    <div className="gn-modal-root fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 
       <div className="bg-white rounded-3xl p-8 w-[520px]">
 

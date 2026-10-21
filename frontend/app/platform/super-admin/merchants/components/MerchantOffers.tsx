@@ -1,4 +1,6 @@
 "use client";
+import { popup } from "@/components/ui/Popup";
+
 
 import EntityActions from "@/components/auth/EntityActions";
 import { useEffect, useState } from "react";
@@ -145,7 +147,7 @@ export default function MerchantOffers({
         );
 
       if (!response.ok) {
-        alert("Delete failed");
+        await popup.alert("Delete failed");
         return;
       }
 

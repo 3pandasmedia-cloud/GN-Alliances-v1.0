@@ -1,4 +1,6 @@
 "use client";
+import { popup } from "@/components/ui/Popup";
+
 
 import { useState } from "react";
 
@@ -40,7 +42,7 @@ export default function CreateOfferModal({
       );
 
       if (!res.ok) {
-        alert("Failed to create offer");
+        await popup.alert("Failed to create offer");
         return;
       }
 
@@ -54,12 +56,12 @@ export default function CreateOfferModal({
       window.location.reload();
     } catch (error) {
       console.log(error);
-      alert("Server error");
+      await popup.alert("Server error");
     }
   };
 
   return (
-    <div className="fixed inset-0 z-[999]">
+    <div className="gn-modal-root fixed inset-0 z-[999]">
       <div
         className="absolute inset-0 bg-black/50"
         onClick={onClose}

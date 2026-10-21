@@ -14,7 +14,7 @@ export default function EditMerchantModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+    <div className="gn-modal-root fixed inset-0 z-50 flex items-center justify-center bg-black/40">
       <div className="bg-white rounded-2xl p-6 w-full max-w-md">
         <h2 className="text-2xl font-bold">
           Edit Merchant

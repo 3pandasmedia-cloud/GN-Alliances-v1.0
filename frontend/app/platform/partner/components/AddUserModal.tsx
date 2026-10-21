@@ -1,4 +1,6 @@
 "use client";
+import { popup } from "@/components/ui/Popup";
+
 
 import { useState, useEffect } from "react";
 import { authFetch } from "@/lib/api";
@@ -56,20 +58,20 @@ export default function AddUserModal({
         const data =
           await response.json();
 
-        alert(
+        await popup.alert(
           data.message ||
             "Failed to create user"
         );
         return;
       }
 
-      alert("User created");
+      await popup.alert("User created");
 
       onClose();
 
       window.location.reload();
     } catch (error) {
-      alert(
+      await popup.alert(
         "Unable to connect to server"
       );
     }
@@ -78,7 +80,7 @@ export default function AddUserModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[999]">
+    <div className="gn-modal-root fixed inset-0 z-[999]">
       <div
         className="absolute inset-0 bg-black/50"
         onClick={onClose}

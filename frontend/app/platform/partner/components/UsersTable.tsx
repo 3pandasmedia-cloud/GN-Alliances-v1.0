@@ -1,4 +1,6 @@
 "use client";
+import { popup } from "@/components/ui/Popup";
+
 
 import EntityActions from "@/components/auth/EntityActions";
 import { authFetch } from "@/lib/api";
@@ -141,7 +143,7 @@ export default function UsersTable({
 
                     <EntityActions><button
                       onClick={async () => {
-                        const name = prompt(
+                        const name = await popup.prompt(
                           "Enter new name",
                           user.name
                         );
@@ -225,7 +227,7 @@ export default function UsersTable({
                     <EntityActions><button
                       onClick={async () => {
                         if (
-                          !confirm(
+                          !await popup.confirm(
                             "Delete this user?"
                           )
                         )

@@ -1,4 +1,6 @@
 "use client";
+import { popup } from "@/components/ui/Popup";
+
 
 import { useState } from "react";
 
@@ -114,7 +116,7 @@ export default function RequestDemoModal({
         error
       );
 
-      alert(
+      await popup.alert(
         "Something went wrong. Please try again."
       );
     } finally {
@@ -125,7 +127,7 @@ export default function RequestDemoModal({
   if (submitted) {
     return (
       <div
-        className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+        className="gn-modal-root fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
         onClick={handleClose}
       >
         <div
@@ -161,7 +163,7 @@ export default function RequestDemoModal({
 
   return (
     <div
-      className="fixed inset-0 bg-black/50 z-[99999] flex items-center justify-center p-4"
+      className="gn-modal-root fixed inset-0 bg-black/50 z-[99999] flex items-center justify-center p-4"
       onClick={handleClose}
     >
       <div

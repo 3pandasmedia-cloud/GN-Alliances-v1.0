@@ -1,4 +1,6 @@
 "use client";
+import { popup } from "@/components/ui/Popup";
+
 
 import EntityActions from "@/components/auth/EntityActions";
 import { useEffect, useState } from "react";
@@ -59,7 +61,7 @@ export default function BankCampaigns({
     id: string
   ) => {
     if (
-      !confirm(
+      !await popup.confirm(
         "Delete this campaign?"
       )
     )

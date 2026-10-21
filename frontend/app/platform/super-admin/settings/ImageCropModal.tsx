@@ -27,7 +27,7 @@ export default function ImageCropModal({
     onSave,
 }: Props) {
     return (
-        <div className="fixed inset-0 z-[9999]">
+        <div className="gn-modal-root fixed inset-0 z-[9999]">
 
             {/* Backdrop */}
 

@@ -1,4 +1,6 @@
 "use client";
+import { popup } from "@/components/ui/Popup";
+
 
 import { useState } from "react";
 
@@ -80,11 +82,11 @@ export default function CreateOfferModal({
           await response.json();
 
         if (!response.ok) {
-          alert(data.message);
+          await popup.alert(data.message);
           return;
         }
 
-        alert(
+        await popup.alert(
           "Offer created successfully"
         );
 
@@ -99,7 +101,7 @@ export default function CreateOfferModal({
     };
 
   return (
-    <div className="fixed inset-0 z-[9999]">
+    <div className="gn-modal-root fixed inset-0 z-[9999]">
 
       <div
         className="absolute inset-0 bg-black/50"

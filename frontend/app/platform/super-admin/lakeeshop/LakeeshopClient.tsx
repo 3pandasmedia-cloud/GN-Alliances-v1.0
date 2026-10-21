@@ -1,5 +1,8 @@
+
+
 // @ts-nocheck
 "use client";
+import { popup } from "@/components/ui/Popup";
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -14,7 +17,7 @@ import productCardStyles from "./ProductCard.module.css";
 
 type Page = "items" | "orders" | "settings" | "detail" | "checkout";
 type Props = { page: Page; productCode?: string };
-const tabs = [["Products", "/platform/super-admin/lakeeshop/items", ["items", "detail", "checkout"]], ["Orders", "/platform/super-admin/lakeeshop/orders", ["orders"]], ["Settings", "/platform/super-admin/lakeeshop/settings", ["settings"]]];
+const tabs: [string, string, string[]][] = [["Products", "/platform/super-admin/lakeeshop/items", ["items", "detail", "checkout"]], ["Orders", "/platform/super-admin/lakeeshop/orders", ["orders"]], ["Settings", "/platform/super-admin/lakeeshop/settings", ["settings"]]];
 const Btn = ({ children, className = "", ...props }: any) => <button {...props} className={`rounded-xl bg-[#0A2E8A] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#082570] disabled:cursor-not-allowed disabled:opacity-50 ${className}`}>{children}</button>;
 const money = (value: unknown) => Number.isFinite(Number(value)) ? new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(Number(value)) : "Price unavailable";
 const categoryNames = (value: any): string[] => { if (Array.isArray(value)) return value.flatMap(categoryNames); if (!value || typeof value !== "object") return []; const name = value.primary_category_name || value.category_name || value.category || value.name || value.categoryName; return [...(typeof name === "string" && name.trim() ? [name.trim()] : []), ...Object.values(value).flatMap(categoryNames)]; };
@@ -48,7 +51,7 @@ function ProductCard({ product }: { product: any }) {
 }
 
 export default function LakeeshopClient({ page, productCode }: Props) {
-  const [setting, setSetting] = useState<any>(); const [status, setStatus] = useState<any>(); const [logs, setLogs] = useState<any[]>([]); const [orderHistory, setOrderHistory] = useState<any[]>([]); const [notice, setNotice] = useState(""); const [busy, setBusy] = useState(""); const [catalog, setCatalog] = useState<any>(); const [categoryCatalog, setCategoryCatalog] = useState<any>(); const [detail, setDetail] = useState<any>(); const [catalogPage, setCatalogPage] = useState(0); const [categoryOpen, setCategoryOpen] = useState(false); const [selectedCategory, setSelectedCategory] = useState("All categories"); const [searchInput, setSearchInput] = useState(""); const [searchTerm, setSearchTerm] = useState(""); const [catalogLoading, setCatalogLoading] = useState(false); const [quantity, setQuantity] = useState(1); const [order, setOrder] = useState({ customer_name: "", customer_email: "", customer_mobile: "", address_line1: "", address_line2: "", city: "", state: "", pincode: "" }); const categoryMenuRef = useRef<HTMLElement>(null); const categoryControlRef = useRef<HTMLDivElement>(null);
+  const [setting, setSetting] = useState<any>(); const [status, setStatus] = useState<any>(); const [logs, setLogs] = useState<any[]>([]); const [orderHistory, setOrderHistory] = useState<any[]>([]); const [notice, setNotice] = useState(""); const [busy, setBusy] = useState(""); const [catalog, setCatalog] = useState<any>(); const [categoryCatalog, setCategoryCatalog] = useState<any>(); const [detail, setDetail] = useState<any>(); const [catalogPage, setCatalogPage] = useState(0); const [categoryOpen, setCategoryOpen] = useState(false); const [selectedCategory, setSelectedCategory] = useState("All categories"); const [searchInput, setSearchInput] = useState(""); const [searchTerm, setSearchTerm] = useState(""); const [catalogLoading, setCatalogLoading] = useState(false); const [quantity, setQuantity] = useState(1); const [order, setOrder] = useState<Record<string, string>>({ customer_name: "", customer_email: "", customer_mobile: "", address_line1: "", address_line2: "", city: "", state: "", pincode: "" }); const categoryMenuRef = useRef<HTMLElement>(null); const categoryControlRef = useRef<HTMLDivElement>(null);
   const [ordersRefreshing, setOrdersRefreshing] = useState(false);
   const [ordersLoaded, setOrdersLoaded] = useState(false);
   const [ordersUpdatedAt, setOrdersUpdatedAt] = useState<number>();
@@ -122,7 +125,7 @@ export default function LakeeshopClient({ page, productCode }: Props) {
     finally { orderAction.current = false; setBusy(""); }
   };
   const cancelOrder = async (id: string) => {
-    if (orderAction.current || !window.confirm("Cancel this order? Cancellation is subject to Lakeeshop approval and cannot be undone.")) return;
+    if (orderAction.current || !await popup.confirm("Cancel this order? Cancellation is subject to Lakeeshop approval and cannot be undone.")) return;
     orderAction.current = true; orderRevision.current += 1; setBusy(id); setNotice("");
     try {
       const response = await authFetch(`/lakeeshop/orders/${encodeURIComponent(id)}`, { method: "DELETE" });

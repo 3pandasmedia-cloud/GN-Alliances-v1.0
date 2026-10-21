@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import CookieConsent from "@/components/CookieConsent";
+import PopupHost from "@/components/ui/Popup";
+import "@/components/ui/modal-theme.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,6 +40,7 @@ export default function RootLayout({
         {children}
 
         <CookieConsent />
+        <PopupHost />
       </body>
     </html>
   );

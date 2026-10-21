@@ -1,4 +1,6 @@
 "use client";
+import { popup } from "@/components/ui/Popup";
+
 
 import EntityActions from "@/components/auth/EntityActions";
 import { useEffect, useState } from "react";
@@ -60,17 +62,17 @@ export default function MerchantSettings({
       );
 
       if (!response.ok) {
-        alert("Unable to save merchant.");
+        await popup.alert("Unable to save merchant.");
         return;
       }
 
-      alert("Merchant updated successfully.");
+      await popup.alert("Merchant updated successfully.");
 
       onUpdated();
 
     } catch (error) {
       console.error(error);
-      alert("Server error.");
+      await popup.alert("Server error.");
     } finally {
       setSaving(false);
     }
@@ -116,7 +118,7 @@ export default function MerchantSettings({
         await response.json();
 
       if (!response.ok) {
-        alert(data.message);
+        await popup.alert(data.message);
         return;
       }
 
@@ -130,7 +132,7 @@ export default function MerchantSettings({
         }
       );
 
-      alert("Logo updated successfully.");
+      await popup.alert("Logo updated successfully.");
 
       onUpdated();
 
@@ -152,7 +154,7 @@ export default function MerchantSettings({
       const data = await response.json();
 
       if (!response.ok) {
-        alert(data.message);
+        await popup.alert(data.message);
         return;
       }
 
@@ -162,13 +164,13 @@ export default function MerchantSettings({
         apiKey: data.apiKey,
       }));
 
-      alert("API Key generated successfully.");
+      await popup.alert("API Key generated successfully.");
 
     } catch (error) {
 
       console.error(error);
 
-      alert("Server error.");
+      await popup.alert("Server error.");
 
     }
   };

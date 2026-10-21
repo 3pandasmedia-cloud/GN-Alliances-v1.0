@@ -1,4 +1,6 @@
 "use client";
+import { popup } from "@/components/ui/Popup";
+
 
 import { useState, useEffect } from "react";
 
@@ -89,14 +91,14 @@ export default function EditOfferModal({
           await response.json();
 
         if (!response.ok) {
-          alert(
+          await popup.alert(
             data.message ||
               "Failed to update offer"
           );
           return;
         }
 
-        alert(
+        await popup.alert(
           "Offer updated successfully"
         );
 
@@ -106,7 +108,7 @@ export default function EditOfferModal({
       } catch (error) {
         console.error(error);
 
-        alert(
+        await popup.alert(
           "Unable to connect to server"
         );
       } finally {
@@ -115,7 +117,7 @@ export default function EditOfferModal({
     };
 
   return (
-    <div className="fixed inset-0 z-[9999]">
+    <div className="gn-modal-root fixed inset-0 z-[9999]">
 
       <div
         className="absolute inset-0 bg-black/50"

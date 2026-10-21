@@ -1,4 +1,6 @@
 "use client";
+import { popup } from "@/components/ui/Popup";
+
 
 import EntityActions from "@/components/auth/EntityActions";
 import {
@@ -22,7 +24,7 @@ export default function OfferCard({
 }: OfferCardProps) {
 
   const deleteOffer = async () => {
-    const confirmed = window.confirm(
+    const confirmed = await popup.confirm(
       "Are you sure you want to delete this landing offer?"
     );
 
@@ -39,17 +41,17 @@ export default function OfferCard({
       const data = await res.json();
 
       if (!res.ok) {
-        alert(data.message || "Failed to delete.");
+        await popup.alert(data.message || "Failed to delete.");
         return;
       }
 
-      alert("Offer deleted successfully!");
+      await popup.alert("Offer deleted successfully!");
 
       window.location.reload();
 
     } catch (err) {
       console.error(err);
-      alert("Server error.");
+      await popup.alert("Server error.");
     }
   };
 

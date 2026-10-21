@@ -1,4 +1,6 @@
 "use client";
+import { popup } from "@/components/ui/Popup";
+
 import { useRef, useState } from "react";
 import { Play, CheckCircle2, XCircle, LoaderCircle } from "lucide-react";
 import { authFetch } from "@/lib/api";
@@ -20,7 +22,7 @@ export default function ApiChecks({ endpoints, environment, onTested }: { endpoi
       if (key === "orderCreate") { body = JSON.parse(orderJson); if (!body || Array.isArray(body) || typeof body !== "object") throw new Error("Enter an order request as a JSON object."); }
       if (key === "orderCreate" || key === "orderCancel") {
         const action = key === "orderCreate" ? "create an order using the entered delivery details" : `cancel order ${values.orderId}`;
-        if (!window.confirm(`This test will ${action} in ${environment} mode. Send this request to Lakeeshop?`)) return;
+        if (!await popup.confirm(`This test will ${action} in ${environment} mode. Send this request to Lakeeshop?`)) return;
         body.confirmMutation = true;
       }
       runningRef.current = true; setRunning(key);

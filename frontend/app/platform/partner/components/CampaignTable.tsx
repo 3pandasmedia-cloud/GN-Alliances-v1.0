@@ -1,4 +1,6 @@
 "use client";
+import { popup } from "@/components/ui/Popup";
+
 
 import EntityActions from "@/components/auth/EntityActions";
 import { useEffect, useState } from "react";
@@ -48,7 +50,7 @@ export default function CampaignTable({
   };
 
   const deleteCampaign = async (id: string) => {
-    if (!confirm("Delete this campaign?")) return;
+    if (!await popup.confirm("Delete this campaign?")) return;
 
     try {
       await authFetch(`/campaigns/${id}`, {

@@ -1,4 +1,6 @@
 "use client";
+import { popup } from "@/components/ui/Popup";
+
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -55,11 +57,11 @@ export default function NewLandingOfferPage() {
             const data = await res.json();
 
             if (!res.ok) {
-                alert(data.message);
+                await popup.alert(data.message);
                 return;
             }
 
-            alert("Offer updated successfully!");
+            await popup.alert("Offer updated successfully!");
 
             window.location.href =
                 "/platform/super-admin/landing-offers";
@@ -68,7 +70,7 @@ export default function NewLandingOfferPage() {
 
             console.error(err);
 
-            alert("Server error.");
+            await popup.alert("Server error.");
 
         }
     };
@@ -383,7 +385,7 @@ export default function NewLandingOfferPage() {
                                         const data = await res.json();
 
                                         if (!res.ok) {
-                                            alert(data.message);
+                                            await popup.alert(data.message);
                                             return;
                                         }
 
@@ -397,7 +399,7 @@ export default function NewLandingOfferPage() {
 
                                     } catch (err) {
                                         console.error(err);
-                                        alert("Upload failed.");
+                                        await popup.alert("Upload failed.");
                                     }
                                 }}
                             />

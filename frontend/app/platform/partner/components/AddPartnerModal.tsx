@@ -1,4 +1,6 @@
 "use client";
+import { popup } from "@/components/ui/Popup";
+
 
 import { useState } from "react";
 import { authFetch } from "@/lib/api";
@@ -44,7 +46,7 @@ export default function AddPartnerModal({
         !username ||
         !password
       ) {
-        alert(
+        await popup.alert(
           "Please fill all required fields"
         );
         return;
@@ -108,14 +110,14 @@ export default function AddPartnerModal({
           await response.json();
 
         if (!response.ok) {
-          alert(
+          await popup.alert(
             data.message ||
               "Failed to create merchant"
           );
           return;
         }
 
-        alert(
+        await popup.alert(
           "Merchant created successfully"
         );
 
@@ -125,7 +127,7 @@ export default function AddPartnerModal({
       } catch (error) {
         console.error(error);
 
-        alert(
+        await popup.alert(
           "Unable to connect to server"
         );
       } finally {
@@ -134,7 +136,7 @@ export default function AddPartnerModal({
     };
 
   return (
-    <div className="fixed inset-0 z-[9999]">
+    <div className="gn-modal-root fixed inset-0 z-[9999]">
 
       <div
         className="absolute inset-0 bg-black/50"

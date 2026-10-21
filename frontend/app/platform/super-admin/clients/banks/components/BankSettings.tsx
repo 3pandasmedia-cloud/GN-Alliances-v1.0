@@ -1,4 +1,6 @@
 "use client";
+import { popup } from "@/components/ui/Popup";
+
 
 import EntityActions from "@/components/auth/EntityActions";
 import { useEffect, useState } from "react";
@@ -72,11 +74,11 @@ export default function BankSettings({
         );
 
       if (!response.ok) {
-        alert("Unable to save.");
+        await popup.alert("Unable to save.");
         return;
       }
 
-      alert("Bank updated.");
+      await popup.alert("Bank updated.");
 
       onUpdated();
 

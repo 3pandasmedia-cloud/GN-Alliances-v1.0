@@ -1,4 +1,6 @@
 "use client";
+import { popup } from "@/components/ui/Popup";
+
 
 import { useState } from "react";
 import Image from "next/image";
@@ -39,7 +41,7 @@ export default function AddBankModal({
       !username ||
       !password
     ) {
-      alert(
+      await popup.alert(
         "Please fill all required fields."
       );
       return;
@@ -100,14 +102,14 @@ export default function AddBankModal({
         await response.json();
 
       if (!response.ok) {
-        alert(
+        await popup.alert(
           data.message ||
             "Failed to create bank."
         );
         return;
       }
 
-      alert(
+      await popup.alert(
         "Bank created successfully."
       );
 
@@ -125,7 +127,7 @@ export default function AddBankModal({
 
       console.error(error);
 
-      alert(
+      await popup.alert(
         "Unable to connect to server."
       );
 
@@ -137,7 +139,7 @@ export default function AddBankModal({
   };
 
   return (
-    <div className="fixed inset-0 z-[9999]">
+    <div className="gn-modal-root fixed inset-0 z-[9999]">
 
       <div
         className="absolute inset-0 bg-black/50"

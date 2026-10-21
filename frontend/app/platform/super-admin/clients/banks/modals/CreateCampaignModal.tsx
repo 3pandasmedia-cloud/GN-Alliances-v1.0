@@ -1,4 +1,6 @@
 "use client";
+import { popup } from "@/components/ui/Popup";
+
 
 import { useEffect, useState } from "react";
 import { authFetch } from "@/lib/api";
@@ -59,7 +61,7 @@ export default function CreateCampaignModal({
       !startDate ||
       !endDate
     ) {
-      alert("Please fill all required fields.");
+      await popup.alert("Please fill all required fields.");
       return;
     }
 
@@ -92,14 +94,14 @@ export default function CreateCampaignModal({
       const data = await response.json();
 
       if (!response.ok) {
-        alert(
+        await popup.alert(
           data.message ||
           "Unable to create campaign."
         );
         return;
       }
 
-      alert("Campaign created successfully.");
+      await popup.alert("Campaign created successfully.");
 
       setName("");
       setDescription("");
@@ -113,7 +115,7 @@ export default function CreateCampaignModal({
     } catch (error) {
       console.error(error);
 
-      alert("Server error.");
+      await popup.alert("Server error.");
     } finally {
       setLoading(false);
     }
@@ -122,7 +124,7 @@ export default function CreateCampaignModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[9999]">
+    <div className="gn-modal-root fixed inset-0 z-[9999]">
 
       <div
         className="absolute inset-0 bg-black/50"

@@ -1,4 +1,6 @@
 "use client";
+import { popup } from "@/components/ui/Popup";
+
 
 import { useState } from "react";
 import Link from "next/link";
@@ -55,15 +57,15 @@ export default function NewLandingOfferPage() {
       console.log(data);
 
       if (!res.ok) {
-        alert(data.message || "Failed to save offer.");
+        await popup.alert(data.message || "Failed to save offer.");
         return;
       }
 
-      alert("Offer created successfully!");
+      await popup.alert("Offer created successfully!");
 
     } catch (err) {
       console.error(err);
-      alert("Server error.");
+      await popup.alert("Server error.");
     }
   };
 
@@ -342,7 +344,7 @@ export default function NewLandingOfferPage() {
                     const data = await res.json();
 
                     if (!res.ok) {
-                      alert(data.message);
+                      await popup.alert(data.message);
                       return;
                     }
 
@@ -357,7 +359,7 @@ export default function NewLandingOfferPage() {
 
                   } catch (err) {
                     console.error(err);
-                    alert("Upload failed.");
+                    await popup.alert("Upload failed.");
                   }
                 }}
               />

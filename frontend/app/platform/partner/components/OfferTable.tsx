@@ -1,4 +1,6 @@
 "use client";
+import { popup } from "@/components/ui/Popup";
+
 
 import EntityActions from "@/components/auth/EntityActions";
 import { useEffect, useState } from "react";
@@ -27,7 +29,7 @@ export default function OfferTable() {
   }, []);
 
   const deleteOffer = async (id: string) => {
-    if (!confirm("Delete this offer?")) return;
+    if (!await popup.confirm("Delete this offer?")) return;
 
     await fetch(
       `/api/offers/${id}`,

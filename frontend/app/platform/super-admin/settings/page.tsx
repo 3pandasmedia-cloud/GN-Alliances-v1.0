@@ -1,4 +1,6 @@
 "use client";
+import { popup } from "@/components/ui/Popup";
+
 
 import { useEffect, useState } from "react";
 import { authFetch } from "@/lib/api";
@@ -91,7 +93,7 @@ export default function SettingsPage() {
       });
 
     if (response.ok) {
-      alert("Profile Updated");
+      await popup.alert("Profile Updated");
       loadProfile();
     }
   };
@@ -100,7 +102,7 @@ export default function SettingsPage() {
     if (
       newPassword !== confirmPassword
     ) {
-      alert(
+      await popup.alert(
         "Passwords do not match"
       );
       return;
@@ -121,7 +123,7 @@ export default function SettingsPage() {
     const data =
       await response.json();
 
-    alert(data.message);
+    await popup.alert(data.message);
 
     setCurrentPassword("");
     setNewPassword("");
@@ -166,7 +168,7 @@ export default function SettingsPage() {
       const data =
         await response.json();
 
-      alert(data.message);
+      await popup.alert(data.message);
     } catch (error) {
       console.error(error);
     } finally {
@@ -191,7 +193,7 @@ export default function SettingsPage() {
       const data =
         await response.json();
 
-      alert(data.message);
+      await popup.alert(data.message);
 
       if (response.ok) {
         setShow2FA(false);
@@ -214,7 +216,7 @@ export default function SettingsPage() {
     const data =
       await response.json();
 
-    alert(data.message);
+    await popup.alert(data.message);
 
     loadProfile();
   };
@@ -253,7 +255,7 @@ export default function SettingsPage() {
       // optional: reload profile from backend
       await loadProfile();
 
-      alert("Profile picture updated");
+      await popup.alert("Profile picture updated");
     }
   };
 
@@ -430,11 +432,11 @@ export default function SettingsPage() {
                       );
 
                     if (!response.ok) {
-                      alert("Upload failed");
+                      await popup.alert("Upload failed");
                       return;
                     }
 
-                    alert(
+                    await popup.alert(
                       "Profile picture updated"
                     );
 
@@ -801,7 +803,7 @@ export default function SettingsPage() {
       </div>
 
       {show2FA && (
-        <div className="fixed inset-0 z-[9999]">
+        <div className="gn-modal-root fixed inset-0 z-[9999]">
 
           <div
             className="absolute inset-0 bg-black/50"

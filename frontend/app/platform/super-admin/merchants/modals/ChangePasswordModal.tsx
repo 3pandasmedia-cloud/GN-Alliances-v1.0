@@ -1,4 +1,6 @@
 "use client";
+import { popup } from "@/components/ui/Popup";
+
 
 import { useState } from "react";
 import { authFetch } from "@/lib/api";
@@ -31,19 +33,19 @@ export default function ChangePasswordModal({
   const updatePassword = async () => {
 
     if (!password) {
-      alert("Enter password");
+      await popup.alert("Enter password");
       return;
     }
 
     if (password.length < 6) {
-      alert(
+      await popup.alert(
         "Password must be at least 6 characters."
       );
       return;
     }
 
     if (password !== confirmPassword) {
-      alert("Passwords do not match.");
+      await popup.alert("Passwords do not match.");
       return;
     }
 
@@ -66,11 +68,11 @@ export default function ChangePasswordModal({
         await response.json();
 
       if (!response.ok) {
-        alert(data.message);
+        await popup.alert(data.message);
         return;
       }
 
-      alert(
+      await popup.alert(
         "Password updated successfully."
       );
 
@@ -83,7 +85,7 @@ export default function ChangePasswordModal({
 
       console.error(error);
 
-      alert("Server error.");
+      await popup.alert("Server error.");
 
     } finally {
 
@@ -93,7 +95,7 @@ export default function ChangePasswordModal({
   };
 
   return (
-    <div className="fixed inset-0 z-[9999]">
+    <div className="gn-modal-root fixed inset-0 z-[9999]">
 
       <div
         className="absolute inset-0 bg-black/50"
