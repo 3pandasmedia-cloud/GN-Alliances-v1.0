@@ -1,4 +1,5 @@
 "use client";
+import { authFetch } from "@/lib/api";
 import { popup } from "@/components/ui/Popup";
 
 
@@ -32,8 +33,8 @@ export default function NewLandingOfferPage() {
 
     const saveOffer = async () => {
         try {
-            const res = await fetch(
-                `/api/landing-offers/${id}`,
+            const res = await authFetch(
+                `/landing-offers/${id}`,
                 {
                     method: "PUT",
                     headers: {
@@ -83,8 +84,8 @@ export default function NewLandingOfferPage() {
 
     const loadOffer = async () => {
         try {
-            const res = await fetch(
-                `/api/landing-offers/${id}`
+            const res = await authFetch(
+                `/landing-offers/${id}`
             );
 
             const data = await res.json();
@@ -374,8 +375,8 @@ export default function NewLandingOfferPage() {
                                     formData.append("banner", file);
 
                                     try {
-                                        const res = await fetch(
-                                            "/api/landing-offers/upload",
+                                        const res = await authFetch(
+                                            "/landing-offers/upload",
                                             {
                                                 method: "POST",
                                                 body: formData,

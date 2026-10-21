@@ -1,11 +1,10 @@
 "use client";
+import { authFetch } from "@/lib/api";
 
 import { useEffect, useState } from "react";
 import OfferCard from "./OfferCard";
 
-const API =
-  process.env.NEXT_PUBLIC_API_URL ||
-  "/api";
+
 
 export default function OffersList() {
   const [offers, setOffers] = useState<any[]>([]);
@@ -13,8 +12,8 @@ export default function OffersList() {
 
   const loadOffers = async () => {
     try {
-      const res = await fetch(
-        `${API}/landing-offers`
+      const res = await authFetch(
+        "/landing-offers"
       );
 
       const data = await res.json();

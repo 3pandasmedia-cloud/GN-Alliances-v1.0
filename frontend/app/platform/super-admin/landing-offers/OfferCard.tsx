@@ -1,4 +1,5 @@
 "use client";
+import { authFetch } from "@/lib/api";
 import { popup } from "@/components/ui/Popup";
 
 
@@ -31,8 +32,8 @@ export default function OfferCard({
     if (!confirmed) return;
 
     try {
-      const res = await fetch(
-        `/api/landing-offers/${offer.id}`,
+      const res = await authFetch(
+        `/landing-offers/${offer.id}`,
         {
           method: "DELETE",
         }
@@ -172,7 +173,7 @@ export default function OfferCard({
 
           <div className="flex gap-3">
 
-            <EntityActions><Link
+            <EntityActions allowAdmin><Link
               href={`/platform/super-admin/landing-offers/${offer.id}`}
               className="
             flex
@@ -189,7 +190,7 @@ export default function OfferCard({
               Edit
             </Link></EntityActions>
 
-            <EntityActions><button
+            <EntityActions allowAdmin><button
               onClick={deleteOffer}
               className="
             flex

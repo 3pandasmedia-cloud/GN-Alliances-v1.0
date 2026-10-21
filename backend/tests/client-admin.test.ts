@@ -6,6 +6,10 @@ import app from "../app";
 import prisma from "../config/prisma";
 
 test("client Admin can place orders while entity management remains owner-only", async () => {
+  const landing = { create: prisma.landingOffer.create, update: prisma.landingOffer.update, delete: prisma.landingOffer.delete };
+  (prisma.landingOffer as any).create = async ({ data }: any) => ({ id: "test-offer", ...data });
+  (prisma.landingOffer as any).update = async ({ data }: any) => ({ id: "test-offer", ...data });
+  (prisma.landingOffer as any).delete = async () => ({ id: "test-offer" });
   const originalFindUnique = prisma.user.findUnique;
   const originalFindMany = prisma.user.findMany;
   const originalOrderFindUnique = prisma.lakeeshopOrder.findUnique;
@@ -13,7 +17,7 @@ test("client Admin can place orders while entity management remains owner-only",
   const originalConfigFindFirst = prisma.lakeeshopApiConfig.findFirst;
   // Validate order access without contacting a provider or placing a real order.
   (prisma.lakeeshopApiConfig as any).findFirst = async () => ({ enabled: true, merchantId: "test-merchant" });
-  (prisma.user as any).findUnique = async ({ where }: any) => ({ id: where.id, role: where.id === "owner" ? "super-admin" : where.id === "protected" ? "admin" : "admin", status: "ACTIVE", password: "$2b$10$invalidhash" });
+  (prisma.user as any).findUnique = async ({ where }: any) => ({ id: where.id, role: where.id === "owner" ? "super-admin" : where.id === "employee" ? "employee" : "admin", status: "ACTIVE", password: "$2b$10$invalidhash" });
   (prisma.user as any).findMany = async () => [];
   const server = app.listen(0, "127.0.0.1");
   await new Promise<void>(resolve => server.on("listening", resolve));
@@ -37,7 +41,7 @@ test("client Admin can place orders while entity management remains owner-only",
     assert.equal((await request("/lakeeshop/settings", "PUT", {})).status, 403);
     assert.equal((await request("/lakeeshop/test/authentication", "POST", {})).status, 403);
     // Every entity mutation must be blocked before its handler or upload runs.
-    for (const path of ["/users", "/partners", "/offers", "/campaigns", "/reports", "/admins", "/employees", "/clients", "/landing-offers", "/landing-offers/upload"]) {
+    for (const path of ["/users", "/partners", "/offers", "/campaigns", "/reports", "/admins", "/employees", "/clients"]) {
       for (const method of ["POST", "PUT", "PATCH", "DELETE"]) {
         assert.equal((await request(path, method, {})).status, 403, `${method} ${path}`);
       }
@@ -54,7 +58,14 @@ test("client Admin can place orders while entity management remains owner-only",
     assert.equal((await request("/lakeeshop/orders/example", "POST", {})).status, 403);
     assert.equal((await fetch(`http://127.0.0.1:${address.port}/api/lakeeshop/orders`, { method: "POST" })).status, 401);
     assert.equal((await request("/partners/upload-logo", "POST", {})).status, 403);
-    assert.equal((await request("/landing-offers/example", "DELETE")).status, 403);
+    for (const id of ["client", "owner"]) {
+      assert.equal((await request("/landing-offers", "POST", { title: "Test", startDate: "2026-10-21", endDate: "2026-11-21" }, id)).status, 200);
+      assert.equal((await request("/landing-offers/example", "PUT", { title: "Updated", startDate: "2026-10-21", endDate: "2026-11-21" }, id)).status, 200);
+      assert.equal((await request("/landing-offers/example", "DELETE", undefined, id)).status, 200);
+    }
+    for (const [path, method] of [["/landing-offers", "POST"], ["/landing-offers/example", "PUT"], ["/landing-offers/example", "DELETE"], ["/landing-offers/upload", "POST"]]) {
+      assert.equal((await request(path, method, {}, "employee")).status, 403);
+    }
     // Requests without a session cannot bypass ownership on previously public write routes.
     for (const path of ["/reports", "/landing-offers", "/landing-offers/upload"]) {
       assert.equal((await fetch(`http://127.0.0.1:${address.port}/api${path}`, { method: "POST" })).status, 401);
@@ -67,6 +78,7 @@ test("client Admin can place orders while entity management remains owner-only",
     // The resend route must never create a passwordless login challenge.
     assert.equal(resend.status, 400);
   } finally {
+    Object.assign(prisma.landingOffer, landing);
     prisma.lakeeshopOrder.findUnique = originalOrderFindUnique;
     prisma.user.findUnique = originalFindUnique;
     prisma.user.findMany = originalFindMany;

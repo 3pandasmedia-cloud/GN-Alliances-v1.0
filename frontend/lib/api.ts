@@ -13,7 +13,7 @@ export const authFetch = async (
   return fetch(`${API_URL}${endpoint}`, {
     ...options,
     headers: {
-      "Content-Type": "application/json",
+      ...(options.body instanceof FormData ? {} : { "Content-Type": "application/json" }),
       Authorization: token
         ? `Bearer ${token}`
         : "",

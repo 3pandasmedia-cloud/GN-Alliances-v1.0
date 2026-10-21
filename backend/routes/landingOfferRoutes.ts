@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { requireEntityOwner } from "../middleware/entityPermissions";
+import { AuthRequest, verifyToken } from "../middleware/authMiddleware";
 
 import {
   getLandingOffers,
@@ -23,7 +23,14 @@ router.get("/public", getPublicLandingOffers);
 // Public counters do not change the offer configuration.
 router.post("/:id/click", recordOfferClick);
 router.post("/:id/view", recordOfferView);
-router.use(requireEntityOwner);
+router.use((req, res, next) => {
+  if (["GET", "HEAD", "OPTIONS"].includes(req.method)) return next();
+  return verifyToken(req, res, () => {
+    const role = (req as AuthRequest).user?.role;
+    if (role !== "super-admin" && role !== "admin") return res.status(403).json({ message: "Only Admins can manage landing offers." });
+    next();
+  });
+});
 
 // Upload
 router.post(

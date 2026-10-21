@@ -21,7 +21,7 @@ export default function LandingOffersPage() {
           </p>
         </div>
 
-        <EntityActions><Link
+        <EntityActions allowAdmin><Link
           href="/platform/super-admin/landing-offers/new"
           className="
             flex
