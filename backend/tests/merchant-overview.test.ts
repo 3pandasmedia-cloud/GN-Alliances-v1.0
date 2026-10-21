@@ -6,7 +6,7 @@ import { getMerchantOverview } from "../controllers/merchantOverviewController";
 import { encrypt } from "../services/lakeeshopService";
 
 test("merchant totals and API status come from saved records and a real connection result", async () => {
-  const original = { partners: prisma.partner.findMany, config: prisma.lakeeshopApiConfig.findFirst, fetch: globalThis.fetch, encryptionKey: process.env.LAKEESHOP_ENCRYPTION_KEY };
+  const original = { partners: prisma.partner.findMany, config: prisma.lakeeshopApiConfig.findFirst, upsert: prisma.lakeeshopApiConfig.upsert, fetch: globalThis.fetch, encryptionKey: process.env.LAKEESHOP_ENCRYPTION_KEY };
   process.env.LAKEESHOP_ENCRYPTION_KEY = Buffer.alloc(32, 9).toString("hex");
   let partners: any[] = [
     { id: "a", name: "A", slug: "a", email: "a@example.com", logo: null, status: "ACTIVE" },
@@ -18,6 +18,8 @@ test("merchant totals and API status come from saved records and a real connecti
   let calls = 0;
   (prisma.partner as any).findMany = async ({ where, select }: any) => { assert.equal(where.type, "MERCHANT"); assert.equal(select.password, undefined); assert.equal(select.apiKey, undefined); return partners; };
   (prisma.lakeeshopApiConfig as any).findFirst = async () => setting;
+  let initialized = 0;
+  (prisma.lakeeshopApiConfig as any).upsert = async ({ create }: any) => { initialized++; assert.equal(create.enabled, false); return { ...create, updatedAt: new Date(0) }; };
   globalThis.fetch = async (input, init) => {
     calls++;
     if (String(input).endsWith("/token")) return new Response(JSON.stringify({ access_token: "merchant-test-token" }), { status: 200 });
@@ -31,7 +33,11 @@ test("merchant totals and API status come from saved records and a real connecti
     assert.equal(code, 200); return body;
   };
   try {
-    assert.deepEqual((await overview()).stats, { total: 3, active: 1, pending: 1, inactive: 1 });
+    const fresh = await overview();
+    assert.deepEqual(fresh.stats, { total: 4, active: 1, pending: 1, inactive: 2 });
+    assert.equal(fresh.merchants[0].name, "Lakeeshop");
+    assert.equal(fresh.merchants[0].apiConnected, false);
+    assert.equal(initialized, 1);
     assert.equal(calls, 0);
     setting = { id: "merchant-test", updatedAt: new Date(1), integrationName: "Lakeeshop", enabled: true, merchantId: "test", secretEncrypted: encrypt("test-secret"), endpoints: { products: { enabled: true } }, baseUrl: "https://lsorder.lakeetech.com", authEndpoint: "https://lvalidate.lakeetech.com/token", requestTimeoutMs: 1000 };
     const online = await overview();
@@ -49,7 +55,7 @@ test("merchant totals and API status come from saved records and a real connecti
     partners.push({ id: "lakeeshop-partner", name: "Lakeeshop", slug: "lakeeshop", email: "merchant@example.com", logo: null, status: "ACTIVE" });
     assert.equal((await overview()).stats.total, 4);
   } finally {
-    prisma.partner.findMany = original.partners; prisma.lakeeshopApiConfig.findFirst = original.config; globalThis.fetch = original.fetch;
+    prisma.partner.findMany = original.partners; prisma.lakeeshopApiConfig.findFirst = original.config; prisma.lakeeshopApiConfig.upsert = original.upsert; globalThis.fetch = original.fetch;
     if (original.encryptionKey === undefined) delete process.env.LAKEESHOP_ENCRYPTION_KEY; else process.env.LAKEESHOP_ENCRYPTION_KEY = original.encryptionKey;
   }
 });

@@ -1,15 +1,17 @@
 import { Response } from "express";
 import prisma from "../config/prisma";
 import { AuthRequest } from "../middleware/authMiddleware";
+import { defaults } from "../services/lakeeshopService";
 import { checkMerchantConnection } from "../services/merchantConnectionService";
 
 type Merchant = { id: string; name: string; slug: string; email: string; logo: string | null; status: string; apiConnected: boolean; connectionCheckedAt: string | null; integration: boolean };
 export const getMerchantOverview = async (_: AuthRequest, res: Response) => {
   try {
-    const [partners, setting] = await Promise.all([
+    const [partners, existingSetting] = await Promise.all([
       prisma.partner.findMany({ where: { type: "MERCHANT" }, orderBy: { createdAt: "desc" }, select: { id: true, name: true, slug: true, email: true, logo: true, status: true } }),
       prisma.lakeeshopApiConfig.findFirst({ orderBy: { createdAt: "asc" } }),
     ]);
+    const setting = existingSetting || await prisma.lakeeshopApiConfig.upsert({ where: { id: "lakeeshop-default" }, update: {}, create: { id: "lakeeshop-default", ...defaults, endpoints: defaults.endpoints } });
     const merchants: Merchant[] = partners.map(partner => ({ ...partner, apiConnected: false, connectionCheckedAt: null, integration: false }));
     if (setting) {
       const connection = await checkMerchantConnection(setting);
