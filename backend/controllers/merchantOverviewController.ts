@@ -17,7 +17,7 @@ export const getMerchantOverview = async (_: AuthRequest, res: Response) => {
       const connection = await checkMerchantConnection(setting);
       // Include the saved API merchant once, even if it also has a partner record.
       const index = merchants.findIndex(item => item.slug.toLowerCase() === "lakeeshop" || item.name.toLowerCase() === "lakeeshop" || item.name.toLowerCase() === setting.integrationName.toLowerCase());
-      const integration = { id: `lakeeshop:${setting.id}`, name: setting.integrationName, slug: "lakeeshop", email: "", logo: null, status: connection.connected ? "ACTIVE" : "INACTIVE", apiConnected: connection.connected, connectionCheckedAt: connection.checkedAt, integration: true };
+      const integration = { id: `lakeeshop:${setting.id}`, name: setting.integrationName, slug: "lakeeshop", email: "", logo: setting.logo || (index >= 0 ? merchants[index].logo : null), status: connection.connected ? "ACTIVE" : "INACTIVE", apiConnected: connection.connected, connectionCheckedAt: connection.checkedAt, integration: true };
       if (index >= 0) merchants[index] = { ...merchants[index], ...integration, id: merchants[index].id };
       else merchants.unshift(integration);
     }

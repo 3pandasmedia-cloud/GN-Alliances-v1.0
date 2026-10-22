@@ -62,3 +62,13 @@ body {
     border-radius: 9999px;
     background: #f2a900;
 }
+/* Make interactive controls consistently discoverable. */
+button:not(:disabled), a[href], select:not(:disabled), summary,
+[role="button"]:not([aria-disabled="true"]),
+input[type="checkbox"]:not(:disabled), input[type="radio"]:not(:disabled),
+input[type="file"]:not(:disabled),
+input[type="file"]:not(:disabled)::file-selector-button {
+  cursor: pointer;
+}
+button:disabled, select:disabled, input[type="file"]:disabled,
+input[type="file"]:disabled::file-selector-button, [aria-disabled="true"] { cursor: not-allowed; }

@@ -196,6 +196,7 @@ model LandingOffer {
 }
 
 model LakeeshopApiConfig {
+  logo              String?
   id                String   @id @default(uuid())
   integrationName   String   @default("Lakeeshop")
   enabled           Boolean  @default(false)

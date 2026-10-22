@@ -30,18 +30,20 @@ export const connectionMessage = (error: unknown) => {
   return error.message === "fetch failed" ? "Could not connect to Lakeeshop. Verify the backend server can make outbound HTTPS requests and that no firewall or proxy is blocking it." : message(error.message);
 };
 
-const tokenCache = new Map<string, { value: string; expiresAt: number }>();
+const tokenCache = new Map<string, { value: string; expiresAt: number; fingerprint: string }>();
 const tokenFrom = (value: any): string | undefined => value?.access_token || value?.token || value?.data?.access_token || value?.data?.token;
 export const accessToken = async (config: any) => {
   if (!mergeEndpoints(config.endpoints).authentication.enabled) throw new Error("Authentication is disabled. Contact 3Pandas Media to enable it.");
-  const cached = tokenCache.get(config.id);
-  if (cached && cached.expiresAt > Date.now()) return cached.value;
   if (!config.merchantId || !config.secretEncrypted) throw new Error("Lakeeshop credentials are incomplete");
+  const fingerprint = crypto.createHash("sha256").update(JSON.stringify([config.environment, config.baseUrl, config.authEndpoint, config.merchantId, config.secretEncrypted])).digest("hex");
+  const cached = tokenCache.get(config.id);
+  if (cached && cached.fingerprint === fingerprint && cached.expiresAt > Date.now()) return cached.value;
+  tokenCache.delete(config.id);
   const response = await fetch(config.authEndpoint, { method: "POST", signal: AbortSignal.timeout(config.requestTimeoutMs), headers: { Accept: "application/json", "Content-Type": "application/json" }, body: JSON.stringify({ merchant_id: config.merchantId, secret_key: decrypt(config.secretEncrypted) }) });
   const payload = await response.json().catch(() => null);
   const token = response.ok ? tokenFrom(payload) : undefined;
   if (!token) throw new Error(response.ok ? "Lakeeshop authentication response did not contain a token" : message(payload?.message || "Lakeeshop authentication failed"));
   const lifetime = Number(payload?.expires_in || payload?.expiresIn || payload?.data?.expires_in || 0);
-  if (Number.isFinite(lifetime) && lifetime > 30) tokenCache.set(config.id, { value: token, expiresAt: Date.now() + (lifetime - 15) * 1000 });
+  if (Number.isFinite(lifetime) && lifetime > 30) tokenCache.set(config.id, { value: token, fingerprint, expiresAt: Date.now() + (lifetime - 15) * 1000 });
   return token;
 };

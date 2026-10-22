@@ -1,6 +1,7 @@
 "use client";
 import EntityActions from "@/components/auth/EntityActions";
 import { useCallback, useEffect, useState } from "react";
+import { readLakeeshopCache, writeLakeeshopCache } from "@/lib/lakeeshopCache";
 import { authFetch } from "@/lib/api";
 import { Building2, CircleCheck, CircleMinus } from "lucide-react";
 import styles from "./Merchants.module.css";
@@ -18,13 +19,15 @@ export default function MerchantsPage() {
       const response = await authFetch("/partners/merchant-overview", { signal });
       const data = await response.json();
       if (!response.ok || !Array.isArray(data.merchants) || !data.stats) throw new Error(data.message || "Unable to load merchant data.");
-      if (!signal?.aborted) { setOverview(data); setError(""); }
+      if (!signal?.aborted) { setOverview(data); writeLakeeshopCache("merchant-overview", data); setError(""); }
     } catch (error) {
       if (!signal?.aborted) setError(error instanceof Error ? error.message : "Unable to load merchant data.");
     } finally { if (!signal?.aborted) setLoading(false); }
   }, []);
   useEffect(() => {
+    const cached = readLakeeshopCache<Overview>("merchant-overview");
     const controller = new AbortController();
+    if (cached?.value?.merchants && cached.value.stats) queueMicrotask(() => { if (!controller.signal.aborted) { setOverview(cached.value); setLoading(false); } });
     let inFlight = false;
     const refresh = async () => { if (inFlight) return; inFlight = true; try { await load(controller.signal); } finally { inFlight = false; } };
     void refresh();

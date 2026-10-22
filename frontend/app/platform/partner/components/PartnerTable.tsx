@@ -1,4 +1,6 @@
 "use client";
+import { useState } from "react";
+import { API_URL } from "@/lib/config";
 import Link from "next/link";
 
 export type Merchant = {
@@ -9,8 +11,10 @@ function ConnectionBadge({ merchant }: { merchant: Merchant }) {
   return <span title={merchant.connectionCheckedAt ? `Connection checked: ${new Date(merchant.connectionCheckedAt).toLocaleString()}` : "No verified API connection is available for this merchant."} className={`inline-block rounded-full px-3 py-1 text-xs font-semibold ${merchant.apiConnected ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>{merchant.apiConnected ? "API Connected" : "API Not Connected"}</span>;
 }
 function MerchantIdentity({ merchant }: { merchant: Merchant }) {
+  const [failedLogo, setFailedLogo] = useState<string>();
+  const logo = merchant.logo?.startsWith("/uploads/") ? `${API_URL.replace(/\/api\/?$/, "")}${merchant.logo}` : merchant.logo;
   return <div className="flex items-center gap-4">
-    {merchant.integration ? <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[#0A2E8A] text-lg font-bold text-[#F2A900]">{merchant.name.charAt(0).toUpperCase()}</div> : <img src={merchant.logo || "/images/default-logo.png"} alt={merchant.name} className="h-14 w-14 rounded-2xl border bg-white object-cover"/>}
+    {logo && failedLogo !== logo ? <img src={logo} onError={() => setFailedLogo(logo)} alt={`${merchant.name} logo`} className="h-14 w-14 shrink-0 rounded-2xl border bg-white object-contain p-1"/> : <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[#0A2E8A] text-lg font-bold text-[#F2A900]">{merchant.name.charAt(0).toUpperCase()}</div>}
     <div><h3 className="text-lg font-semibold text-[#0B2E83]">{merchant.name}</h3><p className="text-sm text-gray-500">{merchant.integration ? "Catalog and inventory API integration" : merchant.email}</p>{!merchant.integration && <p className="mt-1 text-xs capitalize text-gray-400">Merchant account: {merchant.status.toLowerCase().replaceAll("_", " ")}</p>}</div>
   </div>;
 }

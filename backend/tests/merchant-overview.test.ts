@@ -39,10 +39,11 @@ test("merchant totals and API status come from saved records and a real connecti
     assert.equal(fresh.merchants[0].apiConnected, false);
     assert.equal(initialized, 1);
     assert.equal(calls, 0);
-    setting = { id: "merchant-test", updatedAt: new Date(1), integrationName: "Lakeeshop", enabled: true, merchantId: "test", secretEncrypted: encrypt("test-secret"), endpoints: { products: { enabled: true } }, baseUrl: "https://lsorder.lakeetech.com", authEndpoint: "https://lvalidate.lakeetech.com/token", requestTimeoutMs: 1000 };
+    setting = { id: "merchant-test", logo: "/uploads/merchants/lakeeshop.png", updatedAt: new Date(1), integrationName: "Lakeeshop", enabled: true, merchantId: "test", secretEncrypted: encrypt("test-secret"), endpoints: { products: { enabled: true } }, baseUrl: "https://lsorder.lakeetech.com", authEndpoint: "https://lvalidate.lakeetech.com/token", requestTimeoutMs: 1000 };
     const online = await overview();
     assert.deepEqual(online.stats, { total: 4, active: 2, pending: 1, inactive: 1 });
     assert.equal(online.merchants[0].apiConnected, true);
+    assert.equal(online.merchants[0].logo, "/uploads/merchants/lakeeshop.png");
     assert.equal(online.merchants[0].secretEncrypted, undefined);
     const previousCalls = calls; await overview(); assert.equal(calls, previousCalls);
     providerOk = false; setting.updatedAt = new Date(2);
