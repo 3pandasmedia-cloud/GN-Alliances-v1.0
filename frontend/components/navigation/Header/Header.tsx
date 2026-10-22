@@ -42,7 +42,8 @@ export default function Header() {
             setScrolled(window.scrollY > 50);
         };
 
-        window.addEventListener("scroll", handleScroll);
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        queueMicrotask(handleScroll);
 
         return () => {
             window.removeEventListener("scroll", handleScroll);
@@ -58,29 +59,19 @@ export default function Header() {
                     left-0
                     right-0
                     z-50
-                    transition-all
-                    duration-500
-                    ${scrolled
-                        ? `
-                            bg-white/1
-                            backdrop-blur-2xl
-                            shadow-[0_8px_30px_rgba(0,0,0,0.08)]
-                            border-b border-white/30
-                        `
-                        : `
-                            bg-transparent
-                        `
-                    }
+                    isolate
                 `}
             >
+                <div aria-hidden="true" className={`pointer-events-none absolute inset-0 -z-10 border-b border-white/30 bg-white/1 backdrop-blur-2xl shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-opacity duration-300 motion-reduce:transition-none ${scrolled ? "opacity-100" : "opacity-0"}`}/>
                 <Container>
                     <div
                         className={`
                             flex
                             items-center
                             justify-between
-                            transition-all
+                            transition-[height]
                             duration-300
+                            motion-reduce:transition-none
                             px-2 lg:px-0
                             ${scrolled
                                 ? "h-[70px] lg:h-[78px]"
@@ -99,8 +90,9 @@ export default function Header() {
                                 height={120}
                                 className={`
     w-auto
-    transition-all
+    transition-[height]
     duration-300
+    motion-reduce:transition-none
 
     ml-[-4px]
     md:ml-5
