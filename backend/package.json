@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch server.ts",
-    "create-admin": "tsx create-admin.ts"
+    "create-admin": "tsx create-admin.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test tests/*.test.ts",
+    "test:typecheck": "tsc -p tsconfig.tests.json --noEmit"
   },
   "keywords": [],
   "author": "",

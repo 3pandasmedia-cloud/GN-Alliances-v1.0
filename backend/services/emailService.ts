@@ -1,3 +1,4 @@
+// EDIT GUIDE: All OTP/demo sending uses this service. Mailbox values belong in Website Settings, not code.
 import crypto from "crypto";
 import nodemailer from "nodemailer";
 import type Mail from "nodemailer/lib/mailer";

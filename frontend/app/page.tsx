@@ -1,3 +1,4 @@
+// EDIT GUIDE: Homepage section order/visibility. Saved text is managed in Website Settings; see docs/EDITING_GUIDE.md.
 "use client";
 
 import { useWebsiteContent } from "@/components/WebsiteContent";

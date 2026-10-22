@@ -1,3 +1,4 @@
+// EDIT GUIDE: Public content validation, demo recipients and request delivery. Defaults are in config/websiteDefaults.json.
 import { Request, Response } from "express";
 import { emailReady, sendEmail } from "../services/emailService";
 import prisma from "../config/prisma";

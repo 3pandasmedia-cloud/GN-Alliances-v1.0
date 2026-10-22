@@ -1,0 +1,117 @@
+{
+  "folders": [
+    {
+      "name": "GN Alliances",
+      "path": "."
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "**/node_modules": true,
+      "**/.next": true,
+      "**/dist": true,
+      "**/*.tsbuildinfo": true
+    },
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/.next": true,
+      "**/dist": true,
+      "**/package-lock.json": true
+    },
+    "typescript.tsdk": "frontend/node_modules/typescript/lib",
+    "eslint.workingDirectories": [
+      "frontend"
+    ],
+    "editor.formatOnSave": false
+  },
+  "extensions": {
+    "recommendations": [
+      "dbaeumer.vscode-eslint",
+      "Prisma.prisma",
+      "EditorConfig.EditorConfig"
+    ]
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Frontend: start website",
+        "type": "shell",
+        "command": "npm",
+        "args": [
+          "run",
+          "dev"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder}/frontend"
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "Backend: start API",
+        "type": "shell",
+        "command": "npm",
+        "args": [
+          "run",
+          "dev"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder}/backend"
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "Check: frontend TypeScript",
+        "type": "shell",
+        "command": "npm",
+        "args": [
+          "run",
+          "typecheck"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder}/frontend"
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "Check: backend TypeScript",
+        "type": "shell",
+        "command": "npm",
+        "args": [
+          "run",
+          "typecheck"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder}/backend"
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "Test: backend integration tests",
+        "type": "shell",
+        "command": "npm",
+        "args": [
+          "run",
+          "test"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder}/backend"
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "Check: test TypeScript",
+        "type": "shell",
+        "command": "npm",
+        "args": [
+          "run",
+          "test:typecheck"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder}/backend"
+        },
+        "problemMatcher": []
+      }
+    ]
+  }
+}

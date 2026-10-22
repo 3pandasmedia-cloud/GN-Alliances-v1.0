@@ -1,9 +1,14 @@
 {
-  "dependencies": {
-    "clsx": "^2.1.1",
-    "framer-motion": "^12.40.0",
-    "lucide-react": "^1.17.0",
-    "react-countup": "^6.5.3",
-    "tailwind-merge": "^3.6.0"
+  "name": "gn-alliances",
+  "version": "1.0.0",
+  "private": true,
+  "description": "GN Alliances frontend and backend development commands",
+  "scripts": {
+    "dev:frontend": "npm --prefix frontend run dev",
+    "dev:backend": "npm --prefix backend run dev",
+    "build": "npm --prefix frontend run build",
+    "typecheck": "npm --prefix frontend run typecheck && npm --prefix backend run typecheck",
+    "test": "npm --prefix backend test",
+    "audit:unused": "node scripts/audit-unused.cjs"
   }
 }

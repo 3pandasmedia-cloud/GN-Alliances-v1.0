@@ -1,3 +1,4 @@
+// EDIT GUIDE: Shared dashboard shell, role sidebar and mobile scrolling. See docs/EDITING_GUIDE.md.
 "use client";
 
 import { useState, useEffect } from "react";

@@ -1,3 +1,4 @@
+// EDIT GUIDE: API route registration and access middleware. Feature handlers live in controllers/; see docs/EDITING_GUIDE.md.
 import express from "express";
 import cors from "cors";
 import path from "path";

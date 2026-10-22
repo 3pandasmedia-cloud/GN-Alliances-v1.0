@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GN Alliances
 
-## Getting Started
+The editable application has two source folders:
 
-First, run the development server:
+- `frontend/`: Next.js website and all platform dashboards.
+- `backend/`: Express API, authentication, email, Lakeeshop integration and Prisma database definitions.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Open **GN-Alliances.code-workspace** in VS Code. Start with the
+[editing guide](docs/EDITING_GUIDE.md) for a feature-to-file map and setup steps.
+The [cleanup report](docs/CLEANUP_REPORT.md) records what was removed and what remains unfinished.
+
+## Development
+
+Install dependencies separately with `npm ci --prefix frontend` and `npm ci --prefix backend`.
+Keep your existing local environment files. For a new checkout, copy each folder's
+`.env.example` to its local environment file and fill in private configuration.
+
+Run the API and website in separate terminals:
+
+```sh
+npm run dev:backend
+npm run dev:frontend
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The website runs at http://localhost:3000 and proxies `/api` to the API at port 5000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Checks
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```sh
+npm run typecheck
+npm test
+npm --prefix backend run test:typecheck
+npm run audit:unused
+npm run build
+```
 
-## Learn More
+The audit reports candidates for manual review; it never deletes files.
+Builds can require network access to download the Google fonts used by Next.js.
+Existing lint warnings/errors are tracked separately from TypeScript and tests.
 
-To learn more about Next.js, take a look at the following resources:
+## Content editing
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Use **Super Admin → Website Settings** for saved public content, contact details,
+WhatsApp, demo recipients and email sender configuration. Editing default JSON does
+not overwrite values already saved in the database. See the editing guide before changing defaults.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+No credentials, uploads, database dumps or generated build files belong in Git.

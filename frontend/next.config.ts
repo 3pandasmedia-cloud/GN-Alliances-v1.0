@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // EDIT GUIDE: API proxy and image hosts live here; page content is in Website Settings.
+  turbopack: { root: __dirname },
   images: {
     remotePatterns: [
       {

@@ -1,3 +1,4 @@
+// EDIT GUIDE: Public navigation, mobile menu and frosted header transition. See docs/EDITING_GUIDE.md.
 "use client";
 
 import { useWebsiteContent } from "@/components/WebsiteContent";

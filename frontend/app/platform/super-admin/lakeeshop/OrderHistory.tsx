@@ -1,3 +1,4 @@
+// EDIT GUIDE: Order list, date filters, detail view and Excel columns. See docs/EDITING_GUIDE.md.
 "use client";
 
 import { useState } from "react";
