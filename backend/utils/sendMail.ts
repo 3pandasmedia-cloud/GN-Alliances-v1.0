@@ -1,22 +1,10 @@
-import nodemailer from "nodemailer";
-
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT),
-  secure: false,
-
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-});
+import { sendEmail } from "../services/emailService";
 
 export const sendOTPEmail = async (
   email: string,
   otp: string
 ) => {
-  await transporter.sendMail({
-    from: `"GN Alliances" <${process.env.SMTP_USER}>`,
+  await sendEmail({
     to: email,
     subject: "GN Alliances Security Verification",
 

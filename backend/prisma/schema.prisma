@@ -263,3 +263,15 @@ model LakeeshopOrder {
   @@index([status])
   @@index([createdAt])
 }
+
+model EmailSettings {
+  id                String   @id @default("email")
+  useCustom         Boolean  @default(false)
+  host              String   @default("")
+  port              Int      @default(587)
+  username          String   @default("")
+  passwordEncrypted String?
+  fromEmail         String   @default("")
+  fromName          String   @default("GN Alliances")
+  updatedAt         DateTime @updatedAt
+}

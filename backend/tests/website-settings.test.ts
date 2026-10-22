@@ -9,6 +9,8 @@ import websiteRoutes from "../routes/websiteRoutes";
 import { websiteDefaults, validContent, safeWebsiteUrl, mergeWebsiteDefaults } from "../controllers/websiteController";
 
 test("website content is owner-only, recipients stay private and demo mail reports actual delivery", async () => {
+  const originalEmail = prisma.emailSettings.findUnique;
+  (prisma.emailSettings as any).findUnique = async () => null;
   const originals = { user: prisma.user.findUnique, settings: prisma.websiteSettings.upsert, create: prisma.demoRequest.create, update: prisma.demoRequest.update, mail: nodemailer.createTransport };
   const env = { SMTP_HOST: process.env.SMTP_HOST, SMTP_PORT: process.env.SMTP_PORT, SMTP_USER: process.env.SMTP_USER, SMTP_PASS: process.env.SMTP_PASS };
   Object.assign(process.env, { SMTP_HOST: "smtp.example.com", SMTP_PORT: "587", SMTP_USER: "sender@example.com", SMTP_PASS: "test-only" });
@@ -58,12 +60,13 @@ test("website content is owner-only, recipients stay private and demo mail repor
     const lead = { name: "Test Visitor", company: "Example", email: "visitor@example.com", phone: "9876543210", message: "Please arrange a demo." };
     assert.equal((await request("/demo-request", "POST", { ...lead, email: "bad" })).status, 400);
     assert.equal((await request("/demo-request", "POST", lead)).status, 200);
-    assert.deepEqual(sent.to, ["private@example.com"]); assert.equal(sent.replyTo, lead.email); assert.equal(sent.from, "sender@example.com"); assert.match(sent.text, /Test Visitor/); assert.equal(status, "SENT");
+    assert.deepEqual(sent.to, ["private@example.com"]); assert.equal(sent.replyTo, lead.email); assert.equal(sent.from.address, "sender@example.com"); assert.match(sent.text, /Test Visitor/); assert.equal(status, "SENT");
     deliveryFails = true;
     assert.equal((await request("/demo-request", "POST", { ...lead, email: "another@example.com" })).status, 503); assert.equal(status, "FAILED");
     saved.demoRecipients = [];
     assert.equal((await request("/demo-request", "POST", { ...lead, email: "third@example.com" })).status, 503);
   } finally {
+    prisma.emailSettings.findUnique = originalEmail;
     prisma.user.findUnique = originals.user; prisma.websiteSettings.upsert = originals.settings; prisma.demoRequest.create = originals.create; prisma.demoRequest.update = originals.update; nodemailer.createTransport = originals.mail;
     for (const [key, value] of Object.entries(env)) if (value === undefined) delete process.env[key]; else process.env[key] = value;
     await new Promise<void>(resolve => server.close(() => resolve()));

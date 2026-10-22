@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import nodemailer from "nodemailer";
+import { emailReady, sendEmail } from "../services/emailService";
 import prisma from "../config/prisma";
 export const websiteDefaults = require("../config/websiteDefaults.json");
 const emailPattern = /^[^\s@,;<>\r\n]+@[^\s@,;<>\r\n]+\.[^\s@,;<>\r\n]+$/;
@@ -21,13 +21,13 @@ const settings = async () => {
   const row = await prisma.websiteSettings.upsert({ where: { id: "website" }, update: {}, create: { id: "website", content: websiteDefaults, demoRecipients: [] } });
   return { ...row, content: mergeWebsiteDefaults(row.content) };
 };
-const smtpReady = () => !!(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS && process.env.SMTP_PORT);
+const smtpReady = emailReady;
 export const getPublicWebsite = async (_: Request, res: Response) => {
   try { res.setHeader("Cache-Control", "no-store"); res.json({ content: (await settings()).content }); }
   catch { res.status(503).json({ message: "Website settings unavailable." }); }
 };
 export const getWebsiteSettings = async (_: Request, res: Response) => {
-  try { res.setHeader("Cache-Control", "no-store"); res.json({ ...await settings(), smtpReady: smtpReady() }); }
+  try { res.setHeader("Cache-Control", "no-store"); res.json({ ...await settings(), smtpReady: await smtpReady() }); }
   catch { res.status(500).json({ message: "Unable to load website settings." }); }
 };
 export const saveWebsiteSettings = async (req: Request, res: Response) => {
@@ -61,11 +61,9 @@ export const submitDemoRequest = async (req: Request, res: Response) => {
   let id: string | undefined;
   try {
     const saved = await settings(); const recipients = saved.demoRecipients as string[];
-    if (!smtpReady() || !recipients.length) return res.status(503).json({ message: "Demo requests are temporarily unavailable. Please contact us by phone or email." });
+    if (!await smtpReady() || !recipients.length) return res.status(503).json({ message: "Demo requests are temporarily unavailable. Please contact us by phone or email." });
     const lead = await prisma.demoRequest.create({ data: { name: body.name.trim(), company: body.company.trim(), email: body.email.trim().toLowerCase(), phone: body.phone.trim(), message: (body.message || "").trim() } }); id = lead.id;
-    const port = Number(process.env.SMTP_PORT);
-    const transport = nodemailer.createTransport({ host: process.env.SMTP_HOST, port, secure: port === 465, requireTLS: port !== 465, auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }, connectionTimeout: 10000, socketTimeout: 15000 });
-    const result = await transport.sendMail({ from: process.env.SMTP_USER, to: recipients, replyTo: lead.email, subject: "GN Alliances — New demo request", text: `Name: ${lead.name}\nCompany: ${lead.company}\nEmail: ${lead.email}\nPhone: ${lead.phone}\n\n${lead.message}` });
+    const result = await sendEmail({ to: recipients, replyTo: lead.email, subject: "GN Alliances — New demo request", text: `Name: ${lead.name}\nCompany: ${lead.company}\nEmail: ${lead.email}\nPhone: ${lead.phone}\n\n${lead.message}` });
     if (!result.accepted?.length) throw new Error("Delivery failed");
     await prisma.demoRequest.update({ where: { id }, data: { status: result.rejected?.length ? "PARTIAL" : "SENT" } }).catch(() => {});
     res.json({ success: true });

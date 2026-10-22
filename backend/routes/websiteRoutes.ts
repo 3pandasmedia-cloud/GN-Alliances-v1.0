@@ -1,3 +1,4 @@
+import { readEmailSettings, updateEmailSettings, testEmailSettings } from "../controllers/emailSettingsController";
 import { Router } from "express";
 import { verifyToken } from "../middleware/authMiddleware";
 import { allowRoles } from "../middleware/roleMiddleware";
@@ -6,6 +7,9 @@ const router = Router();
 router.get("/public", getPublicWebsite);
 router.post("/demo-request", submitDemoRequest);
 router.use(verifyToken, allowRoles("super-admin"));
+router.get("/email", readEmailSettings);
+router.put("/email", updateEmailSettings);
+router.post("/email/test", testEmailSettings);
 router.get("/", getWebsiteSettings);
 router.put("/", saveWebsiteSettings);
 router.get("/requests", listDemoRequests);

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import nodemailer from "nodemailer";
+import { sendEmail } from "../services/emailService";
 import { randomInt } from "crypto";
 import prisma from "../config/prisma";
 
@@ -21,19 +21,7 @@ export const resendLoginOTP = async (
         const otp = randomInt(100000, 1000000).toString();
         otpStore.set(email, { ...challenge, code: otp });
 
-        const transporter =
-            nodemailer.createTransport({
-                host: process.env.SMTP_HOST,
-                port: Number(process.env.SMTP_PORT),
-                secure: false,
-                auth: {
-                    user: process.env.SMTP_USER,
-                    pass: process.env.SMTP_PASS,
-                },
-            });
-
-        transporter.sendMail({
-            from: process.env.SMTP_USER,
+        await sendEmail({
             to: email,
             subject: "GN Alliances Login OTP",
             html: `
@@ -94,28 +82,14 @@ export const login = async (
             const otp = randomInt(100000, 1000000).toString();
             otpStore.set(user.twoFactorEmail, { code: otp, userId: user.id, expiresAt: Date.now() + 10 * 60 * 1000, attempts: 0 });
 
-            const transporter =
-                nodemailer.createTransport({
-                    host: process.env.SMTP_HOST,
-                    port: Number(
-                        process.env.SMTP_PORT
-                    ),
-                    secure: false,
-                    auth: {
-                        user: process.env.SMTP_USER,
-                        pass: process.env.SMTP_PASS,
-                    },
-                });
-
-            transporter.sendMail({
-                from: process.env.SMTP_USER,
+            await sendEmail({
                 to: user.twoFactorEmail!,
                 subject: "GN Alliances Login OTP",
                 html: `
     <h2>GN Alliances Login OTP</h2>
     <h1>${otp}</h1>
   `,
-            }).catch(console.error);
+            });
 
             return res.json({
                 requires2FA: true,
