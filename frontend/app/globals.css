@@ -72,3 +72,12 @@ input[type="file"]:not(:disabled)::file-selector-button {
 }
 button:disabled, select:disabled, input[type="file"]:disabled,
 input[type="file"]:disabled::file-selector-button, [aria-disabled="true"] { cursor: not-allowed; }
+
+/* Let grid and form content shrink inside narrow dashboard viewports. */
+.platform-main { scrollbar-gutter:stable; }
+.platform-main :where(fieldset, .grid > *, .flex > *) { min-width:0; }
+.platform-main :where(h1,h2,h3,p,dd) { overflow-wrap:anywhere; }
+@media (max-width:639px) {
+  .platform-main :where(input,select,textarea) { max-width:100%; font-size:16px; }
+  .platform-main :where(button,a[role="button"]) { touch-action:manipulation; }
+}

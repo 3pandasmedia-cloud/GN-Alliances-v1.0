@@ -66,11 +66,11 @@ export default function OfferCard({
 
 
   return (
-    <div className="flex min-h-[170px] overflow-hidden rounded-2xl border bg-white shadow-sm hover:shadow-lg transition">
+    <div className="flex min-h-[170px] flex-col xl:flex-row overflow-hidden rounded-2xl border bg-white shadow-sm hover:shadow-lg transition">
 
       {/* Banner */}
 
-      <div className="flex h-[170px] w-[280px] shrink-0 items-center justify-center overflow-hidden rounded-l-2xl border-r bg-slate-50 p-4">
+      <div className="flex h-[170px] w-full xl:w-[240px] shrink-0 items-center justify-center overflow-hidden rounded-t-2xl xl:rounded-l-2xl xl:rounded-tr-none border-b xl:border-b-0 xl:border-r bg-slate-50 p-4">
 
         <img
           src={imageUrl}
@@ -88,7 +88,7 @@ export default function OfferCard({
 
       {/* Content */}
 
-      <div className="flex flex-1 items-center justify-between p-6">
+      <div className="flex min-w-0 flex-1 flex-col gap-5 p-4 sm:p-6 sm:flex-row sm:items-center sm:justify-between">
         {/* Left */}
 
         <div className="min-w-0 flex-1 space-y-5">
@@ -105,7 +105,7 @@ export default function OfferCard({
 
           </div>
 
-          <div className="flex gap-10">
+          <div className="flex flex-wrap gap-4 sm:gap-8">
 
             <div>
               <p className="text-xs text-slate-500">
@@ -160,7 +160,7 @@ export default function OfferCard({
 
         {/* Right */}
 
-        <div className="flex w-[180px] shrink-0 flex-col items-end justify-between self-stretch">
+        <div className="flex w-full shrink-0 flex-row flex-wrap gap-4 sm:w-[180px] sm:flex-col sm:items-end justify-between self-stretch">
 
           <span
             className={`rounded-full px-4 py-1 text-sm font-semibold ${offer.status === "ACTIVE"

@@ -15,6 +15,15 @@ export default function Header() {
     const [scrolled, setScrolled] = useState(false);
     const [solutionsOpen, setSolutionsOpen] = useState(false);
 
+    useEffect(() => {
+        if (!mobileOpen) return;
+        const overflow = document.body.style.overflow;
+        document.body.style.overflow = "hidden";
+        const onKey = (event: KeyboardEvent) => { if (event.key === "Escape") setMobileOpen(false); };
+        window.addEventListener("keydown", onKey);
+        return () => { document.body.style.overflow = overflow; window.removeEventListener("keydown", onKey); };
+    }, [mobileOpen]);
+
     const scrollToSection = (id: string) => {
         const element = document.getElementById(id);
 
@@ -106,7 +115,7 @@ export default function Header() {
             h-[75px]
             md:h-[95px]
             lg:h-[105px]
-            xl:h-[150px]
+            xl:h-[110px]
           `
                                     }
 `}
@@ -119,7 +128,7 @@ export default function Header() {
                             className="
                                 hidden xl:flex
                                 items-center
-                                gap-12
+                                gap-6 2xl:gap-10
                                 text-[17px]
                                 font-medium
                                 text-[#111827]
@@ -200,7 +209,7 @@ export default function Header() {
                                 </div>
                             </div>
 
-                            <Link href="/platform-overview">
+                            <Link href="/platform-overview" onClick={() => setMobileOpen(false)}>
                                 Platform
                             </Link>
 
@@ -272,7 +281,7 @@ export default function Header() {
                         {/* Mobile Menu */}
 
                         <button
-                            className="xl:hidden"
+                            aria-label="Open navigation menu" aria-expanded={mobileOpen} className="xl:hidden inline-flex h-11 w-11 items-center justify-center"
                             onClick={() => setMobileOpen(true)}
                         >
                             <Menu size={32} />
@@ -292,7 +301,7 @@ export default function Header() {
             {/* Mobile Drawer */}
 
             {mobileOpen && (
-                <div className="fixed inset-0 z-[999]">
+                <div role="dialog" aria-modal="true" aria-label="Navigation menu" className="fixed inset-0 z-[999]">
 
                     <div
                         className="absolute inset-0 bg-black/50"
@@ -305,7 +314,8 @@ export default function Header() {
                             right-0
                             top-0
                             h-full
-                            w-72
+                            w-80 max-w-[90vw]
+                            overflow-y-auto
                             bg-white
                             p-6
                             shadow-xl
@@ -320,7 +330,7 @@ export default function Header() {
 
                             <button
                                 onClick={() => setMobileOpen(false)}
-                                className="text-2xl"
+                                aria-label="Close navigation menu" className="inline-flex h-11 w-11 items-center justify-center text-2xl"
                             >
                                 ✕
                             </button>
@@ -390,7 +400,7 @@ export default function Header() {
 
                             {/* PLATFORM */}
                             
-                            <Link href="/platform-overview">
+                            <Link href="/platform-overview" onClick={() => setMobileOpen(false)}>
                                 Platform
                             </Link>
 

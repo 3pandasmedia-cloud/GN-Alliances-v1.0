@@ -134,7 +134,7 @@ export default function BankCampaigns({
 
         {/* Stats */}
 
-        <div className="grid grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6">
 
           <div className="bg-white border rounded-3xl p-6">
             <p className="text-gray-500">
@@ -216,7 +216,7 @@ export default function BankCampaigns({
                           {campaign.description}
                         </p>
 
-                        <div className="mt-5 grid grid-cols-2 gap-6 text-sm">
+                        <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm">
 
                           <div>
                             <strong>

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import WhatsAppChat from "@/components/WhatsAppChat";
 import CookieConsent from "@/components/CookieConsent";
 import PopupHost from "@/components/ui/Popup";
 import { WebsiteContentProvider } from "@/components/WebsiteContent";
@@ -41,6 +42,7 @@ export default function RootLayout({
         <WebsiteContentProvider>{children}
 
         <CookieConsent />
+        <WhatsAppChat />
         </WebsiteContentProvider>
         <PopupHost />
       </body>

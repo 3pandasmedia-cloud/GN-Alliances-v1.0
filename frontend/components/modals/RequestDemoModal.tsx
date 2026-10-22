@@ -2,7 +2,7 @@
 import { popup } from "@/components/ui/Popup";
 
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Props = {
   isOpen: boolean;
@@ -24,6 +24,26 @@ export default function RequestDemoModal({
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const root = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!isOpen) return;
+    const previous = document.activeElement as HTMLElement | null;
+    const overflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    root.current?.querySelector<HTMLElement>("button,input")?.focus({ preventScroll: true });
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") { root.current?.querySelector<HTMLButtonElement>("[data-close-dialog]")?.click(); return; }
+      if (event.key !== "Tab") return;
+      const controls = root.current?.querySelectorAll<HTMLElement>('button:not(:disabled),input:not(:disabled),textarea:not(:disabled),a[href]');
+      if (!controls?.length) return;
+      const first = controls[0], last = controls[controls.length - 1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => { document.body.style.overflow = overflow; document.removeEventListener("keydown", onKey); previous?.focus({ preventScroll: true }); };
+  }, [isOpen, submitted]);
 
   if (!isOpen) return null;
 
@@ -128,6 +148,7 @@ export default function RequestDemoModal({
   if (submitted) {
     return (
       <div
+        ref={root} role="dialog" aria-modal="true" aria-label={submitted ? "Demo request received" : "Request Demo"}
         className="gn-modal-root fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
         onClick={handleClose}
       >
@@ -152,6 +173,7 @@ export default function RequestDemoModal({
           </p>
 
           <button
+            data-close-dialog aria-label="Close demo request"
             onClick={handleClose}
             className="bg-[#0B2E83] hover:bg-[#08215d] text-white px-6 py-3 rounded-lg transition"
           >
@@ -164,7 +186,8 @@ export default function RequestDemoModal({
 
   return (
     <div
-      className="gn-modal-root fixed inset-0 bg-black/50 z-[99999] flex items-center justify-center p-4"
+      ref={root} role="dialog" aria-modal="true" aria-label={submitted ? "Demo request received" : "Request Demo"}
+        className="gn-modal-root fixed inset-0 bg-black/50 z-[99999] flex items-center justify-center p-4"
       onClick={handleClose}
     >
       <div
@@ -179,6 +202,7 @@ export default function RequestDemoModal({
           </h2>
 
           <button
+            data-close-dialog aria-label="Close demo request"
             onClick={handleClose}
             className="text-gray-500 hover:text-black text-xl"
           >
@@ -193,6 +217,7 @@ export default function RequestDemoModal({
           <div>
             <input
               type="text"
+              aria-label="Full Name"
               placeholder="Full Name"
               value={formData.name}
               onChange={(e) =>
@@ -213,6 +238,7 @@ export default function RequestDemoModal({
           <div>
             <input
               type="text"
+              aria-label="Company Name"
               placeholder="Company Name"
               value={formData.company}
               onChange={(e) =>
@@ -233,6 +259,7 @@ export default function RequestDemoModal({
           <div>
             <input
               type="email"
+              aria-label="Business Email"
               placeholder="Business Email"
               value={formData.email}
               onChange={(e) =>
@@ -253,6 +280,7 @@ export default function RequestDemoModal({
           <div>
             <input
               type="tel"
+              aria-label="Phone Number"
               placeholder="Phone Number"
               maxLength={10}
               value={formData.phone}
@@ -275,7 +303,8 @@ export default function RequestDemoModal({
           </div>
 
           <textarea
-            placeholder="Tell us about your requirements"
+            aria-label="Tell us about your requirements"
+              placeholder="Tell us about your requirements"
             rows={4}
             value={formData.message}
             onChange={(e) =>

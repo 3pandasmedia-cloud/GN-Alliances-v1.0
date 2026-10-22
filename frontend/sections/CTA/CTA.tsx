@@ -1,6 +1,7 @@
 "use client";
 
 import { useWebsiteContent } from "@/components/WebsiteContent";
+import { whatsappLink } from "@/lib/whatsapp";
 import { useState } from "react";
 
 import Container from "@/components/common/Container/Container";
@@ -9,13 +10,14 @@ import RequestDemoModal from "@/components/modals/RequestDemoModal";
 
 export default function CTA() {
   const { cta, whatsapp } = useWebsiteContent();
+  const chatHref = whatsappLink(whatsapp.number, whatsapp.message);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <>
       <Section>
         <Container>
-          <div className="-mt-20">
+          <div className="mt-0 lg:-mt-12">
             <div
               className="
                 relative
@@ -81,7 +83,7 @@ export default function CTA() {
               >
                 {/* Content */}
                 <div>
-                  <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4">
+                  <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
                     {cta.title}
                   </h2>
 
@@ -91,7 +93,7 @@ export default function CTA() {
                 </div>
 
                 {/* Buttons */}
-                <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex w-full shrink-0 flex-col gap-3 sm:w-auto sm:flex-row lg:flex-col xl:flex-row">
                   {cta.demoLabel && <button
                     onClick={() => setIsModalOpen(true)}
                     className="
@@ -109,9 +111,9 @@ export default function CTA() {
                     {cta.demoLabel} →
                   </button>}
 
-                  {whatsapp.number && <a
-                    href={`https://wa.me/${whatsapp.number}?text=${encodeURIComponent(whatsapp.message)}`}
-                    target="_blank"
+                  {cta.chatLabel && <a
+                    href={chatHref || "/contact"}
+                    target={chatHref ? "_blank" : undefined}
                     rel="noopener noreferrer"
                     className="
                       border

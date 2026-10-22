@@ -142,7 +142,7 @@ export default function BankMerchants({
 
       {/* Merchant Table */}
 
-      <div className="bg-white border rounded-3xl overflow-hidden">
+      <div className="bg-white border rounded-3xl overflow-x-auto">
 
         <table className="w-full">
 

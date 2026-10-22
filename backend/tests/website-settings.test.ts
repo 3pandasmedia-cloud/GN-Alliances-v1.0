@@ -41,6 +41,20 @@ test("website content is owner-only, recipients stay private and demo mail repor
     assert.equal((await request("/", "PUT", { ...saved, demoRecipients: ["bad\nBcc:evil@example.com"] }, "owner")).status, 400);
     content.whatsapp.number = "https://evil.example.com";
     assert.equal((await request("/", "PUT", { ...saved, content }, "owner")).status, 400);
+    for (const formatted of ["+91 8123455657", "91 (81234) 55657", "  +91-8123455657  "]) {
+      content.whatsapp.number = formatted;
+      assert.equal((await request("/", "PUT", { ...saved, content }, "owner")).status, 200);
+      assert.equal(saved.content.whatsapp.number, "918123455657");
+    }
+    for (const invalid of ["abc918123455657", "++918123455657", "000123", "https://example.com/918123455657"]) {
+      content.whatsapp.number = invalid;
+      const result = await request("/", "PUT", { ...saved, content }, "owner");
+      assert.equal(result.status, 400);
+      assert.match((await result.json()).message, /WhatsApp/);
+    }
+    content.whatsapp.number = "";
+    assert.equal((await request("/", "PUT", { ...saved, content }, "owner")).status, 200);
+    assert.equal(saved.content.whatsapp.number, "");
     const lead = { name: "Test Visitor", company: "Example", email: "visitor@example.com", phone: "9876543210", message: "Please arrange a demo." };
     assert.equal((await request("/demo-request", "POST", { ...lead, email: "bad" })).status, 400);
     assert.equal((await request("/demo-request", "POST", lead)).status, 200);

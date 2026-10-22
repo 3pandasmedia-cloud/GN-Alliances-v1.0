@@ -1,10 +1,11 @@
-/* Shared GN Alliances finish for existing form, upload and account dialogs. */
+/* Component defaults must not override each dialog's Tailwind size utilities. */
+@layer components {
 .gn-modal-root { isolation:isolate; }
 .gn-modal-root > [class*="absolute"][class*="inset-0"],
 .gn-modal-root[class*="bg-black"] { background-color:#06173b91; backdrop-filter:blur(7px); }
 .gn-modal-root > [class*="bg-white"] {
   border:1px solid #dce4f1; border-radius:24px; box-shadow:0 32px 100px #03164440,0 8px 24px #0316441a;
-  max-width:calc(100vw - 32px); max-height:calc(100dvh - 40px); overflow-y:auto; color:#172544;
+  width:100%; max-width:min(36rem,calc(100vw - 32px)); max-height:calc(100dvh - 40px); overflow-y:auto; color:#172544;
 }
 .gn-modal-root > [class*="bg-white"]::before {
   content:"G.N. ALLIANCES"; display:block; width:fit-content; margin-bottom:20px; padding:7px 11px;
@@ -20,3 +21,10 @@
 }
 .gn-modal-root button { border-radius:11px; }
 .gn-modal-root button:focus-visible { outline:3px solid #92b4f0; outline-offset:3px; }
+
+@media (max-width:639px) {
+  .gn-modal-root > [class*="bg-white"] { padding:20px; max-height:calc(100dvh - 24px); }
+  .gn-modal-root > [class*="bg-white"]::before { margin-bottom:16px; }
+  .gn-modal-root input,.gn-modal-root select,.gn-modal-root textarea { font-size:16px; }
+}
+}

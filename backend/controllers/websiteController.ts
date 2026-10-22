@@ -32,8 +32,12 @@ export const getWebsiteSettings = async (_: Request, res: Response) => {
 };
 export const saveWebsiteSettings = async (req: Request, res: Response) => {
   const { content, demoRecipients } = req.body || {};
-  if (!validContent(content) || !Array.isArray(demoRecipients) || demoRecipients.length > 10 || !demoRecipients.every(item => typeof item === "string" && item.length <= 254 && emailPattern.test(item)) || (content?.contact?.email && !emailPattern.test(content.contact.email)) || (content?.whatsapp?.number && !/^[1-9][0-9]{6,14}$/.test(content.whatsapp.number))) return res.status(400).json({ message: "Check the content, email addresses, links and WhatsApp number (country code followed by digits)." });
-  try { const data = { content, demoRecipients: [...new Set(demoRecipients)] }; res.json(await prisma.websiteSettings.upsert({ where: { id: "website" }, update: data, create: { id: "website", ...data } })); }
+  if (!validContent(content) || !Array.isArray(demoRecipients) || demoRecipients.length > 10 || !demoRecipients.every(item => typeof item === "string" && item.length <= 254 && emailPattern.test(item)) || (content?.contact?.email && !emailPattern.test(content.contact.email))) return res.status(400).json({ message: "Check the content, email addresses, links and WhatsApp number (country code followed by digits)." });
+  const enteredNumber = content.whatsapp.number.trim();
+  const normalizedNumber = enteredNumber.replace(/[+\s().-]/g, "");
+  if (enteredNumber && (!/^\+?[0-9\s().-]+$/.test(enteredNumber) || !/^[1-9][0-9]{6,14}$/.test(normalizedNumber))) return res.status(400).json({ message: "Enter a valid WhatsApp number with its country code, for example +91 8123455657, or clear the field." });
+  const normalizedContent = { ...content, whatsapp: { ...content.whatsapp, number: normalizedNumber } };
+  try { const data = { content: normalizedContent, demoRecipients: [...new Set(demoRecipients)] }; res.json(await prisma.websiteSettings.upsert({ where: { id: "website" }, update: data, create: { id: "website", ...data } })); }
   catch { res.status(500).json({ message: "Unable to save website settings." }); }
 };
 export const listDemoRequests = async (_: Request, res: Response) => {

@@ -86,7 +86,7 @@ export default function BanksPage() {
 
             {/* Stats */}
 
-            <div className="grid grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6">
 
                 <div className="bg-white rounded-3xl border p-6">
                     <p className="text-gray-500">
@@ -132,7 +132,7 @@ export default function BanksPage() {
 
             {/* Table */}
 
-            <div className="bg-white rounded-3xl border overflow-hidden">
+            <div className="bg-white rounded-3xl border overflow-x-auto">
 
                 <table className="w-full">
 

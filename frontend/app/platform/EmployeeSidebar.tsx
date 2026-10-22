@@ -55,12 +55,13 @@ export default function EmployeeSidebar({
   return (
     <aside
       className="
-        w-[280px]
-        h-screen
+        w-[min(280px,85vw)] lg:w-[280px]
+        h-dvh
         bg-[#041B57]
         text-white
         flex
         flex-col
+        overflow-y-auto
       "
     >
       {/* Logo */}

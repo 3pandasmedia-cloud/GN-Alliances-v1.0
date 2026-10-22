@@ -25,7 +25,7 @@ export default function HeroContent({
   `}
     >
 
-      <div className="block lg:hidden -mt-10 md:mt-6 mb-8">
+      <div className="block lg:hidden mt-0 md:mt-6 mb-8">
         <img
           src="/images/hero-ecosystem.png"
           alt="GN Ecosystem"
@@ -41,7 +41,7 @@ export default function HeroContent({
         <span
           className="
             block
-            text-[50px]
+            text-[clamp(2rem,10vw,3.125rem)]
 sm:text-[48px]
 md:text-[52px]
 xl:text-[82px]
@@ -55,9 +55,9 @@ xl:text-[82px]
         <span
           className="
             block
-            text-[40px]
+            text-[clamp(1.75rem,8vw,2.5rem)]
 sm:text-[40px]
-md:text-[50px]
+md:text-[clamp(2rem,10vw,3.125rem)]
 xl:text-[72px]
             font-bold
             text-black

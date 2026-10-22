@@ -17,17 +17,22 @@ export default function PlatformLayout({
     children: React.ReactNode;
 }) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    useEffect(() => {
+        const close = () => setSidebarOpen(false);
+        window.addEventListener("keydown", onEscape);
+        function onEscape(event: KeyboardEvent) { if (event.key === "Escape") close(); }
+        return () => window.removeEventListener("keydown", onEscape);
+    }, []);
     const [role, setRole] = useState("");
 
     useEffect(() => {
-        const storedUser =
-            sessionStorage.getItem("gn-user");
-
-        if (!storedUser) return;
-
-        const user = JSON.parse(storedUser);
-
-        setRole(user.role);
+        let active = true;
+        queueMicrotask(() => {
+            if (!active) return;
+            try { setRole(JSON.parse(sessionStorage.getItem("gn-user") || "null")?.role || ""); }
+            catch { setRole(""); }
+        });
+        return () => { active = false; };
     }, []);
 
 
@@ -44,13 +49,13 @@ export default function PlatformLayout({
                 return <SuperAdminSidebar {...props} clientAdmin />;
 
             case "partner":
-                return <PartnerSidebar />;
+                return <PartnerSidebar {...props} />;
 
             case "client":
-                return <ClientSidebar />;
+                return <ClientSidebar {...props} />;
 
             case "employee":
-                return <EmployeeSidebar />;
+                return <EmployeeSidebar {...props} />;
 
             default:
                 return null;
@@ -59,7 +64,7 @@ export default function PlatformLayout({
 
     return (
         <AuthGuard><AdminAccessProvider>
-            <div className="h-screen bg-[#F5F7FB] flex overflow-hidden">
+            <div className="h-dvh bg-[#F5F7FB] flex overflow-hidden">
 
                 {/* Desktop Sidebar */}
 
@@ -70,7 +75,7 @@ export default function PlatformLayout({
                 {/* Mobile Sidebar */}
 
                 {sidebarOpen && (
-                    <div className="fixed inset-0 z-50 lg:hidden">
+                    <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true" aria-label="Navigation menu">
 
                         <div
                             className="absolute inset-0 bg-black/50"
@@ -79,7 +84,8 @@ export default function PlatformLayout({
                             }
                         />
 
-                        <div className="absolute left-0 top-0 h-full">
+                        <button type="button" aria-label="Close navigation menu" onClick={() => setSidebarOpen(false)} className="absolute right-3 top-3 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white text-2xl text-[#041B57] shadow">×</button>
+                        <div onClick={event => { if ((event.target as HTMLElement).closest("a")) setSidebarOpen(false); }} className="absolute left-0 top-0 h-full max-w-[85vw] overflow-y-auto">
                             {renderSidebar()}
                         </div>
 
@@ -88,7 +94,7 @@ export default function PlatformLayout({
 
                 {/* Main Content */}
 
-                <div className="flex-1 flex flex-col min-w-0">
+                <div className="flex-1 flex flex-col min-w-0 min-h-0">
 
                     <Topbar
                         onMenuClick={() =>
@@ -98,7 +104,11 @@ export default function PlatformLayout({
 
                     <main
                         className="
+              platform-main
               flex-1
+              min-w-0
+              min-h-0
+              overflow-x-hidden
               overflow-y-auto
               p-4
               md:p-6

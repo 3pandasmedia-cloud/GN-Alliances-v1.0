@@ -136,6 +136,7 @@ export default function Topbar({
 
       <div className="flex items-center gap-4">
         <button
+          aria-label="Open navigation menu"
           onClick={onMenuClick}
           className="
             lg:hidden
@@ -162,11 +163,12 @@ export default function Topbar({
 
       {/* Right */}
 
-      <div className="flex items-center gap-4 md:gap-6">
+      <div className="flex shrink-0 items-center gap-3 md:gap-6">
 
         {/* User */}
 
         <div
+          aria-label="Open account settings"
           onClick={openSettings}
           className="
             hidden
@@ -189,6 +191,7 @@ export default function Topbar({
         {/* Avatar */}
 
         <button
+          aria-label="Open account settings"
           onClick={openSettings}
           className="
     w-10

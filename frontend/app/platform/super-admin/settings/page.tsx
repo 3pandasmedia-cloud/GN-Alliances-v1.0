@@ -579,7 +579,7 @@ export default function SettingsPage() {
 
       {/* PASSWORD */}
 
-      <div className="bg-white rounded-3xl p-8 border">
+      <div className="w-full max-w-2xl bg-white rounded-3xl p-5 sm:p-8 border">
 
         <h2 className="text-2xl font-bold mb-6">
           Change Password
